@@ -2,7 +2,7 @@
     "pro_tips": [
       {
         "id": 1,
-        "snippet": "Cut your text by 50% - web users want concise information, not lengthy explanations.",
+        "snippet": "Cut your text by 50% compared to printed materials - web users want concise information, not lengthy explanations.",
         "article_title": "Be Succinct! (Writing for the Web)",
         "url": "https://www.nngroup.com/articles/be-succinct-writing-for-the-web/",
         "category": "general"
@@ -16,7 +16,7 @@
       },
       {
         "id": 3,
-        "snippet": "Replace 'Learn More' with specific action words like 'Download Guide' or 'View Pricing Details.'",
+        "snippet": "Replace 'Learn More' links with specific action words like 'Download Guide' or 'View Pricing Details.'",
         "article_title": "\"Learn More\" Links: You Can Do Better",
         "url": "https://www.nngroup.com/articles/learn-more-links/",
         "category": "general"
@@ -37,7 +37,7 @@
       },
       {
         "id": 6,
-        "snippet": "Target 8th-grade reading level for general audiences, 12th-grade for specialized B2B content.",
+        "snippet": "Try for an 8th-grade reading level for general audiences, 12th-grade for specialized B2B content.",
         "article_title": "Legibility, Readability, and Comprehension",
         "url": "https://www.nngroup.com/articles/legibility-readability-comprehension/",
         "category": "general"

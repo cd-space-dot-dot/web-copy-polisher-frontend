@@ -37,7 +37,7 @@ export default function RevisedOutput({
   return (
     <div className="revised-output">
       <div className="card-header">
-        <h2>✨ Improved Copy</h2>
+        <h2>✨ Polished Copy</h2>
         {metadata && (
           <div className="revision-metadata">
             <span className="content-type-badge">{metadata.contentType}</span>
@@ -63,12 +63,12 @@ export default function RevisedOutput({
           {copied ? '✅ Copied!' : '📋 Copy Text'}
         </button>
         
-        <button 
+        {/* <button 
           className={`btn-outline ${showAnalysis ? 'active' : ''}`}
           onClick={() => setShowAnalysis(!showAnalysis)}
         >
           🔍 {showAnalysis ? 'Hide' : 'Show'} Changes
-        </button>
+        </button> */}
         
         <button 
           className="btn-ghost"

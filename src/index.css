@@ -366,7 +366,7 @@ label {
 .card-footer {
   display: flex;
   gap: var(--space-3);
-  justify-content: center; /* Add this line */
+  justify-content: center; /* Centers the button */
   flex-wrap: wrap;
 }
 
@@ -1019,6 +1019,7 @@ label {
 .pro-tip-container {
   margin-top: var(--space-4);
   padding: var(--space-4);
+  justify-content: center; 
   background-color: transparent; /* Make transparent */
   border-radius: var(--radius);
   border-left: 4px solid var(--primary);

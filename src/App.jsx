@@ -163,7 +163,7 @@ export default function App() {
 
       {/* Output section */}
       <div style={{ position: 'relative' }}>
-      <MeshGradientLoader loading={loading} />
+      {/* <MeshGradientLoader loading={loading} /> */}
       {output ? (
         <RevisedOutput 
               output={output}

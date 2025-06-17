@@ -1,0 +1,214 @@
+{
+    "pro_tips": [
+      {
+        "id": 1,
+        "snippet": "Cut your text by 50% - web users want concise information, not lengthy explanations.",
+        "article_title": "Be Succinct! (Writing for the Web)",
+        "url": "https://www.nngroup.com/articles/be-succinct-writing-for-the-web/",
+        "category": "general"
+      },
+      {
+        "id": 2,
+        "snippet": "Front-load the most important keywords in your first two words, especially in headlines and links.",
+        "article_title": "Passive Voice Is Redeemed For Web Headings",
+        "url": "https://www.nngroup.com/articles/passive-voice-is-redeemed-for-web/",
+        "category": "general"
+      },
+      {
+        "id": 3,
+        "snippet": "Replace 'Learn More' with specific action words like 'Download Guide' or 'View Pricing Details.'",
+        "article_title": "\"Learn More\" Links: You Can Do Better",
+        "url": "https://www.nngroup.com/articles/learn-more-links/",
+        "category": "general"
+      },
+      {
+        "id": 4,
+        "snippet": "Write headlines that make sense alone - they're often read out of context in feeds and search results.",
+        "article_title": "Microcontent: How to Write Headlines, Page Titles, and Subject Lines",
+        "url": "https://www.nngroup.com/articles/microcontent-how-to-write-headlines-page-titles-and-subject-lines/",
+        "category": "general"
+      },
+      {
+        "id": 5,
+        "snippet": "Use active voice instead of passive - 'We offer support' beats 'Support is offered by us.'",
+        "article_title": "Legibility, Readability, and Comprehension",
+        "url": "https://www.nngroup.com/articles/legibility-readability-comprehension/",
+        "category": "general"
+      },
+      {
+        "id": 6,
+        "snippet": "Target 8th-grade reading level for general audiences, 12th-grade for specialized B2B content.",
+        "article_title": "Legibility, Readability, and Comprehension",
+        "url": "https://www.nngroup.com/articles/legibility-readability-comprehension/",
+        "category": "general"
+      },
+      {
+        "id": 7,
+        "snippet": "Show real people and processes in photos, not just polished end results or stock imagery.",
+        "article_title": "Trustworthiness in Web Design: 4 Credibility Factors",
+        "url": "https://www.nngroup.com/articles/trustworthy-design/",
+        "category": "general"
+      },
+      {
+        "id": 8,
+        "snippet": "Be upfront about costs and fees - hidden information destroys trust immediately.",
+        "article_title": "Trustworthiness in Web Design: 4 Credibility Factors",
+        "url": "https://www.nngroup.com/articles/trustworthy-design/",
+        "category": "general"
+      },
+      {
+        "id": 9,
+        "snippet": "Use meaningful headings instead of clever ones - 'Pricing Plans' works better than 'Pick Your Adventure.'",
+        "article_title": "Be Succinct! (Writing for the Web)",
+        "url": "https://www.nngroup.com/articles/be-succinct-writing-for-the-web/",
+        "category": "general"
+      },
+      {
+        "id": 10,
+        "snippet": "Eliminate promotional 'marketese' - users hate boastful claims like 'world's best' or 'revolutionary.'",
+        "article_title": "How Users Read on the Web",
+        "url": "https://www.nngroup.com/articles/how-users-read-on-the-web/",
+        "category": "general"
+      },
+      {
+        "id": 11,
+        "snippet": "Make your links descriptive - 'Read our security whitepaper' instead of generic 'Click here.'",
+        "article_title": "A Link is a Promise",
+        "url": "https://www.nngroup.com/articles/link-promise/",
+        "category": "general"
+      },
+      {
+        "id": 12,
+        "snippet": "Include contact information prominently - visible phone numbers and addresses build credibility.",
+        "article_title": "Trustworthiness in Web Design: 4 Credibility Factors",
+        "url": "https://www.nngroup.com/articles/trustworthy-design/",
+        "category": "general"
+      },
+      {
+        "id": 13,
+        "snippet": "Use bullet points and highlighting to help scanners find key information quickly.",
+        "article_title": "Concise, SCANNABLE, and Objective: How to Write for the Web",
+        "url": "https://www.nngroup.com/articles/concise-scannable-and-objective-how-to-write-for-the-web/",
+        "category": "general"
+      },
+      {
+        "id": 14,
+        "snippet": "Start with your conclusion - web users may not read past the first paragraph.",
+        "article_title": "Website Reading: It (Sometimes) Does Happen",
+        "url": "https://www.nngroup.com/articles/website-reading/",
+        "category": "general"
+      },
+      {
+        "id": 15,
+        "snippet": "Link to external sources - showing you're not afraid to reference others builds confidence.",
+        "article_title": "Trust or Bust: Communicating Trustworthiness",
+        "url": "https://www.nngroup.com/articles/communicating-trustworthiness/",
+        "category": "general"
+      },
+      {
+        "id": 16,
+        "snippet": "Avoid asking for information before providing value - give users something useful first.",
+        "article_title": "Hierarchy of Trust: The 5 Experiential Levels",
+        "url": "https://www.nngroup.com/articles/commitment-levels/",
+        "category": "general"
+      },
+      {
+        "id": 17,
+        "snippet": "Use specific numbers and facts rather than vague superlatives in your copy.",
+        "article_title": "Microcontent: How to Write Headlines, Page Titles, and Subject Lines",
+        "url": "https://www.nngroup.com/articles/microcontent-how-to-write-headlines-page-titles-and-subject-lines/",
+        "category": "general"
+      },
+      {
+        "id": 18,
+        "snippet": "Make your primary call-to-action visually obvious - don't hide it among competing options.",
+        "article_title": "\"Get Started\" Stops Users",
+        "url": "https://www.nngroup.com/articles/get-started/",
+        "category": "general"
+      },
+      {
+        "id": 19,
+        "snippet": "Tell users exactly what they'll get when they click a button or link.",
+        "article_title": "A Link is a Promise",
+        "url": "https://www.nngroup.com/articles/link-promise/",
+        "category": "general"
+      },
+      {
+        "id": 20,
+        "snippet": "Test your copy with real users - assumptions about clarity often prove wrong in practice.",
+        "article_title": "Applying Writing Guidelines to Web Pages",
+        "url": "https://www.nngroup.com/articles/applying-writing-guidelines-web-pages/",
+        "category": "general"
+      },
+      {
+        "id": 21,
+        "snippet": "Pack maximum information into your first two words - users scan headlines and may only read the beginning.",
+        "article_title": "Microcontent: How to Write Headlines, Page Titles, and Subject Lines",
+        "url": "https://www.nngroup.com/articles/microcontent-how-to-write-headlines-page-titles-and-subject-lines/",
+        "category": "headlines"
+      },
+      {
+        "id": 22,
+        "snippet": "Avoid repeating headline words in your summary - use those precious few words to convey different information.",
+        "article_title": "Passive Voice Is Redeemed For Web Headings",
+        "url": "https://www.nngroup.com/articles/passive-voice-is-redeemed-for-web/",
+        "category": "headlines"
+      },
+      {
+        "id": 23,
+        "snippet": "Write microcontent that can stand completely alone - it often appears without any surrounding context.",
+        "article_title": "Microcontent: How to Write Headlines, Page Titles, and Subject Lines",
+        "url": "https://www.nngroup.com/articles/microcontent-how-to-write-headlines-page-titles-and-subject-lines/",
+        "category": "social_media"
+      },
+      {
+        "id": 24,
+        "snippet": "Use numerals instead of spelled-out numbers in headlines and social posts for better scanning.",
+        "article_title": "World's Best Headlines: BBC News",
+        "url": "https://www.nngroup.com/articles/worlds-best-headlines-bbc-news/",
+        "category": "social_media"
+      },
+      {
+        "id": 25,
+        "snippet": "Start telling your story immediately on top-level About pages - don't make users drill down for basic company info.",
+        "article_title": "Great Summaries on 'About Us' Pages",
+        "url": "https://www.nngroup.com/articles/about-us-summaries/",
+        "category": "about"
+      },
+      {
+        "id": 26,
+        "snippet": "Show the faces behind your organization - executive photos and team images build human connection and trust.",
+        "article_title": "Great Summaries on 'About Us' Pages",
+        "url": "https://www.nngroup.com/articles/about-us-summaries/",
+        "category": "about"
+      },
+      {
+        "id": 27,
+        "snippet": "Use your audience's jargon for specialized content - professionals expect and prefer their industry terminology.",
+        "article_title": "Writing Content for Generalists vs. Specialists",
+        "url": "https://www.nngroup.com/videos/writing-digital-copy-specialists/",
+        "category": "product_description"
+      },
+      {
+        "id": 28,
+        "snippet": "Focus on what users can accomplish rather than listing features - lead with benefits and outcomes.",
+        "article_title": "UX Writing: Study Guide",
+        "url": "https://www.nngroup.com/articles/ux-writing-study-guide/",
+        "category": "product_description"
+      },
+      {
+        "id": 29,
+        "snippet": "Avoid generic 'Get Started' buttons - they mislead users and create roadblocks for information seekers.",
+        "article_title": "\"Get Started\" Stops Users",
+        "url": "https://www.nngroup.com/articles/get-started/",
+        "category": "cta"
+      },
+      {
+        "id": 30,
+        "snippet": "Design CTAs to communicate the specific next step - 'Take Our Style Quiz' is clearer than 'Begin Journey.'",
+        "article_title": "\"Get Started\" Stops Users",
+        "url": "https://www.nngroup.com/articles/get-started/",
+        "category": "cta"
+      }
+    ]
+  }

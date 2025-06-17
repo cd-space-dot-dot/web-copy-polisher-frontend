@@ -366,6 +366,7 @@ label {
 .card-footer {
   display: flex;
   gap: var(--space-3);
+  justify-content: center; /* Add this line */
   flex-wrap: wrap;
 }
 

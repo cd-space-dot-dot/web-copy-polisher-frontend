@@ -1,4 +1,5 @@
 // src/components/ChangeAnalysis.jsx
+// This will only return "shorter" if word count math shows output is shorter; would need to set up analysis functionality for the others to show up
 
 import React from "react";
 

@@ -7,6 +7,7 @@ import SimilaritySlider from "./components/SimilaritySlider";
 import PolishButton from "./components/PolishButton";
 import RevisedOutput from "./components/RevisedOutput";
 import RevisionHistory from "./components/RevisionHistory";
+import MeshGradientLoader from "./components/MeshGradientLoader";
 
 export default function App() {
   const [input, setInput] = useState("");
@@ -161,14 +162,15 @@ export default function App() {
       </section>
 
       {/* Output section */}
-      <section className="section">
-        {output ? (
-          <RevisedOutput 
-            output={output}
-            analysis={analysis}
-            originalInput={input}
-            metadata={metadata}
-            onNewRevision={handleNewRevision}
+      <div style={{ position: 'relative' }}>
+      <MeshGradientLoader loading={loading} />
+      {output ? (
+        <RevisedOutput 
+              output={output}
+              analysis={analysis}
+              originalInput={input}
+              metadata={metadata}
+              onNewRevision={handleNewRevision}
           />
         ) : (
           <div className="output-placeholder">
@@ -180,8 +182,9 @@ export default function App() {
               </div>
             )}
           </div>
-        )}
-      </section>
+        )
+        }
+        </div>
 
       {revisions.length > 0 && (
         <section className="section">

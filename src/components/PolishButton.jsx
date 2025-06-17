@@ -34,19 +34,3 @@ export default function PolishButton({ handleSubmit, loading }) {
     </button>
   );
 }
-
-// Add this to your index.css if you want the loading spinner animation
-const spinKeyframes = `
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-`;
-
-// Inject the keyframes
-if (typeof document !== 'undefined') {
-  const style = document.createElement('style');
-  style.textContent = spinKeyframes;
-  document.head.appendChild(style);
-}

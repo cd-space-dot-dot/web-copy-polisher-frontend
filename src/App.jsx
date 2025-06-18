@@ -119,7 +119,7 @@ export default function App() {
       <section className="section">
         <div className="card">
           <div className="card-header">
-            <h2>Step 1: Paste your writing</h2>
+            <h2>Paste your writing</h2>
           </div>
           <div className="card-content">
             <DraftInput input={input} setInput={setInput} />
@@ -129,34 +129,6 @@ export default function App() {
               handleSubmit={handleSubmit} 
               loading={loading}
               disabled={!input.trim()}
-            />
-          </div>
-        </div>
-      </section>
-      
-      <section className="section">
-        <div className="card">
-          <div className="card-header">
-            <h2>Step 2: What kind of content is this?</h2>
-          </div>
-          <div className="card-content">
-            <ContentTypeSelector 
-              selectedType={contentType}
-              onTypeChange={setContentType}
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="card">
-          <div className="card-header">
-            <h2>Step 3: How much should we change it?</h2>
-          </div>
-          <div className="card-content">
-            <SimilaritySlider 
-              value={similarity}
-              onChange={setSimilarity}
             />
           </div>
         </div>
@@ -178,7 +150,7 @@ export default function App() {
             <h3>✨ Your polished copy will appear here</h3>
             <p>Select content type, adjust settings, add your text, and click "Polish My Copy"!</p>
             {input.length === 0 && (
-              <div className="scroll-up-hint" onClick={scrollToInput}>
+              <div className="scroll-up-hint" onClick={scrollToTop}>
                 ⬆️ Add your text first
               </div>
             )}
@@ -187,6 +159,36 @@ export default function App() {
         }
         </div>
 
+      {/* Secondary input section */}              
+      <section className="section">
+        <div className="card">
+          <div className="card-header">
+            <h2>Refine more</h2>
+          </div>
+          <div className="card-content">
+            <ContentTypeSelector 
+              selectedType={contentType}
+              onTypeChange={setContentType}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="card">
+          <div className="card-header">
+            <h2>Refine more</h2>
+          </div>
+          <div className="card-content">
+            <SimilaritySlider 
+              value={similarity}
+              onChange={setSimilarity}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Revisions section */}
       {revisions.length > 0 && (
         <section className="section">
           <div className="card">

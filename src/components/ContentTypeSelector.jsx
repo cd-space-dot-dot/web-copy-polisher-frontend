@@ -4,6 +4,8 @@ import React from "react";
 export default function ContentTypeSelector({ selectedType, onTypeChange }) {
   return (
     <div className="content-type-selector">
+      <label>Hi</label>
+    <div className="content-type-selector-container">
       <label className="radio-group-item">
         <input 
           type="radio" 
@@ -58,6 +60,7 @@ export default function ContentTypeSelector({ selectedType, onTypeChange }) {
         />
         <strong>Other</strong>
       </label>
+    </div>
     </div>
   );
 }

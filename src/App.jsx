@@ -21,63 +21,34 @@ export default function App() {
   const [showScrollButton, setShowScrollButton] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollButton(window.scrollY > 300);
-    };
-
+    const handleScroll = () => setShowScrollButton(window.scrollY > 300);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const scrollToInput = () => {
-    document.querySelector('.draft-input')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToInput = () => document.querySelector('.draft-input')?.scrollIntoView({ behavior: 'smooth' });
 
   async function handleSubmit() {
     if (!input.trim()) return;
-    
     setLoading(true);
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/revise`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          text: input,
-          contentType,
-          similarity
-        })
+        body: JSON.stringify({ text: input, contentType, similarity })
       });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
-      
       setOutput(data.revised);
       setAnalysis(data.analysis);
       setMetadata(data.metadata);
-      
-      // Add to revision history
-      if (data.revision) {
-        setRevisions(prev => [data.revision, ...prev.slice(0, 9)]); // Keep last 10
-      }
-      
-      // Scroll to output
+      if (data.revision) setRevisions(prev => [data.revision, ...prev.slice(0, 9)]);
       setTimeout(() => {
-        document.querySelector('.revised-output')?.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
+        document.querySelector('.revised-output')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
-      
     } catch (err) {
       console.error("Error during fetch:", err);
-      // Show user-friendly error
       setOutput("Sorry, there was an error. Please try again.");
       setAnalysis(null);
       setMetadata(null);
@@ -114,17 +85,17 @@ export default function App() {
         <h1>✨ Clear Convey</h1>
         <p>Refine your web writing using proven principles</p>
       </header>
-      
+
       {/* Input section */}
       <section className="section">
-        <div className="card">
+        <div className="container-base container--input">
           <div className="card-header">
             <h2>Paste your writing</h2>
           </div>
           <div className="card-content">
             <DraftInput input={input} setInput={setInput} />
           </div>
-          <div className="card-footer">
+          <div className="action-row">
             <PolishButton 
               handleSubmit={handleSubmit} 
               loading={loading}
@@ -135,19 +106,23 @@ export default function App() {
       </section>
 
       {/* Output section */}
-        <div style={{ position: 'relative' }}>
-        {/* <MeshGradientLoader loading={loading} /> */}
+      <div className="container-output-parent">
+        <MeshGradientLoader loading={loading} />
         {output ? (
-          <RevisedOutput 
+          <section className="section">
+            <div className="container-base container--output revised-output">
+              <RevisedOutput 
                 output={output}
                 analysis={analysis}
                 originalInput={input}
                 metadata={metadata}
                 onNewRevision={handleNewRevision}
-            />
-          ) : (
+              />
+            </div>
+          </section>
+        ) : (
           <section className="section">
-            <div className="output-placeholder-container">
+            <div className="container-base container--output output-placeholder">
               <h3>✨ Your polished copy will appear here</h3>
               <p>Add your text and click "Polish My Copy" above!</p>
               {input.length === 0 && (
@@ -157,39 +132,34 @@ export default function App() {
               )}
             </div>
           </section>
-        )
-        }
-        </div>
+        )}
+      </div>
 
-      {/* Secondary input section */}              
+      {/* Secondary input section */}
       <section className="section">
-        <div className="card">
-
+        <div className="container-base">
           <div className="card-header">
             <h2>Refine more</h2>
           </div>
-
           <div className="card-content">
             <ContentTypeSelector 
               selectedType={contentType}
               onTypeChange={setContentType}
             />
           </div>
-
           <div className="card-content">
             <SimilaritySlider 
               value={similarity}
               onChange={setSimilarity}
             />
           </div>
-          
         </div>
       </section>
 
       {/* Revisions section */}
       {revisions.length > 0 && (
         <section className="section">
-          <div className="card">
+          <div className="container-base container--revisions">
             <div className="card-header">
               <h3>📚 Revision History</h3>
               <p>Your last {revisions.length} revisions</p>
@@ -206,7 +176,7 @@ export default function App() {
 
       {/* Scroll to top button */}
       <button 
-        className={`scroll-to-top ${showScrollButton ? '' : 'hidden'}`}
+        className={`scroll-to-top${showScrollButton ? '' : ' hidden'}`}
         onClick={scrollToTop}
         aria-label="Scroll to top"
       >

@@ -1,67 +1,29 @@
 // src/components/ContentTypeSelector.jsx
+
 import React from "react";
 
 export default function ContentTypeSelector({ selectedType, onTypeChange }) {
+  const types = [
+    { value: "webpage", label: "Web Page" },
+    { value: "blog", label: "Blog Post" },
+    { value: "email", label: "Email" },
+    { value: "other", label: "Other" },
+  ];
   return (
-    <div className="content-type-selector-container">
-      <label htmlFor="content-type-selector">
-        <h3>What type of content is this?</h3>
-      </label>
-
-      <label className="radio-group-item">
-        <input 
-          type="radio" 
-          name="contentType" 
-          value="headline"
-          checked={selectedType === "headline"}
-          onChange={(e) => onTypeChange(e.target.value)}
-        />
-        <strong>Headline</strong>
-      </label>
-
-      <label className="radio-group-item">
-        <input 
-          type="radio" 
-          name="contentType" 
-          value="social"
-          checked={selectedType === "social"}
-          onChange={(e) => onTypeChange(e.target.value)}
-        />
-        <strong>Social Media</strong>
-      </label>
-
-      <label className="radio-group-item">
-        <input 
-          type="radio" 
-          name="contentType" 
-          value="product"
-          checked={selectedType === "product"}
-          onChange={(e) => onTypeChange(e.target.value)}
-        />
-        <strong>Product/Service</strong>
-      </label>
-
-      <label className="radio-group-item">
-        <input 
-          type="radio" 
-          name="contentType" 
-          value="about"
-          checked={selectedType === "about"}
-          onChange={(e) => onTypeChange(e.target.value)}
-        />
-        <strong>About</strong>
-      </label>
-
-      <label className="radio-group-item">
-        <input 
-          type="radio" 
-          name="contentType" 
-          value="other"
-          checked={selectedType === "other"}
-          onChange={(e) => onTypeChange(e.target.value)}
-        />
-        <strong>Other</strong>
-      </label>
+    <div className="radio-group" role="radiogroup" aria-label="Content type">
+      {types.map((type) => (
+        <label key={type.value} className={`radio-option${selectedType === type.value ? ' selected' : ''}`}>
+          <input
+            type="radio"
+            name="content-type"
+            id={`type-${type.value}`}
+            value={type.value}
+            checked={selectedType === type.value}
+            onChange={() => onTypeChange(type.value)}
+          />
+          <span>{type.label}</span>
+        </label>
+      ))}
     </div>
   );
 }

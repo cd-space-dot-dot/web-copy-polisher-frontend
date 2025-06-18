@@ -1,3 +1,5 @@
+// src/components/MeshGradientLoader.jsx
+
 import React from "react";
 
 export default function MeshGradientLoader({ loading }) {

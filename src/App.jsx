@@ -135,26 +135,28 @@ export default function App() {
       </section>
 
       {/* Output section */}
-      <div style={{ position: 'relative' }}>
-      {/* <MeshGradientLoader loading={loading} /> */}
-      {output ? (
-        <RevisedOutput 
-              output={output}
-              analysis={analysis}
-              originalInput={input}
-              metadata={metadata}
-              onNewRevision={handleNewRevision}
-          />
-        ) : (
-          <div className="output-placeholder">
-            <h3>✨ Your polished copy will appear here</h3>
-            <p>Select content type, adjust settings, add your text, and click "Polish My Copy"!</p>
-            {input.length === 0 && (
-              <div className="scroll-up-hint" onClick={scrollToTop}>
-                ⬆️ Add your text first
-              </div>
-            )}
-          </div>
+        <div style={{ position: 'relative' }}>
+        {/* <MeshGradientLoader loading={loading} /> */}
+        {output ? (
+          <RevisedOutput 
+                output={output}
+                analysis={analysis}
+                originalInput={input}
+                metadata={metadata}
+                onNewRevision={handleNewRevision}
+            />
+          ) : (
+          <section className="section">
+            <div className="output-placeholder">
+              <h3>✨ Your polished copy will appear here</h3>
+              <p>Add your text and click "Polish My Copy" above!</p>
+              {input.length === 0 && (
+                <div className="scroll-up-hint" onClick={scrollToTop}>
+                  ⬆️ Add your text first
+                </div>
+              )}
+            </div>
+          </section>
         )
         }
         </div>
@@ -172,9 +174,6 @@ export default function App() {
             />
           </div>
         </div>
-      </section>
-
-      <section className="section">
         <div className="card">
           <div className="card-header">
             <h2>Refine more</h2>

@@ -888,6 +888,7 @@ label {
   text-align: center;
   color: var(--text-muted);
   font-family: var(--font-body);
+  margin-bottom: var(--space-6);
   margin-top: var(--space-4);
   box-shadow: var(--shadow-sm);
   width: 100% !important;

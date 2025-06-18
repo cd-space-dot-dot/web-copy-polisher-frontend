@@ -3,6 +3,7 @@
 import React from "react";
 
 export default function SimilaritySlider({ value, onChange }) {
+  // Label and color logic
   const getSliderLabel = (val) => {
     if (val < 30) return "Conservative changes";
     if (val > 70) return "Creative rewrite";
@@ -10,44 +11,42 @@ export default function SimilaritySlider({ value, onChange }) {
   };
 
   const getSliderColor = (val) => {
-    if (val < 30) return "var(--success)";
-    if (val > 70) return "var(--accent)";
-    return "var(--primary)";
+    if (val < 30) return "var(--success-dark)";
+    if (val > 70) return "var(--accent-dark)";
+    return "var(--primary-dark)";
+  };
+
+  // Descriptive feedback
+  const getDescription = (val) => {
+    if (val < 30) return "Minimal changes: fix grammar, improve clarity.";
+    if (val > 70) return "Bold rewrite: creative and significant changes.";
+    return "Balanced: moderate improvements.";
   };
 
   return (
     <div className="similarity-slider-container">
-        <label htmlFor="similarity-slider">
-          <h3>How much should we change it?</h3>
-        </label>
-        
-        <span className="slider-value" style={{ color: getSliderColor(value) }}>
-          {getSliderLabel(value)}
-        </span>
-      
+      <label htmlFor="similarity-slider">
+        <h3>How much should we change it?</h3>
+      </label>
+      <div className="slider-value" style={{ color: getSliderColor(value) }}>
+        {getSliderLabel(value)} ({value}%)
+      </div>
       <div className="slider-wrapper">
         <span className="slider-label-left">Keep it similar</span>
-        <input 
+        <input
           id="similarity-slider"
-          type="range" 
-          min="0" 
-          max="100" 
+          type="range"
+          min="0"
+          max="100"
           value={value}
-          onChange={(e) => onChange(parseInt(e.target.value))}
+          onChange={e => onChange(Number(e.target.value))}
           className="similarity-slider"
-          style={{
-            background: `linear-gradient(to right, var(--success) 0%, var(--primary) 50%, var(--accent) 100%)`
-          }}
+          aria-label="Similarity"
         />
         <span className="slider-label-right">Make it different</span>
       </div>
-      
       <div className="slider-description">
-        <small>
-          {value < 30 && "Minimal changes - fix grammar, improve clarity"}
-          {value >= 30 && value <= 70 && "Balanced approach - moderate improvements"}
-          {value > 70 && "Bold rewrite - creative and significant changes"}
-        </small>
+        <small>{getDescription(value)}</small>
       </div>
     </div>
   );

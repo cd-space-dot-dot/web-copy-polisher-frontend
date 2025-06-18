@@ -342,9 +342,12 @@ button:focus {
   padding: var(--space-6);
 }
 
-.container--input {
-  /* Example: add different bg or border if needed for input block only */
+  /* 
+  .container--input {
+Example: add different bg or border if needed for input block only 
 }
+*/
+
 .container--revisions {
   background: rgba(148, 220, 222, 0.07);
   border: 2px solid rgba(148, 220, 222, 0.15);
@@ -372,6 +375,38 @@ button:focus {
   justify-content: flex-end;
   margin-top: var(--space-4);
 }
+
+/* Utility container for textarea and counters */
+.draft-input-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Polish button utility for sizing and spacing */
+.polish-btn {
+  font-size: var(--text-lg);
+  padding: var(--space-4) var(--space-8);
+  min-width: 200px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Spinner animation for loading */
+.spinner {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  margin-right: var(--space-2);
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+}
+
 
 /* ======= RADIO GROUP OFFICIAL PATTERN ======= */
 /* 
@@ -456,17 +491,19 @@ button:focus {
   .checkbox-group: Same flex rules as .radio-group.
   .checkbox-option: Mirrors .radio-option for visual parity.
   Not used yet.
-*/
+
 .checkbox-group {}
 .checkbox-option {}
+*/
 
 /* ======= CHIP SELECTORS (FUTURE) ======= */
 /* 
   .chip-group: Wraps .chip tags, to be used for tag selection.
   .chip: Visual tag element, click to select.
-*/
+
 .chip-group {}
 .chip {}
+*/
 
 /* ======= SUBTLE TEXT STYLES ======= */
 /* 
@@ -953,12 +990,27 @@ textarea {
   background-color: var(--primary-light);
 }
 
-/* Enhanced Revision History */
+/* Revision History */
 .revision-history {
   display: grid;
   gap: var(--space-4);
   list-style: none;
   padding: 0;
+}
+
+/* Revision History: empty state */
+.revision-history-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+.revision-history-empty-icon {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-2);
 }
 
 .revision-item {
@@ -1038,6 +1090,21 @@ textarea {
   font-size: var(--text-xs);
   padding: var(--space-2) var(--space-3);
   min-height: auto;
+}
+
+/* Revision History: badge for similarity % */
+.similarity-badge {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  padding-left: var(--space-1);
+}
+
+/* Revision History: changes summary */
+.revision-changes-summary {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
 }
 
 /* Character counter styling */

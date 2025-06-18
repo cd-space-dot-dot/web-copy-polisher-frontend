@@ -147,7 +147,7 @@ export default function App() {
             />
           ) : (
           <section className="section">
-            <div className="output-placeholder">
+            <div className="output-placeholder-container">
               <h3>✨ Your polished copy will appear here</h3>
               <p>Add your text and click "Polish My Copy" above!</p>
               {input.length === 0 && (
@@ -164,24 +164,25 @@ export default function App() {
       {/* Secondary input section */}              
       <section className="section">
         <div className="card">
+
           <div className="card-header">
             <h2>Refine more</h2>
           </div>
+
           <div className="card-content">
             <ContentTypeSelector 
               selectedType={contentType}
               onTypeChange={setContentType}
             />
           </div>
-          <div className="card-header">
-            <h2>Refine more</h2>
-          </div>
+
           <div className="card-content">
             <SimilaritySlider 
               value={similarity}
               onChange={setSimilarity}
             />
           </div>
+          
         </div>
       </section>
 

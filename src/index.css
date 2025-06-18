@@ -879,12 +879,12 @@ label {
 }
 
 /* Output placeholder */
-.output-placeholder {
+.output-placeholder-container {
   background-color: rgba(199, 146, 202, 0.1);
   backdrop-filter: blur(10px);
   border: 2px dashed rgba(199, 146, 202, 0.4);
   border-radius: var(--radius-lg);
-  padding: var(--space-8);
+  padding: var(--space-6);
   text-align: center;
   color: var(--text-muted);
   font-family: var(--font-body);

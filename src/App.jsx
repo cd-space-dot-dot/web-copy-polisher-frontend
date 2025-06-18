@@ -173,8 +173,6 @@ export default function App() {
               onTypeChange={setContentType}
             />
           </div>
-        </div>
-        <div className="card">
           <div className="card-header">
             <h2>Refine more</h2>
           </div>

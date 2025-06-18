@@ -4,6 +4,10 @@ import React from "react";
 export default function ContentTypeSelector({ selectedType, onTypeChange }) {
   return (
     <div className="content-type-selector-container">
+      <label htmlFor="content-type-selector">
+        <h3>What type of content is this?</h3>
+      </label>
+
       <label className="radio-group-item">
         <input 
           type="radio" 

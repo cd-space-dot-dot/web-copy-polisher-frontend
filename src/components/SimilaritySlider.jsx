@@ -17,14 +17,12 @@ export default function SimilaritySlider({ value, onChange }) {
 
   return (
     <div className="similarity-slider-container">
-      <div className="slider-header">
         <label htmlFor="similarity-slider">
-          <strong>How much should we change it?</strong>
+          <h3>How much should we change it?</h3>
         </label>
         <span className="slider-value" style={{ color: getSliderColor(value) }}>
           {getSliderLabel(value)}
         </span>
-      </div>
       
       <div className="slider-wrapper">
         <span className="slider-label-left">Keep it similar</span>

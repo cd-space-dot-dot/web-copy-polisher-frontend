@@ -78,7 +78,7 @@ export default function App() {
     } catch (err) {
       console.error("Error during fetch:", err);
       // Show user-friendly error
-      setOutput("Sorry, there was an error processing your request. Please try again.");
+      setOutput("Sorry, there was an error. Please try again.");
       setAnalysis(null);
       setMetadata(null);
     } finally {
@@ -114,11 +114,30 @@ export default function App() {
         <h1>✨ Clear Convey</h1>
         <p>Refine your web writing using proven principles</p>
       </header>
-
+      
+      {/* Input section */}
       <section className="section">
         <div className="card">
           <div className="card-header">
-            <h2>Step 1: What kind of content is this?</h2>
+            <h2>Step 1: Paste your writing</h2>
+          </div>
+          <div className="card-content">
+            <DraftInput input={input} setInput={setInput} />
+          </div>
+          <div className="card-footer">
+            <PolishButton 
+              handleSubmit={handleSubmit} 
+              loading={loading}
+              disabled={!input.trim()}
+            />
+          </div>
+        </div>
+      </section>
+      
+      <section className="section">
+        <div className="card">
+          <div className="card-header">
+            <h2>Step 2: What kind of content is this?</h2>
           </div>
           <div className="card-content">
             <ContentTypeSelector 
@@ -132,30 +151,12 @@ export default function App() {
       <section className="section">
         <div className="card">
           <div className="card-header">
-            <h2>Step 2: How much should we change it?</h2>
+            <h2>Step 3: How much should we change it?</h2>
           </div>
           <div className="card-content">
             <SimilaritySlider 
               value={similarity}
               onChange={setSimilarity}
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="card">
-          <div className="card-header">
-            <h2>Step 3: Paste your writing</h2>
-          </div>
-          <div className="card-content">
-            <DraftInput input={input} setInput={setInput} />
-          </div>
-          <div className="card-footer">
-            <PolishButton 
-              handleSubmit={handleSubmit} 
-              loading={loading}
-              disabled={!input.trim()}
             />
           </div>
         </div>

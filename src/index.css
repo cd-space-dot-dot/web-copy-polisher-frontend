@@ -163,6 +163,10 @@ p {
   font-family: var(--font-body) !important;
 }
 
+.radio-group-item strong {
+  font-family: var(--font-body) !important;
+}
+
 /* Links */
 a {
   color: var(--primary);

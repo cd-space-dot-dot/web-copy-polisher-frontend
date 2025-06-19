@@ -15,7 +15,7 @@
    - You should not use inline styles in your JSX except for truly one-off or dynamic values. Instead:
     - Use the design system classes (container-base, container--output, etc.) in your JSX.
     - Add a single utility class (e.g., .action-row) to your CSS if you need to style things like button rows.
-    - Never mix “ad-hoc” inline styling with your design system. If testing, find another way to test while keeping the design system clean.
+    - Never mix "ad-hoc" inline styling with your design system. If testing, find another way to test while keeping the design system clean.
 
    ACCESSIBILITY/A11Y:
    - Always use <label htmlFor="..."> with <input id="...">.
@@ -177,20 +177,12 @@ h2 {
 h3 {
   font-size: var(--text-xl);
   margin-bottom: var(--space-3);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 p {
   font-family: var(--font-body) !important;
   margin-bottom: var(--space-4);
   color: var(--text-secondary);
-}
-
-/* For step headings (e.g. "Step 1:") */
-.card-header h2, .card-header h3 {
-  margin-top: var(--space-3); /* separates label from top edge */
 }
 
 /* Force specific elements to use Livvic */
@@ -318,19 +310,46 @@ button:focus {
   .container--revisions: For revision history (special background/border only).
 */
 .container-base {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
   width: 100% !important;
   max-width: 1200px !important;
   min-width: 1000px;
-  padding: var(--space-6);
-  border-radius: var(--radius-lg);
   margin: 0 auto;
+}
+
+.container-base:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .container--output {
   background: rgba(199, 146, 202, 0.1);
+  backdrop-filter: blur(10px);
   border: 2px dashed rgba(199, 146, 202, 0.4);
   box-shadow: var(--shadow-sm);
-  color: var(--text-muted);
+}
+
+.container--input {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(148, 220, 222, 0.2);
+}
+
+.container--revisions {
+  background: rgba(148, 220, 222, 0.07);
+  border: 2px solid rgba(148, 220, 222, 0.15);
+}
+
+/* When output has content, change styling */
+.container--output.has-content {
+  background-color: rgba(131, 245, 229, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(131, 245, 229, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
 /* Parent for output area and overlay loader (if using absolute overlays) */
@@ -341,26 +360,21 @@ button:focus {
 
 /* Visually styled placeholder for output */
 .output-placeholder {
-  opacity: 0.75;
   text-align: center;
-  padding: var(--space-6);
+  padding: var(--space-8);
+  color: var(--text-muted);
+  font-family: var(--font-body);
 }
 
-/* For optional nested containers */
-.container-base.container--nested {
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-light);
-
-  /* 
-  .container--input {
-Example: add different bg or border if needed for input block only 
+.output-placeholder h3 {
+  font-family: var(--font-headings);
+  color: var(--secondary-dark);
+  margin-bottom: var(--space-3);
 }
-*/
 
-.container--revisions {
-  background: rgba(148, 220, 222, 0.07);
-  border: 2px solid rgba(148, 220, 222, 0.15);
+.output-placeholder p {
+  font-size: var(--text-base);
+  margin-bottom: var(--space-4);
 }
 
 /* ======= SECTION SPACING ======= */
@@ -374,6 +388,19 @@ Example: add different bg or border if needed for input block only
 }
 .section:last-child {
   margin-bottom: 0;
+}
+
+/* ======= CARD SYSTEM ======= */
+.card-header {
+  margin-bottom: var(--space-5);
+}
+
+.card-header h2, .card-header h3 {
+  margin-bottom: var(--space-2);
+}
+
+.card-content {
+  margin-bottom: var(--space-4);
 }
 
 /* ======= UTILITY CLASSES ======= */
@@ -417,7 +444,6 @@ Example: add different bg or border if needed for input block only
   vertical-align: middle;
 }
 
-
 /* ======= RADIO GROUP OFFICIAL PATTERN ======= */
 /* 
   .radio-group: Wraps all radio-option elements, use role="radiogroup".
@@ -429,9 +455,10 @@ Example: add different bg or border if needed for input block only
   flex-direction: row;
   gap: var(--space-3);
   width: 100%;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: space-between;
+  align-items: stretch;
 }
+
 .radio-option {
   display: flex;
   align-items: center;
@@ -439,21 +466,24 @@ Example: add different bg or border if needed for input block only
   border: 2px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3) var(--space-4);
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   font-size: var(--text-base);
   font-family: var(--font-body);
   transition: var(--transition);
-  min-width: 120px;
+  flex: 1;
   min-height: 60px;
   position: relative;
   box-sizing: border-box;
+  justify-content: center;
+  text-align: center;
 }
+
 .radio-option input[type="radio"] {
   appearance: none;
   -webkit-appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border: 2px solid var(--border);
   border-radius: 50%; /* ALWAYS round */
   background: #fff;
@@ -464,74 +494,47 @@ Example: add different bg or border if needed for input block only
   vertical-align: middle;
   display: inline-block;
 }
+
 .radio-option input[type="radio"]:checked {
   background: var(--primary);
   border-color: var(--primary);
 }
+
 .radio-option input[type="radio"]:checked::after {
   content: "✔";
   display: block;
   width: 100%;
   height: 100%;
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-primary);
   position: absolute;
   left: 0;
   top: 0;
   text-align: center;
-  line-height: 24px;
+  line-height: 20px;
   font-weight: bold;
 }
+
 .radio-option:hover, .radio-option input[type="radio"]:focus {
   border-color: var(--primary-light);
   background-color: var(--primary-bg);
+  transform: translateY(-1px);
 }
+
 .radio-option input[type="radio"]:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
+
 .radio-option.selected,
-.radio-option input[type="radio"]:checked + span {
+.radio-option:has(input[type="radio"]:checked) {
   border-color: var(--primary);
   background-color: var(--primary-bg);
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
-/* ======= CHECKBOXES (RESERVED/FUTURE) ======= */
-/* 
-  .checkbox-group: Same flex rules as .radio-group.
-  .checkbox-option: Mirrors .radio-option for visual parity.
-  Not used yet.
-
-.checkbox-group {}
-.checkbox-option {}
-*/
-
-/* ======= CHIP SELECTORS (FUTURE) ======= */
-/* 
-  .chip-group: Wraps .chip tags, to be used for tag selection.
-  .chip: Visual tag element, click to select.
-
-.chip-group {}
-.chip {}
-*/
-
-/* ======= SUBTLE TEXT STYLES ======= */
-/* 
-  Use for all hints/counters/labels/etc. Extend this set for new subtle text.
-*/
-.slider-label-left,
-.slider-label-right,
-.slider-description small,
-.word-count,
-.character-counter,
-.revision-timestamp {
-  color: var(--text-muted);
-  font-size: var(--text-xs);
-  font-family: var(--font-ui);
-}
-
-/* ======= OTHER ELEMENTS ======= */
-/* Form Elements */
+/* ======= FORM ELEMENTS ======= */
 input, textarea, select {
   font-family: var(--font-input);
   font-size: var(--text-base);
@@ -558,93 +561,18 @@ input::placeholder, textarea::placeholder {
 
 textarea {
   resize: vertical;
-  min-height: 120px;
+  min-height: 200px;
 }
 
-/* Layout Utilities */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--space-4);
+.draft-input {
+  font-family: var(--font-input);
+  font-size: var(--text-base);
+  min-height: 200px;
+  background-color: var(--background-alt);
+  line-height: 1.6;
 }
 
-.section {
-  margin-bottom: var(--space-6);
-}
-
-/* Output buttons - consistent sizing and NEW ORDER */
-.revised-output {
-  min-height: 40px;
-  min-width: 100px;
-  padding: var(--space-2) var(--space-3);
-  font-size: var(--text-sm);
-}
-
-/* Specific App Styles */
-.app-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  max-width: 1200px !important; /* Force container width */
-  min-width: 1000px; /* Prevent shrinking */
-  margin: 0 auto;
-  padding: var(--space-6);
-  gap: var(--space-4);
-}
-
-.app-header {
-  text-align: center;
-  margin-bottom: var(--space-6);
-  padding-top: var(--space-8);
-}
-
-.app-header h1 {
-  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: var(--space-2);
-}
-
-/* Make emoji in headers match heading color */
-.app-header h1 .emoji {
-  color: var(--text-primary) !important;
-  background: none !important;
-  -webkit-text-fill-color: var(--text-primary) !important;
-}
-
-.app-header p {
-  font-size: var(--text-lg);
-  color: var(--text-secondary);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* Component-specific styles */
-
-.content-type-selector {
-  display: flex;
-  flex-direction: row;
-  gap: var(--space-1);
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.content-type-selector-container {
-  display: flex;
-  flex-direction: row;
-  gap: var(--space-1);
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
-  padding: var(--space-4);
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: var(--radius);
-  border: 1px solid var(--border-light);
-}
-
-/* Similarity Slider */
+/* ======= SIMILARITY SLIDER ======= */
 .similarity-slider-container {
   width: 100%;
   padding: var(--space-4);
@@ -657,6 +585,8 @@ textarea {
   font-family: var(--font-ui);
   font-weight: 600;
   font-size: var(--text-sm);
+  text-align: center;
+  margin-bottom: var(--space-2);
 }
 
 .slider-wrapper {
@@ -674,6 +604,7 @@ textarea {
   appearance: none;
   cursor: pointer;
   transition: var(--transition);
+  background: linear-gradient(to right, var(--success) 0%, var(--primary) 50%, var(--accent) 100%);
 }
 
 .similarity-slider::-webkit-slider-thumb {
@@ -721,45 +652,7 @@ textarea {
   font-style: italic;
 }
 
-/* Content Type Badge */
-.revision-metadata {
-  display: flex;
-  gap: var(--space-3);
-  align-items: center;
-  margin-top: var(--space-2);
-  font-size: var(--text-sm);
-}
-
-.content-type-badge {
-  background-color: var(--primary-bg);
-  color: var(--primary-dark);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-ui);
-  font-weight: 500;
-  font-size: var(--text-xs);
-  text-transform: capitalize;
-}
-
-.word-count {
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-}
-
-.improvement-indicator {
-  color: var(--success-dark);
-  font-weight: 600;
-}
-
-.draft-input {
-  font-family: var(--font-input);
-  font-size: var(--text-base);
-  min-height: 200px;
-  background-color: var(--background-alt);
-  line-height: 1.6;
-}
-
+/* ======= OUTPUT STYLING ======= */
 .revised-output {
   background-color: rgba(131, 245, 229, 0.15);
   backdrop-filter: blur(10px);
@@ -768,12 +661,8 @@ textarea {
   padding: var(--space-6);
   position: relative;
   box-shadow: var(--shadow-md);
-  width: 100% !important; /* Force fixed width */
-  max-width: 1200px !important;
-  min-width: 1000px;
 }
 
-/* Add arrow pointing from button to output */
 .revised-output::before {
   content: '';
   position: absolute;
@@ -806,152 +695,7 @@ textarea {
   font-family: var(--font-input);
 }
 
-/* Change Analysis Component */
-.change-analysis {
-  margin-top: var(--space-5);
-  padding: var(--space-5);
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: var(--radius);
-  border-left: 4px solid var(--primary);
-  backdrop-filter: blur(5px);
-}
-
-.analysis-header h4 {
-  color: var(--text-primary);
-  margin-bottom: var(--space-3);
-  font-family: var(--font-headings);
-}
-
-.analysis-summary {
-  margin-bottom: var(--space-4);
-  padding: var(--space-3);
-  background-color: var(--primary-bg);
-  border-radius: var(--radius-sm);
-}
-
-.analysis-summary strong {
-  color: var(--primary-dark);
-}
-
-.changes-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
-}
-
-.change-item {
-  padding: var(--space-3);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  background-color: rgba(255, 255, 255, 0.7);
-}
-
-.change-header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-2);
-}
-
-.change-type-icon {
-  font-size: var(--text-lg);
-}
-
-.change-type {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  text-transform: capitalize;
-  color: var(--text-primary);
-  min-width: 80px;
-}
-
-.change-description {
-  color: var(--text-secondary);
-  flex: 1;
-}
-
-.change-comparison {
-  margin-top: var(--space-2);
-}
-
-.before-after {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-
-.before,
-.after {
-  padding: var(--space-2);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-sm);
-}
-
-.before {
-  background-color: rgba(255, 107, 107, 0.1);
-  border-left: 3px solid #ff6b6b;
-}
-
-.after {
-  background-color: rgba(131, 245, 229, 0.1);
-  border-left: 3px solid var(--success);
-}
-
-.before label,
-.after label {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  display: block;
-  margin-bottom: var(--space-1);
-}
-
-.before span,
-.after span {
-  font-family: var(--font-input);
-  color: var(--text-primary);
-}
-
-.analysis-metrics {
-  border-top: 1px solid var(--border-light);
-  padding-top: var(--space-3);
-}
-
-.analysis-metrics h5 {
-  color: var(--text-primary);
-  margin-bottom: var(--space-2);
-  font-family: var(--font-headings);
-}
-
-.metrics-grid {
-  display: flex;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-}
-
-.metric-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-}
-
-.metric-icon {
-  font-size: var(--text-base);
-}
-
-/* No analysis state */
-.no-analysis {
-  text-align: center;
-  color: var(--text-muted);
-  font-style: italic;
-  padding: var(--space-4);
-}
-
-/* Scroll to top button */
+/* ======= SCROLL ELEMENTS ======= */
 .scroll-to-top {
   position: fixed;
   bottom: var(--space-6);
@@ -1000,27 +744,45 @@ textarea {
   background-color: var(--primary-light);
 }
 
-/* Revision History */
+/* ======= APP LAYOUT ======= */
+.app-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px !important;
+  min-width: 1000px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  gap: var(--space-4);
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  padding-top: var(--space-8);
+}
+
+.app-header h1 {
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-2);
+}
+
+.app-header p {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ======= REVISION HISTORY ======= */
 .revision-history {
   display: grid;
   gap: var(--space-4);
   list-style: none;
   padding: 0;
-}
-
-/* Revision History: empty state */
-.revision-history-empty {
-  text-align: center;
-  color: var(--text-muted);
-  padding: var(--space-8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3);
-}
-.revision-history-empty-icon {
-  font-size: var(--text-2xl);
-  margin-bottom: var(--space-2);
 }
 
 .revision-item {
@@ -1067,16 +829,6 @@ textarea {
   color: var(--text-muted);
 }
 
-.revision-type-badge {
-  background-color: var(--secondary-bg);
-  color: var(--secondary-dark);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  text-transform: capitalize;
-}
-
 .revision-text {
   font-size: var(--text-sm);
   line-height: 1.5;
@@ -1102,94 +854,7 @@ textarea {
   min-height: auto;
 }
 
-/* Revision History: badge for similarity % */
-.similarity-badge {
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  font-family: var(--font-ui);
-  padding-left: var(--space-1);
-}
-
-/* Revision History: changes summary */
-.revision-changes-summary {
-  margin-top: var(--space-2);
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-}
-
-/* Character counter styling */
-.character-counter {
-  font-family: var(--font-ui);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  margin-top: var(--space-2);
-  gap: var(--space-4);
-}
-
-.ready-indicator {
-  color: var(--success-dark);
-  font-weight: 500;
-}
-
-/* Pro tip container - transparent version */
-.pro-tip-container {
-  margin-top: var(--space-4);
-  padding: var(--space-4);
-  justify-content: center; 
-  background-color: transparent; /* Make transparent */
-  border-radius: var(--radius);
-  border-left: 4px solid var(--primary);
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  font-family: var(--font-body);
-  line-height: 1.5;
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-}
-
-.tip-source {
-  color: var(--primary-dark);
-  text-decoration: none;
-  font-size: var(--text-xs);
-  font-weight: 500;
-  transition: var(--transition);
-}
-
-.tip-source:hover {
-  color: var(--primary);
-  text-decoration: underline;
-}
-
-.tip-nav-btn {
-  background: none;
-  border: none;
-  color: var(--primary-dark);
-  cursor: pointer;
-  font-size: var(--text-sm);
-  padding: var(--space-1);
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
-  min-height: auto;
-  min-width: auto;
-  margin-left: var(--space-1);
-}
-
-.tip-nav-btn:hover {
-  background-color: var(--primary-light);
-  color: var(--primary-dark);
-}
-
-.loading {
-  opacity: 0.7;
-  pointer-events: none;
-}
-
-/* Animations */
+/* ======= ANIMATIONS ======= */
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -1291,16 +956,15 @@ textarea {
   100% { transform: translate(8%, -7%) scale(1);}
 }
 
-/* Responsive Design */
+/* ======= RESPONSIVE DESIGN ======= */
 @media (max-width: 768px) {
   .app-container {
     padding: var(--space-4);
     gap: var(--space-4);
     min-width: auto; /* Allow responsive on mobile */
   }
-
-  .revised-output,
-  .output-placeholder {
+  
+  .container-base {
     min-width: auto; /* Allow responsive on mobile */
   }
   
@@ -1312,18 +976,18 @@ textarea {
     padding-top: var(--space-4);
   }
   
+  .action-row {
+    flex-direction: column;
+  }
+  
   button {
     width: 100%;
     justify-content: center;
   }
   
-  .content-type-selector {
+  .radio-group {
     flex-direction: column;
     align-items: stretch;
-  }
-  
-  .before-after {
-    grid-template-columns: 1fr;
   }
   
   .revision-item {
@@ -1335,19 +999,8 @@ textarea {
     justify-content: flex-start;
   }
   
-  .metrics-grid {
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-  
   .slider-wrapper {
     flex-direction: column;
     gap: var(--space-2);
   }
-  
-  .slider-label-left,
-  .slider-label-right {
-    font-size: var(--text-xs);
-  }
-}
 }

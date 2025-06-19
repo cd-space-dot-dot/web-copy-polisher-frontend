@@ -9,6 +9,7 @@
    - .container--input, .container--revisions: Semantic modifiers for new blocks
    - .radio-group, .radio-option: Official pattern for all grouped radios (and checkboxes, chips)
    - .chip-group, .chip: Tag selectors (future-ready)
+   - Use custom CSS properties (variables) defined at the top of the document. Promote DRY approaches. For example, color references after their definitions are "primary" etc not a hex code
    - All styling for major layout blocks is done using .container-base + modifier classes.
    - DEPRECATED/LEGACY classes are documented inline.
    - All classes heavily documented for LLM/dev consistency.
@@ -834,7 +835,7 @@ textarea {
 }
 
 .revised-text {
-  background-color: rgba(255, 255, 255, 0.95); /* More opaque */
+  background-color: rgba(255, 255, 255, 0.95);
   padding: var(--space-5);
   border-radius: var(--radius);
   border-left: 4px solid var(--success);
@@ -845,7 +846,10 @@ textarea {
   color: var(--text-primary);
   font-family: var(--font-input);
   position: relative;
-  z-index: 2; /* Above the mesh animation */
+  z-index: 2; /* Puts it above the mesh animation  for visibility */
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.8), /* White glow */
+    0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle drop shadow */
 }
 
 .revision-actions {
@@ -918,24 +922,24 @@ textarea {
 .mesh-blob-1 {
   background: radial-gradient(
     circle at 30% 70%,
-    var(--accent),
-    var(--accent-light) 70%,
+    var(--secondary-light), /* D9B3DD - light purple */
+    var(--primary-light) 70%, /* B8E7E9 - light teal */
     transparent 100%
   );
-  left: 10%; /* Moved inward */
-  top: 10%; /* Moved inward */
+  left: 10%;
+  top: 10%;
   animation-name: meshMove1;
 }
 
 .mesh-blob-2 {
   background: radial-gradient(
     circle at 60% 40%,
-    var(--secondary-light),
-    var(--accent) 60%,
+    var(--success), /* 83F5E5 - cyan */
+    var(--primary) 60%, /* 94DCDE - teal */
     transparent 100%
   );
-  right: 10%; /* Moved inward */
-  bottom: 10%; /* Moved inward */
+  right: 10%;
+  bottom: 10%;
   animation-name: meshMove2;
   animation-delay: 2s;
 }
@@ -943,16 +947,15 @@ textarea {
 .mesh-blob-3 {
   background: radial-gradient(
     circle at 70% 80%,
-    var(--primary-light),
-    var(--accent-light) 70%,
+    var(--primary-light), /* B8E7E9 - light teal */
+    var(--success) 70%, /* 83F5E5 - cyan */
     transparent 100%
   );
-  left: 25%; /* Centered more */
-  top: 25%; /* Centered more */
+  left: 25%;
+  top: 25%;
   animation-name: meshMove3;
   animation-delay: 4s;
 }
-
 /* Reduced movement animations to stay contained */
 @keyframes meshMove1 {
   0% { transform: translate(0, 0) scale(1);}

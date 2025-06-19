@@ -153,24 +153,33 @@ export default function App() {
         </div>
       </section>
   
-      {/* Step 3: Refinement Options with Chips */}
-      <section className="section">
-        <div className="container-base">
-          <div className="card-header">
-            <h2>Step 3: Refine style</h2>
-          </div>
-          <div className="card-content">
-            <SimilaritySlider 
-              value={similarity}
-              onChange={setSimilarity}
-            />
-            <ChipSelector 
-              selectedChips={selectedChips}
-              onChipsChange={setSelectedChips}
-            />
-          </div>
+    {/* Step 3: Refinement Options with Chips */}
+    <section className="section">
+      <div className="container-base">
+        <div className="card-header">
+          <h2>Step 3: Refine style</h2>
         </div>
-      </section>
+        <div className="card-content">
+          <SimilaritySlider 
+            value={similarity}
+            onChange={setSimilarity}
+          />
+          <ChipSelector 
+            selectedChips={selectedChips}
+            onChipsChange={setSelectedChips}
+          />
+        </div>
+        <div className="action-row">
+          <PolishButton 
+            handleSubmit={handleSubmit} 
+            loading={loading}
+            disabled={!input.trim()}
+            variant="secondary"
+            label="Polish Again"
+          />
+        </div>
+      </div>
+    </section>
   
       {/* Revisions Section */}
       {revisions.length > 0 && (

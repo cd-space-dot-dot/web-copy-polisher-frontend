@@ -8,67 +8,54 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       id: "length",
       label: "Length",
       chips: [
-        { value: "longer", label: "Longer" },
-        { value: "shorter", label: "Shorter" }
+        { value: "longer", label: "↗️ Longer" },
+        { value: "shorter", label: "↙️ Shorter" }
       ]
     },
     {
       id: "platform",
-      label: "Platform",
+      label: "Platform", 
       chips: [
-        { value: "social", label: "Social Media" },
-        { value: "email", label: "Email" },
-        { value: "webpage", label: "Web Page" },
-        { value: "blog", label: "Blog Post" }
+        { value: "social", label: "📱 Social" },
+        { value: "email", label: "📧 Email" },
+        { value: "webpage", label: "🌐 Web Page" },
+        { value: "blog", label: "📝 Blog" }
       ]
     },
     {
       id: "industry",
       label: "Industry Vibe",
       chips: [
-        { value: "ecommerce", label: "E-commerce" },
-        { value: "social-impact", label: "Social Impact" },
-        { value: "sports", label: "Sports & Fitness" },
-        { value: "business", label: "Business" }
+        { value: "ecommerce", label: "🛒 E-comm" },
+        { value: "social-impact", label: "🌍 Impact" },
+        { value: "sports", label: "⚽ Sports" },
+        { value: "business", label: "💼 Business" }
       ]
     },
     {
-      id: "tone",
+      id: "tone", 
       label: "Personality",
       chips: [
-        { value: "welcoming", label: "Welcoming" },
-        { value: "clear", label: "Clear" },
-        { value: "gentle", label: "Gentle" },
-        { value: "humble", label: "Humble" },
-        { value: "enthused", label: "Enthusiastic" },
-        { value: "diplomatic", label: "Diplomatic" }
+        { value: "welcoming", label: "🤗 Welcome" },
+        { value: "clear", label: "💡 Clear" },
+        { value: "gentle", label: "🕊️ Gentle" },
+        { value: "humble", label: "🙏 Humble" },
+        { value: "enthused", label: "🎉 Enthused" },
+        { value: "diplomatic", label: "🤝 Diplomatic" }
       ]
     },
     {
       id: "generation",
       label: "Target Generation",
       chips: [
-        { value: "boomer", label: "Boomers ('40s-'60s)" },
-        { value: "genx", label: "Gen X ('70s-'80s)" },
-        { value: "millennial", label: "Millennials ('90s-'00s)" },
-        { value: "genz", label: "Gen Z ('10s-'20s)" }
+        { value: "boomer", label: "'60s" },
+        { value: "genx", label: "'80s" },
+        { value: "millennial", label: "'00s" },
+        { value: "genz", label: "'20s" }
       ]
     }
   ];
-
-  const handleChipClick = (categoryId, chipValue) => {
-    const newChips = { ...selectedChips };
-    
-    // Toggle chip - if already selected in this category, remove it
-    if (newChips[categoryId] === chipValue) {
-      delete newChips[categoryId];
-    } else {
-      newChips[categoryId] = chipValue;
-    }
-    
-    onChipsChange(newChips);
-  };
-
+  
   return (
     <div className="chip-selector">
       {chipCategories.map((category) => (

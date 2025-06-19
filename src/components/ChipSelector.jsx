@@ -1,8 +1,48 @@
 // src/components/ChipSelector.jsx
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function ChipSelector({ selectedChips, onChipsChange }) {
+  const chipGroupRefs = useRef({});
+  const [toneLimitMessage, setToneLimitMessage] = useState(false);
+
+  useEffect(() => {
+    const checkScrollability = () => {
+      Object.keys(chipGroupRefs.current).forEach(categoryId => {
+        const chipGroup = chipGroupRefs.current[categoryId];
+        const wrapper = chipGroup?.parentElement;
+        
+        if (chipGroup && wrapper) {
+          const hasOverflow = chipGroup.scrollWidth > chipGroup.clientWidth;
+          const isScrolledToEnd = chipGroup.scrollLeft >= (chipGroup.scrollWidth - chipGroup.clientWidth - 5);
+          
+          wrapper.classList.toggle('has-overflow', hasOverflow);
+          wrapper.classList.toggle('scrolled-end', isScrolledToEnd);
+        }
+      });
+    };
+
+    // Check on mount and resize
+    checkScrollability();
+    window.addEventListener('resize', checkScrollability);
+    
+    // Add scroll listeners to each chip group
+    Object.values(chipGroupRefs.current).forEach(chipGroup => {
+      if (chipGroup) {
+        chipGroup.addEventListener('scroll', checkScrollability);
+      }
+    });
+
+    return () => {
+      window.removeEventListener('resize', checkScrollability);
+      Object.values(chipGroupRefs.current).forEach(chipGroup => {
+        if (chipGroup) {
+          chipGroup.removeEventListener('scroll', checkScrollability);
+        }
+      });
+    };
+  }, []);
+
   const chipCategories = [
     {
       id: "length",
@@ -77,23 +117,89 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
     }
   ];
   
+  const handleChipClick = (categoryId, chipValue) => {
+    if (categoryId === 'tone') {
+      // Special handling for tone category (up to 5 selections)
+      const currentTones = selectedChips.tone || [];
+      
+      if (currentTones.includes(chipValue)) {
+        // Remove if already selected
+        const newTones = currentTones.filter(tone => tone !== chipValue);
+        onChipsChange({
+          ...selectedChips,
+          tone: newTones.length > 0 ? newTones : null
+        });
+      } else {
+        // Add if under limit
+        if (currentTones.length >= 5) {
+          // Show limit message (we'll add this next)
+          setToneLimitMessage(true);
+          setTimeout(() => setToneLimitMessage(false), 3000);
+          return;
+        }
+        
+        onChipsChange({
+          ...selectedChips,
+          tone: [...currentTones, chipValue]
+        });
+      }
+    } else {
+      // Regular categories: one selection per category
+      onChipsChange({
+        ...selectedChips,
+        [categoryId]: selectedChips[categoryId] === chipValue ? null : chipValue
+      });
+    }
+  };
+
   return (
     <div className="chip-selector">
       {chipCategories.map((category) => (
         <div key={category.id} className="chip-category">
           <label className="chip-category-label">{category.label}</label>
-          <div className="chip-group" role="group" aria-labelledby={`${category.id}-label`}>
-            {category.chips.map((chip) => (
-              <button
-                key={chip.value}
-                type="button"
-                className={`chip ${selectedChips[category.id] === chip.value ? 'chip--selected' : ''}`}
-                onClick={() => handleChipClick(category.id, chip.value)}
-                aria-pressed={selectedChips[category.id] === chip.value}
-              >
-                {chip.label}
-              </button>
-            ))}
+          
+          <div key={category.id} className="chip-category">
+            <div className="chip-category-label-wrapper">
+              <label className="chip-category-label">{category.label}</label>
+              {category.id === 'tone' && (
+                <div className="tone-counter">
+                <span className="tone-count">
+                  {(selectedChips.tone || []).length}/5
+                </span>
+              {toneLimitMessage && (
+                <span className="tone-limit-message">
+                  Maximum 5 tones allowed
+                </span>
+        )}
+      </div>
+              )
+    )}
+  </div>
+          <div className="chip-group-wrapper">
+            <div 
+              ref={el => chipGroupRefs.current[category.id] = el}
+              className="chip-group" 
+              role="group" 
+              aria-labelledby={`${category.id}-label`}
+            >
+              {category.chips.map((chip) => {
+                const isSelected = category.id === 'tone' 
+                  ? (selectedChips.tone || []).includes(chip.value)
+                  : selectedChips[category.id] === chip.value;
+                  
+                return (
+                  <button
+                    key={chip.value}
+                    type="button"
+                    className={`chip ${isSelected ? 'chip--selected' : ''}`}
+                    onClick={() => handleChipClick(category.id, chip.value)}
+                    aria-pressed={isSelected}
+                  >
+                    {chip.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       ))}

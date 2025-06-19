@@ -553,6 +553,7 @@ button:focus {
   align-items: flex-start;
   gap: var(--space-4);
   margin-bottom: var(--space-4);
+  position: relative;
 }
 
 .chip-category-label {
@@ -563,13 +564,86 @@ button:focus {
   min-width: 120px;
   flex-shrink: 0;
   padding-top: var(--space-1);
+  position: sticky;
+  left: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  z-index: 2;
+}
+
+.chip-category-label-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  flex-shrink: 0;
+  position: sticky;
+  left: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  z-index: 2;
+}
+
+.tone-counter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.tone-count {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.tone-limit-message {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--error);
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-out;
+  padding: var(--space-1);
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+@media (max-width: 768px) {
+  .chip-category-label-wrapper {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    padding: 0;
+    min-width: auto;
+  }
+}
+
+.chip-group-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
 }
 
 .chip-group {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--space-2);
-  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: var(--space-1) 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.chip-group::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .chip {
@@ -583,6 +657,7 @@ button:focus {
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .chip:hover {
@@ -602,6 +677,70 @@ button:focus {
 .chip--selected:hover {
   background-color: var(--primary-dark);
   border-color: var(--primary-dark);
+}
+
+/* Scroll hint indicators */
+.chip-group-wrapper::after {
+  content: "→";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9) 30%);
+  color: var(--text-muted);
+  font-size: var(--text-lg);
+  font-weight: bold;
+  padding: var(--space-2) var(--space-3);
+  pointer-events: none;
+  opacity: 0;
+  transition: var(--transition);
+  z-index: 1;
+}
+
+.chip-group-wrapper.has-overflow::after {
+  opacity: 1;
+}
+
+.chip-group-wrapper.scrolled-end::after {
+  opacity: 0;
+}
+
+/* Desktop: Allow wrapping when there's space */
+@media (min-width: 1200px) {
+  .chip-group {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+  
+  .chip-group-wrapper::after {
+    display: none;
+  }
+}
+
+/* Mobile: Stack vertically, keep horizontal scrolling for chips */
+@media (max-width: 768px) {
+  .chip-category {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  
+  .chip-category-label {
+    min-width: auto;
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    padding: 0;
+    margin-bottom: var(--space-1);
+  }
+  
+  .chip-group {
+    justify-content: flex-start;
+    padding-bottom: var(--space-2);
+  }
+  
+  .chip-group-wrapper::after {
+    display: block;
+  }
 }
 
 /* ======= SMART CONTENT DETECTOR ======= */

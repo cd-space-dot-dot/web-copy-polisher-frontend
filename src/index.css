@@ -539,18 +539,6 @@ button:focus {
   font-weight: 600;
 }
 
-/* ======= CONTROLS ROW LAYOUT ======= */
-.controls-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
-}
-
-.control-section {
-  margin-bottom: 0; /* Override default section margin */
-}
-
 /* ======= CHIPS SELECTOR COMPONENT ======= */
 .chip-selector {
   margin-top: var(--space-4);

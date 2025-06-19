@@ -93,40 +93,20 @@ export default function App() {
         <p>Refine your web writing using proven principles</p>
       </header>
   
-      {/* Steps 1 & 3 Side by Side */}
-      <div className="controls-row">
-        <section className="section control-section">
-          <div className="container-base">
-            <div className="card-header">
-              <h2>Step 1: What kind of content?</h2>
-            </div>
-            <div className="card-content">
-              <ContentTypeSelector 
-                selectedType={contentType}
-                onTypeChange={setContentType}
-              />
-            </div>
+      {/* Step 1: Content Type Selection */}
+      <section className="section">
+        <div className="container-base">
+          <div className="card-header">
+            <h2>Step 1: What kind of content is this?</h2>
           </div>
-        </section>
-  
-        <section className="section control-section">
-          <div className="container-base">
-            <div className="card-header">
-              <h2>Step 3: Refine style</h2>
-            </div>
-            <div className="card-content">
-              <SimilaritySlider 
-                value={similarity}
-                onChange={setSimilarity}
-              />
-              <ChipSelector 
-                selectedChips={selectedChips}
-                onChipsChange={setSelectedChips}
-              />
-            </div>
+          <div className="card-content">
+            <ContentTypeSelector 
+              selectedType={contentType}
+              onTypeChange={setContentType}
+            />
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
   
       {/* Step 2: Input Section */}
       <section className="section">
@@ -146,7 +126,7 @@ export default function App() {
           </div>
         </div>
       </section>
-
+  
       {/* Output Section */}
       <section className="section">
         <div className="container-base container--output revised-output">
@@ -172,22 +152,26 @@ export default function App() {
           )}
         </div>
       </section>
-
-      {/* Step 3: Refinement Options */}
+  
+      {/* Step 3: Refinement Options with Chips */}
       <section className="section">
         <div className="container-base">
           <div className="card-header">
-            <h2>Step 3: Refine more</h2>
+            <h2>Step 3: Refine style</h2>
           </div>
           <div className="card-content">
             <SimilaritySlider 
               value={similarity}
               onChange={setSimilarity}
             />
+            <ChipSelector 
+              selectedChips={selectedChips}
+              onChipsChange={setSelectedChips}
+            />
           </div>
         </div>
       </section>
-
+  
       {/* Revisions Section */}
       {revisions.length > 0 && (
         <section className="section">
@@ -205,7 +189,7 @@ export default function App() {
           </div>
         </section>
       )}
-
+  
       {/* Scroll to top button */}
       <button 
         className={`scroll-to-top${showScrollButton ? '' : ' hidden'}`}

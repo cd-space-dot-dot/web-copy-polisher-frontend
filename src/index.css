@@ -328,14 +328,13 @@ button:focus {
   color: var(--text-muted);
 }
 
-/* Do I need this? */
+/* Parent for output area and overlay loader (if using absolute overlays) */
 .container-output-parent {
   position: relative;
   width: 100%;
 }
 
-/* Do I need this? */
-/* Style the output placeholder state */
+/* Visually styled placeholder for output */
 .output-placeholder {
   opacity: 0.75;
   text-align: center;

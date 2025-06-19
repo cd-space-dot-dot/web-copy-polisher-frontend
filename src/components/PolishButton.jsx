@@ -2,35 +2,16 @@
 
 import React from "react";
 
-export default function PolishButton({ handleSubmit, loading }) {
+export default function PolishButton({ handleSubmit, loading, disabled }) {
   return (
-    <button
-      className="btn-accent"
+    <button 
+      type="button" 
+      className="btn-primary"
       onClick={handleSubmit}
-      disabled={loading}
-      style={{
-        fontSize: 'var(--text-lg)',
-        padding: 'var(--space-4) var(--space-8)',
-        minWidth: '200px'
-      }}
+      disabled={loading || disabled}
+      aria-busy={loading}
     >
-      {loading ? (
-        <>
-          <div style={{
-            width: '16px',
-            height: '16px',
-            border: '2px solid currentColor',
-            borderTopColor: 'transparent',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }} />
-          Polishing...
-        </>
-      ) : (
-        <>
-          ✨ Polish My Copy
-        </>
-      )}
+      {loading ? "Polishing..." : "Polish My Copy"}
     </button>
   );
 }

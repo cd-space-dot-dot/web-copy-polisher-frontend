@@ -188,6 +188,11 @@ p {
   color: var(--text-secondary);
 }
 
+/* For step headings (e.g. "Step 1:") */
+.card-header h2, .card-header h3 {
+  margin-top: var(--space-3); /* separates label from top edge */
+}
+
 /* Force specific elements to use Livvic */
 .app-header p {
   font-family: var(--font-body) !important;
@@ -341,6 +346,12 @@ button:focus {
   padding: var(--space-6);
 }
 
+/* For optional nested containers */
+.container-base.container--nested {
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+
   /* 
   .container--input {
 Example: add different bg or border if needed for input block only 
@@ -367,11 +378,13 @@ Example: add different bg or border if needed for input block only
 
 /* ======= UTILITY CLASSES ======= */
 
-/* Utility class for flex-row button groups (apply as needed) */
+/* Utility: for button/action rows, horizontally aligned and right-justified */
 .action-row {
   display: flex;
+  flex-direction: row;
   gap: var(--space-3);
   justify-content: flex-end;
+  align-items: center;
   margin-top: var(--space-4);
 }
 
@@ -1338,4 +1351,5 @@ textarea {
   .slider-label-right {
     font-size: var(--text-xs);
   }
+}
 }

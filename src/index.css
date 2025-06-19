@@ -493,6 +493,10 @@ button:focus {
   flex-shrink: 0;
   vertical-align: middle;
   display: inline-block;
+  min-width: 20px; /* Force fixed width */
+  max-width: 20px; /* Force fixed width */
+  min-height: 20px; /* Force fixed height */
+  max-height: 20px; /* Force fixed height */
 }
 
 .radio-option input[type="radio"]:checked {
@@ -829,15 +833,19 @@ textarea {
   color: var(--text-muted);
 }
 
-.revision-text {
-  font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--text-secondary);
+.revised-text {
+  background-color: rgba(255, 255, 255, 0.95); /* More opaque */
+  padding: var(--space-5);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--success);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  margin-bottom: var(--space-5);
+  color: var(--text-primary);
   font-family: var(--font-input);
-  background-color: var(--background-alt);
-  padding: var(--space-2);
-  border-radius: var(--radius-sm);
-  border-left: 3px solid var(--primary-light);
+  position: relative;
+  z-index: 2; /* Above the mesh animation */
 }
 
 .revision-actions {
@@ -877,32 +885,36 @@ textarea {
 }
 
 /* Animations - Mesh gradient loader */
+/* Animations - Mesh gradient loader - CONTAINED VERSION */
 .mesh-loader-overlay {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  z-index: 10;
+  z-index: 1; /* Changed from 10 to 1 to go behind text */
   opacity: 0;
   transition: opacity 0.5s cubic-bezier(.77,0,.18,1);
   will-change: opacity;
+  border-radius: var(--radius-lg); /* Match container border radius */
+  overflow: hidden; /* Contain the blobs within bounds */
 }
 
 .mesh-loader-overlay.show {
-  opacity: 1;
+  opacity: 0.3; /* Reduced opacity so text shows through */
 }
 
 .mesh-gradient-blob {
   position: absolute;
-  width: 60%;
-  height: 60%;
+  width: 40%; /* Reduced from 60% to stay within bounds */
+  height: 40%; /* Reduced from 60% to stay within bounds */
   border-radius: 44% 56% 60% 40% / 53% 40% 60% 47%;
-  filter: blur(50px) brightness(1.18) saturate(1.3);
-  opacity: 0.6;
-  mix-blend-mode: lighten;
-  animation: meshMove1 6s ease-in-out infinite alternate;
+  filter: blur(30px) brightness(1.1) saturate(1.2); /* Reduced blur and effects */
+  opacity: 0.8;
+  mix-blend-mode: multiply; /* Changed blend mode for better text visibility */
+  animation: meshMove1 8s ease-in-out infinite alternate; /* Slower animation */
   transition: opacity 0.5s;
 }
 
+/* Adjust blob positioning to stay within container */
 .mesh-blob-1 {
   background: radial-gradient(
     circle at 30% 70%,
@@ -910,7 +922,8 @@ textarea {
     var(--accent-light) 70%,
     transparent 100%
   );
-  left: 0; top: 0;
+  left: 10%; /* Moved inward */
+  top: 10%; /* Moved inward */
   animation-name: meshMove1;
 }
 
@@ -921,9 +934,10 @@ textarea {
     var(--accent) 60%,
     transparent 100%
   );
-  right: 0; bottom: 0;
+  right: 10%; /* Moved inward */
+  bottom: 10%; /* Moved inward */
   animation-name: meshMove2;
-  animation-delay: 1.8s;
+  animation-delay: 2s;
 }
 
 .mesh-blob-3 {
@@ -933,27 +947,29 @@ textarea {
     var(--accent-light) 70%,
     transparent 100%
   );
-  left: 20%; top: 30%;
+  left: 25%; /* Centered more */
+  top: 25%; /* Centered more */
   animation-name: meshMove3;
-  animation-delay: 3.2s;
+  animation-delay: 4s;
 }
 
+/* Reduced movement animations to stay contained */
 @keyframes meshMove1 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(15%, 10%) scale(1.1);}
-  100% { transform: translate(-10%, 18%) scale(1);}
+  50% { transform: translate(5%, 3%) scale(1.05);}
+  100% { transform: translate(-3%, 5%) scale(1);}
 }
 
 @keyframes meshMove2 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(-10%, -8%) scale(1.15);}
-  100% { transform: translate(10%, -5%) scale(0.95);}
+  50% { transform: translate(-3%, -2%) scale(1.08);}
+  100% { transform: translate(3%, -1%) scale(0.98);}
 }
 
 @keyframes meshMove3 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(-5%, 10%) scale(1.12);}
-  100% { transform: translate(8%, -7%) scale(1);}
+  50% { transform: translate(-1%, 3%) scale(1.06);}
+  100% { transform: translate(2%, -2%) scale(1);}
 }
 
 /* ======= RESPONSIVE DESIGN ======= */

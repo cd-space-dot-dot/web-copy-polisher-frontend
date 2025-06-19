@@ -86,11 +86,26 @@ export default function App() {
         <p>Refine your web writing using proven principles</p>
       </header>
 
-      {/* Input section */}
+      {/* Step 1: Content Type Selection */}
+      <section className="section">
+        <div className="container-base">
+          <div className="card-header">
+            <h2>Step 1: What kind of content is this?</h2>
+          </div>
+          <div className="card-content">
+            <ContentTypeSelector 
+              selectedType={contentType}
+              onTypeChange={setContentType}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Step 2: Input Section */}
       <section className="section">
         <div className="container-base container--input">
           <div className="card-header">
-            <h2>Paste your writing</h2>
+            <h2>Step 2: Paste your writing</h2>
           </div>
           <div className="card-content">
             <DraftInput input={input} setInput={setInput} />
@@ -105,24 +120,20 @@ export default function App() {
         </div>
       </section>
 
-      {/* Output section */}
-      <div className="container-output-parent">
-        <MeshGradientLoader loading={loading} />
-        {output ? (
-          <section className="section">
-            <div className="container-base container--output revised-output">
-              <RevisedOutput 
-                output={output}
-                analysis={analysis}
-                originalInput={input}
-                metadata={metadata}
-                onNewRevision={handleNewRevision}
-              />
-            </div>
-          </section>
-        ) : (
-          <section className="section">
-            <div className="container-base container--output output-placeholder">
+      {/* Output Section */}
+      <section className="section">
+        <div className="container-base container--output revised-output">
+          <MeshGradientLoader loading={loading} />
+          {output ? (
+            <RevisedOutput 
+              output={output}
+              analysis={analysis}
+              originalInput={input}
+              metadata={metadata}
+              onNewRevision={handleNewRevision}
+            />
+          ) : (
+            <div className="output-placeholder">
               <h3>✨ Your polished copy will appear here</h3>
               <p>Add your text and click "Polish My Copy" above!</p>
               {input.length === 0 && (
@@ -131,21 +142,15 @@ export default function App() {
                 </div>
               )}
             </div>
-          </section>
-        )}
-      </div>
+          )}
+        </div>
+      </section>
 
-      {/* Secondary input section */}
+      {/* Step 3: Refinement Options */}
       <section className="section">
         <div className="container-base">
           <div className="card-header">
-            <h2>Refine more</h2>
-          </div>
-          <div className="card-content">
-            <ContentTypeSelector 
-              selectedType={contentType}
-              onTypeChange={setContentType}
-            />
+            <h2>Step 3: Refine more</h2>
           </div>
           <div className="card-content">
             <SimilaritySlider 
@@ -156,7 +161,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Revisions section */}
+      {/* Revisions Section */}
       {revisions.length > 0 && (
         <section className="section">
           <div className="container-base container--revisions">

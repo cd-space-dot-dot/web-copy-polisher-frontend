@@ -381,10 +381,8 @@ Example: add different bg or border if needed for input block only
 /* Utility: for button/action rows, horizontally aligned and right-justified */
 .action-row {
   display: flex;
-  flex-direction: row;
   gap: var(--space-3);
   justify-content: flex-end;
-  align-items: center;
   margin-top: var(--space-4);
 }
 

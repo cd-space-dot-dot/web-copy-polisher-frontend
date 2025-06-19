@@ -65,6 +65,53 @@ export default function App() {
     }
   }
 
+  const handlePolishAgain = async () => {
+    if (!input.trim()) return;
+    
+    setLoading(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/revise`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          text: input, 
+          contentType, 
+          similarity,
+          chips: selectedChips 
+        })
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      
+      setOutput(data.revised);
+      setAnalysis(data.analysis);
+      setMetadata(data.metadata);
+      
+      if (data.revision) setRevisions(prev => [data.revision, ...prev.slice(0, 9)]);
+      
+      // Auto-scroll to output after a brief delay
+      setTimeout(() => {
+        const outputElement = document.querySelector('.revised-output, .container--output');
+        if (outputElement) {
+          outputElement.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }, 200);
+      
+    } catch (err) {
+      console.error("Error during polish again:", err);
+      setOutput("Sorry, there was an error. Please try again.");
+      setAnalysis(null);
+      setMetadata(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleNewRevision = (text) => {
     setInput(text);
     scrollToInput();
@@ -196,7 +243,8 @@ export default function App() {
             loading={loading}
             disabled={!input.trim()}
             variant="secondary"
-            label="Polish Again"
+            label="✨ Polish Again!"
+            onPolishAgain={handlePolishAgain}
           />
         </div>
       </div>

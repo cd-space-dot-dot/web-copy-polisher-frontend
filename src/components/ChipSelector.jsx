@@ -117,64 +117,26 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
     }
   ];
   
-  const handleChipClick = (categoryId, chipValue) => {
-    if (categoryId === 'tone') {
-      // Special handling for tone category (up to 5 selections)
-      const currentTones = selectedChips.tone || [];
-      
-      if (currentTones.includes(chipValue)) {
-        // Remove if already selected
-        const newTones = currentTones.filter(tone => tone !== chipValue);
-        onChipsChange({
-          ...selectedChips,
-          tone: newTones.length > 0 ? newTones : null
-        });
-      } else {
-        // Add if under limit
-        if (currentTones.length >= 5) {
-          // Show limit message (we'll add this next)
-          setToneLimitMessage(true);
-          setTimeout(() => setToneLimitMessage(false), 3000);
-          return;
-        }
-        
-        onChipsChange({
-          ...selectedChips,
-          tone: [...currentTones, chipValue]
-        });
-      }
-    } else {
-      // Regular categories: one selection per category
-      onChipsChange({
-        ...selectedChips,
-        [categoryId]: selectedChips[categoryId] === chipValue ? null : chipValue
-      });
-    }
-  };
-
   return (
     <div className="chip-selector">
       {chipCategories.map((category) => (
         <div key={category.id} className="chip-category">
-          <label className="chip-category-label">{category.label}</label>
-          
-          <div key={category.id} className="chip-category">
-            <div className="chip-category-label-wrapper">
-              <label className="chip-category-label">{category.label}</label>
-              {category.id === 'tone' && (
-                <div className="tone-counter">
+          <div className="chip-category-label-wrapper">
+            <label className="chip-category-label">{category.label}</label>
+            {category.id === 'tone' && (
+              <div className="tone-counter">
                 <span className="tone-count">
                   {(selectedChips.tone || []).length}/5
                 </span>
-              {toneLimitMessage && (
-                <span className="tone-limit-message">
-                  Maximum 5 tones allowed
-                </span>
-        )}
-      </div>
-              )
-    )}
-  </div>
+                {toneLimitMessage && (
+                  <span className="tone-limit-message">
+                    Maximum 5 tones allowed
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+          
           <div className="chip-group-wrapper">
             <div 
               ref={el => chipGroupRefs.current[category.id] = el}

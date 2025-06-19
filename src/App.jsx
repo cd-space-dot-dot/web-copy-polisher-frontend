@@ -141,21 +141,6 @@ export default function App() {
         <p>Refine your web writing using proven principles</p>
       </header>
   
-      {/* Step 1: Content Type Selection */}
-      <section className="section">
-        <div className="container-base">
-          <div className="card-header">
-            <h2>Step 1: What kind of content is this?</h2>
-          </div>
-          <div className="card-content">
-            <ContentTypeSelector 
-              selectedType={contentType}
-              onTypeChange={setContentType}
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Step 1: Smart Content Detector */}
       <section className="section">
         <div className="container-base">

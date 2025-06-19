@@ -5,10 +5,12 @@ import React from "react";
 export default function ContentTypeSelector({ selectedType, onTypeChange }) {
   const types = [
     { value: "webpage", label: "Web Page" },
+    { value: "social", label: "Social Media" },
     { value: "blog", label: "Blog Post" },
     { value: "email", label: "Email" },
     { value: "other", label: "Other" },
   ];
+  
   return (
     <div className="radio-group" role="radiogroup" aria-label="Content type">
       {types.map((type) => (

@@ -539,6 +539,78 @@ button:focus {
   font-weight: 600;
 }
 
+/* ======= CONTROLS ROW LAYOUT ======= */
+.controls-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.control-section {
+  margin-bottom: 0; /* Override default section margin */
+}
+
+/* ======= CHIPS SELECTOR COMPONENT ======= */
+.chip-selector {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.chip-category {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.chip-category-label {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.chip:hover {
+  background-color: var(--primary-bg);
+  border-color: var(--primary-light);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.chip--selected {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.chip--selected:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
 /* ======= FORM ELEMENTS ======= */
 input, textarea, select {
   font-family: var(--font-input);
@@ -889,7 +961,6 @@ textarea {
 }
 
 /* Animations - Mesh gradient loader */
-/* Animations - Mesh gradient loader - CONTAINED VERSION */
 .mesh-loader-overlay {
   pointer-events: none;
   position: absolute;
@@ -1021,5 +1092,16 @@ textarea {
   .slider-wrapper {
     flex-direction: column;
     gap: var(--space-2);
+  }
+
+  @media (max-width: 768px) {
+    .controls-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+    
+    .chip-group {
+      justify-content: flex-start;
+    }
   }
 }

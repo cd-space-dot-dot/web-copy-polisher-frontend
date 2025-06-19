@@ -8,6 +8,7 @@ import PolishButton from "./components/PolishButton";
 import RevisedOutput from "./components/RevisedOutput";
 import RevisionHistory from "./components/RevisionHistory";
 import MeshGradientLoader from "./components/MeshGradientLoader";
+import ChipSelector from "./components/ChipSelector";
 
 export default function App() {
   const [input, setInput] = useState("");
@@ -19,6 +20,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [revisions, setRevisions] = useState([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [selectedChips, setSelectedChips] = useState({});
 
   useEffect(() => {
     const handleScroll = () => setShowScrollButton(window.scrollY > 300);
@@ -85,22 +87,42 @@ export default function App() {
         <h1>✨ Clear Convey</h1>
         <p>Refine your web writing using proven principles</p>
       </header>
-
-      {/* Step 1: Content Type Selection */}
-      <section className="section">
-        <div className="container-base">
-          <div className="card-header">
-            <h2>Step 1: What kind of content is this?</h2>
+  
+      {/* Steps 1 & 3 Side by Side */}
+      <div className="controls-row">
+        <section className="section control-section">
+          <div className="container-base">
+            <div className="card-header">
+              <h2>Step 1: What kind of content?</h2>
+            </div>
+            <div className="card-content">
+              <ContentTypeSelector 
+                selectedType={contentType}
+                onTypeChange={setContentType}
+              />
+            </div>
           </div>
-          <div className="card-content">
-            <ContentTypeSelector 
-              selectedType={contentType}
-              onTypeChange={setContentType}
-            />
+        </section>
+  
+        <section className="section control-section">
+          <div className="container-base">
+            <div className="card-header">
+              <h2>Step 3: Refine style</h2>
+            </div>
+            <div className="card-content">
+              <SimilaritySlider 
+                value={similarity}
+                onChange={setSimilarity}
+              />
+              <ChipSelector 
+                selectedChips={selectedChips}
+                onChipsChange={setSelectedChips}
+              />
+            </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+      </div>
+  
       {/* Step 2: Input Section */}
       <section className="section">
         <div className="container-base container--input">

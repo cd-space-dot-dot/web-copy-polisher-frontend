@@ -599,6 +599,105 @@ button:focus {
   border-color: var(--primary-dark);
 }
 
+/* ======= SMART CONTENT DETECTOR ======= */
+.smart-detector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  margin-top: var(--space-4);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.smart-detector--empty {
+  background: rgba(199, 146, 202, 0.1);
+  border: 2px dashed rgba(199, 146, 202, 0.3);
+  color: var(--text-muted);
+}
+
+.smart-detector--analyzing {
+  background: linear-gradient(135deg, #E761BD, #C692CA);
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+.smart-detector--uncertain {
+  background: rgba(164, 196, 216, 0.1);
+  border: 2px dashed rgba(164, 196, 216, 0.4);
+  color: var(--text-muted);
+}
+
+.smart-detector--suggestion {
+  background: linear-gradient(135deg, #E761BD, #C692CA);
+  color: white;
+  cursor: pointer;
+}
+
+.smart-detector--matched {
+  background: rgba(131, 245, 229, 0.15);
+  border: 2px solid rgba(131, 245, 229, 0.4);
+  color: var(--success-dark);
+}
+
+.smart-detector-icon {
+  font-size: var(--text-2xl);
+  flex-shrink: 0;
+  width: 40px;
+  text-align: center;
+}
+
+.analyzing-spinner {
+  animation: bounce 1s infinite;
+}
+
+.smart-detector-text {
+  flex: 1;
+}
+
+.smart-detector-title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: var(--text-base);
+  margin-bottom: var(--space-1);
+}
+
+.smart-detector-subtitle {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  opacity: 0.8;
+}
+
+.smart-detector-action {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.smart-detector-action:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
 /* ======= FORM ELEMENTS ======= */
 input, textarea, select {
   font-family: var(--font-input);

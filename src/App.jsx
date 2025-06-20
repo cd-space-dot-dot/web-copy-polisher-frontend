@@ -10,7 +10,7 @@ import RevisionHistory from "./components/RevisionHistory";
 import MeshGradientLoader from "./components/MeshGradientLoader";
 import ChipSelector from "./components/ChipSelector";
 import SmartContentDetector from "./components/SmartContentDetector";
-import Footer from "./components/Footer";
+import Footer, { ProTipsSection } from "./components/Footer";
 
 export default function App() {
   const [input, setInput] = useState("");
@@ -350,34 +350,34 @@ const calculateChipWeights = (chipState) => {
         </div>
       </section>
   
-    {/* Step 3: Refinement Options with Chips */}
-    <section className="section">
-      <div className="container-base">
-        <div className="card-header">
-          <h2>Step 3: Refine style</h2>
+      {/* Step 3: Refinement Options with Chips */}
+      <section className="section">
+        <div className="container-base">
+          <div className="card-header">
+            <h2>Step 3: Refine style</h2>
+          </div>
+          <div className="card-content">
+            <SimilaritySlider 
+              value={similarity}
+              onChange={setSimilarity}
+            />
+            <ChipSelector 
+              selectedChips={selectedChips}
+              onChipsChange={setSelectedChips}
+            />
+          </div>
+          <div className="action-row">
+            <PolishButton 
+              handleSubmit={handleSubmit} 
+              loading={loading}
+              disabled={!input.trim()}
+              variant="secondary"
+              label="✨ Polish Again!"
+              onPolishAgain={handlePolishAgain}
+            />
+          </div>
         </div>
-        <div className="card-content">
-          <SimilaritySlider 
-            value={similarity}
-            onChange={setSimilarity}
-          />
-          <ChipSelector 
-            selectedChips={selectedChips}
-            onChipsChange={setSelectedChips}
-          />
-        </div>
-        <div className="action-row">
-          <PolishButton 
-            handleSubmit={handleSubmit} 
-            loading={loading}
-            disabled={!input.trim()}
-            variant="secondary"
-            label="✨ Polish Again!"
-            onPolishAgain={handlePolishAgain}
-          />
-        </div>
-      </div>
-    </section>
+      </section>
   
       {/* Revisions Section */}
       {revisions.length > 0 && (
@@ -397,17 +397,20 @@ const calculateChipWeights = (chipState) => {
         </section>
       )}
   
+      {/* Pro Tips Section */}
+      <ProTipsSection />
+  
       {/* Scroll to top button */}
       <button 
-              className={`scroll-to-top${showScrollButton ? '' : ' hidden'}`}
-              onClick={scrollToTop}
-              aria-label="Scroll to top"
-            >
-              ⬆️
-            </button>
-
-            {/* Add Footer here */}
-            <Footer />
+        className={`scroll-to-top${showScrollButton ? '' : ' hidden'}`}
+        onClick={scrollToTop}
+        aria-label="Scroll to top"
+      >
+        ⬆️
+      </button>
+  
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

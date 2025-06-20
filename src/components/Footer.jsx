@@ -1,9 +1,9 @@
-// src/components/Footer.jsx (The Credits Roll - our closing scene with all the important info)
+// src/components/Footer.jsx (The Quiet Credits - now more subtle with separated tips)
 
 import React, { useState } from "react";
 import proTipsData from "../data/proTips.json";
 
-export default function Footer() {
+export function ProTipsSection() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
   const proTips = proTipsData.pro_tips;
   const currentTip = proTips[currentTipIndex];
@@ -18,6 +18,46 @@ export default function Footer() {
     );
   };
 
+  return (
+    <section className="section">
+      <div className="container-base">
+        <div className="footer-tips">
+          <div className="tip-container">
+            <button 
+              className="tip-nav-btn tip-nav-prev"
+              onClick={prevTip}
+              aria-label="Previous tip"
+            >
+              ‹
+            </button>
+            
+            <div className="tip-content">
+              <strong>Hot tip:</strong> {currentTip.snippet}{" "}
+              <a 
+                href={currentTip.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="tip-source"
+              >
+                {currentTip.article_title}
+              </a>
+            </div>
+            
+            <button 
+              className="tip-nav-btn tip-nav-next"
+              onClick={nextTip}
+              aria-label="Next tip"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function Footer() {
   // Email protection - simple obfuscation
   const getProtectedEmail = () => {
     const user = "hello";
@@ -27,40 +67,6 @@ export default function Footer() {
 
   return (
     <footer className="app-footer">
-      {/* Pro Tips Section */}
-      <div className="footer-tips">
-        <div className="tip-container">
-          <button 
-            className="tip-nav-btn tip-nav-prev"
-            onClick={prevTip}
-            aria-label="Previous tip"
-          >
-            ‹
-          </button>
-          
-          <div className="tip-content">
-            <strong>Hot tip:</strong> {currentTip.snippet}{" "}
-            <a 
-              href={currentTip.url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="tip-source"
-            >
-              {currentTip.article_title}
-            </a>
-          </div>
-          
-          <button 
-            className="tip-nav-btn tip-nav-next"
-            onClick={nextTip}
-            aria-label="Next tip"
-          >
-            ›
-          </button>
-        </div>
-      </div>
-
-      {/* Main Footer Content */}
       <div className="footer-content">
         <div className="footer-section">
           <h3>Contact</h3>
@@ -88,7 +94,7 @@ export default function Footer() {
             >
               Nielsen Norman Group
             </a>{" "}
-            and professional experience in copywriting across industries and platforms.
+            and experience in copywriting across industries and platforms.
           </p>
         </div>
 
@@ -105,7 +111,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2025 Clear Convey. Made with care for better web writing.</p>
+        <p>&copy; 2024 Clear Convey. Made with care for better web writing.</p>
       </div>
     </footer>
   );

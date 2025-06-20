@@ -540,6 +540,10 @@ button:focus {
 }
 
 /* ======= CHIPS SELECTOR COMPONENT ======= */
+.chip-selector-wrapper {
+  width: 100%;
+}
+
 .chip-selector-container {
   width: 100%;
   padding: var(--space-4);
@@ -712,8 +716,6 @@ button:focus {
 .chip-group-wrapper.scrolled-end::after {
   opacity: 0;
 }
-
-
 
 /* ======= ENHANCED FADE SYSTEM - FADE TO UNSELECTED STATE ======= */
 .chip--selected {
@@ -1042,6 +1044,7 @@ textarea {
 .slider-description {
   text-align: center;
   margin-top: var(--space-2);
+  margin-bottom: var(--space-2);
 }
 
 .slider-description small {
@@ -1502,6 +1505,80 @@ textarea {
   text-decoration: underline;
 }
 
+/* Pro Tips Section - separate from footer */
+.footer-tips {
+  padding: var(--space-4);
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+}
+
+.tip-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--primary-bg);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--primary);
+}
+
+.tip-nav-btn {
+  background: none;
+  border: none;
+  color: var(--primary-dark);
+  cursor: pointer;
+  font-size: var(--text-xl);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  min-height: auto;
+  min-width: auto;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.tip-nav-btn:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  transform: scale(1.1);
+}
+
+.tip-content {
+  flex: 1;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+}
+
+.tip-content strong {
+  color: var(--primary-dark);
+  font-family: var(--font-ui);
+}
+
+.tip-source {
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--text-xs);
+  transition: var(--transition);
+}
+
+.tip-source:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* Footer Styles - now more subtle */
+.app-footer {
+  margin-top: var(--space-16);
+  background: rgba(245, 247, 248, 0.3); /* Much more subtle */
+  backdrop-filter: blur(5px);
+  border-top: 1px solid rgba(225, 232, 234, 0.5);
+  padding: var(--space-6) 0;
+}
+
 /* Main Footer Content */
 .footer-content {
   max-width: 1200px;
@@ -1510,26 +1587,26 @@ textarea {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--space-6);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
 }
 
 .footer-section h3 {
   font-family: var(--font-headings);
-  font-size: var(--text-lg);
-  color: var(--text-primary);
-  margin-bottom: var(--space-3);
-  font-weight: 600;
+  font-size: var(--text-base); /* Smaller */
+  color: var(--text-secondary); /* Less prominent */
+  margin-bottom: var(--space-2);
+  font-weight: 500; /* Less bold */
 }
 
 .footer-section p {
-  font-size: var(--text-sm);
-  line-height: 1.6;
-  color: var(--text-secondary);
+  font-size: var(--text-xs); /* Smaller */
+  line-height: 1.5;
+  color: var(--text-muted); /* More muted */
   margin-bottom: 0;
 }
 
 .footer-link {
-  color: var(--primary-dark);
+  color: var(--text-secondary);
   text-decoration: none;
   font-weight: 500;
   transition: var(--transition);
@@ -1543,8 +1620,8 @@ textarea {
 .footer-bottom {
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--space-4) var(--space-6);
-  border-top: 1px solid var(--border-light);
+  padding: var(--space-3) var(--space-6);
+  border-top: 1px solid rgba(225, 232, 234, 0.3);
   text-align: center;
 }
 
@@ -1553,6 +1630,7 @@ textarea {
   color: var(--text-muted);
   margin: 0;
   font-family: var(--font-ui);
+  opacity: 0.7; /* Even more subtle */
 }
 
 /* Mobile Responsive */

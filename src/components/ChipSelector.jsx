@@ -194,98 +194,98 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
   ];
   
   return (
-    <div className="chip-selector">
-      {chipCategories.map((category) => {
-        const isMultipleCategory = MULTIPLE_SELECTION_CATEGORIES.includes(category.id);
-        const selectedCount = isMultipleCategory 
-          ? (selectedChips.multiple && selectedChips.multiple[category.id] || []).length 
-          : 0;
-
-        return (
-          <div className="similarity-slider-container">
-            <div key={category.id} className="chip-category">
-              <div className="chip-category-label-wrapper">
-                <label className="chip-category-label">{category.label}</label>
-                {isMultipleCategory && selectedCount > 0 && (
-                  <div className="selection-counter">
-                    <span className="selection-count">
-                      {selectedCount} selected
-                    </span>
-                    {selectedCount === 2 && (
-                      <span className="tone-message tone-message--good">
-                        Nice mix of tones!
+    <div className="chip-selector-wrapper">
+      <div className="chip-selector-container">
+        <div className="chip-selector">
+          {chipCategories.map((category) => {
+            const isMultipleCategory = MULTIPLE_SELECTION_CATEGORIES.includes(category.id);
+            const selectedCount = isMultipleCategory 
+              ? (selectedChips.multiple && selectedChips.multiple[category.id] || []).length 
+              : 0;
+            return (
+              <div key={category.id} className="chip-category">
+                <div className="chip-category-label-wrapper">
+                  <label className="chip-category-label">{category.label}</label>
+                  {isMultipleCategory && selectedCount > 0 && (
+                    <div className="selection-counter">
+                      <span className="selection-count">
+                        {selectedCount} selected
                       </span>
-                    )}
-                    {selectedCount >= 3 && selectedCount <= 4 && (
-                      <span className="tone-message tone-message--ok">
-                        Good variety
-                      </span>
-                    )}
-                    {selectedCount === 5 && (
-                      <span className="tone-message tone-message--warning">
-                        That's a lot...
-                      </span>
-                    )}
-                    {selectedCount >= 6 && selectedCount <= 7 && (
-                      <span className="tone-message tone-message--warning">
-                        Choose fewer tones for best results
-                      </span>
-                    )}
-                    {selectedCount >= 8 && (
-                      <span className="tone-message tone-message--error">
-                        Way too many! Pick your favorites
-                      </span>
-                    )}
+                      {selectedCount === 2 && (
+                        <span className="tone-message tone-message--good">
+                          Nice mix of tones!
+                        </span>
+                      )}
+                      {selectedCount >= 3 && selectedCount <= 4 && (
+                        <span className="tone-message tone-message--ok">
+                          Good variety
+                        </span>
+                      )}
+                      {selectedCount === 5 && (
+                        <span className="tone-message tone-message--warning">
+                          That's a lot...
+                        </span>
+                      )}
+                      {selectedCount >= 6 && selectedCount <= 7 && (
+                        <span className="tone-message tone-message--warning">
+                          Choose fewer tones for best results
+                        </span>
+                      )}
+                      {selectedCount >= 8 && (
+                        <span className="tone-message tone-message--error">
+                          Way too many! Pick your favorites
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+                
+                <div className="chip-group-wrapper">
+                  <div 
+                    ref={el => chipGroupRefs.current[category.id] = el}
+                    className="chip-group" 
+                    role="group" 
+                    aria-labelledby={`${category.id}-label`}
+                  >
+                    {category.chips.map((chip) => {
+                      let isSelected, selectionIndex, fadeProps;
+                      
+                      if (isMultipleCategory) {
+                        const currentSelections = (selectedChips.multiple && selectedChips.multiple[category.id]) || [];
+                        isSelected = currentSelections.includes(chip.value);
+                        selectionIndex = currentSelections.indexOf(chip.value);
+                        fadeProps = calculateFadeProperties(category.id, chip.value, selectionIndex);
+                      } else {
+                        isSelected = (selectedChips.single && selectedChips.single[category.id]) === chip.value;
+                        fadeProps = { opacity: 1, aiWeight: 1 };
+                      }
+                      
+                      return (
+                        <button
+                          key={chip.value}
+                          type="button"
+                          className={`chip ${isSelected ? 'chip--selected' : ''}`}
+                          onClick={() => handleChipClick(category.id, chip.value)}
+                          aria-pressed={isSelected}
+                          style={isSelected ? {
+                            '--fade-opacity': fadeProps.opacity,
+                            transition: 'all 0.3s ease-out'
+                          } : {}}
+                          data-ai-weight={isSelected ? fadeProps.aiWeight : 0}
+                          title={isSelected && isMultipleCategory ? 
+                            `Selection #${selectionIndex + 1} - AI weight: ${Math.round(fadeProps.aiWeight * 100)}%` : 
+                            undefined}
+                        >
+                          {chip.label}
+                        </button>
+                      );
+                    })}
                   </div>
-                )}
-              </div>
-              
-              <div className="chip-group-wrapper">
-                <div 
-                  ref={el => chipGroupRefs.current[category.id] = el}
-                  className="chip-group" 
-                  role="group" 
-                  aria-labelledby={`${category.id}-label`}
-                >
-                  {category.chips.map((chip) => {
-                    let isSelected, selectionIndex, fadeProps;
-                    
-                    if (isMultipleCategory) {
-                      const currentSelections = (selectedChips.multiple && selectedChips.multiple[category.id]) || [];
-                      isSelected = currentSelections.includes(chip.value);
-                      selectionIndex = currentSelections.indexOf(chip.value);
-                      fadeProps = calculateFadeProperties(category.id, chip.value, selectionIndex);
-                    } else {
-                      isSelected = (selectedChips.single && selectedChips.single[category.id]) === chip.value;
-                      fadeProps = { opacity: 1, aiWeight: 1 };
-                    }
-                    
-                    return (
-                      <button
-                        key={chip.value}
-                        type="button"
-                        className={`chip ${isSelected ? 'chip--selected' : ''}`}
-                        onClick={() => handleChipClick(category.id, chip.value)}
-                        aria-pressed={isSelected}
-                        style={isSelected ? {
-                          '--fade-opacity': fadeProps.opacity,
-                          transition: 'all 0.3s ease-out'
-                        } : {}}
-                        data-ai-weight={isSelected ? fadeProps.aiWeight : 0}
-                        title={isSelected && isMultipleCategory ? 
-                          `Selection #${selectionIndex + 1} - AI weight: ${Math.round(fadeProps.aiWeight * 100)}%` : 
-                          undefined}
-                      >
-                        {chip.label}
-                      </button>
-                    );
-                  })}
                 </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      </div>
     </div>
-  );
-}
+  );}

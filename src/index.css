@@ -1565,7 +1565,7 @@ textarea {
 }
 
 .footer-link:hover {
-  color: var(--primary);
+  color: var(--primary-dark);
   text-decoration: underline;
 }
 

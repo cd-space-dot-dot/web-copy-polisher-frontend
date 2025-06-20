@@ -1429,54 +1429,60 @@ textarea {
   }
 }
 
-/* Footer Styles */
-.app-footer {
-  margin-top: var(--space-16);
+/* Pro Tips Section - subtle easter egg styling */
+.footer-tips {
+  padding: var(--space-5);
   background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.9) 0%, 
-    rgba(245, 247, 248, 0.8) 100%);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--border-light);
-  padding: var(--space-8) 0;
+    rgba(131, 245, 229, 0.08) 0%, 
+    rgba(148, 220, 222, 0.06) 100%);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(131, 245, 229, 0.15);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+  opacity: 0.85;
+  transition: var(--transition);
 }
 
-/* Pro Tips Section in Footer */
-.footer-tips {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--space-6);
-  margin-bottom: var(--space-8);
+.footer-tips:hover {
+  opacity: 1;
+  background: linear-gradient(135deg, 
+    rgba(131, 245, 229, 0.12) 0%, 
+    rgba(148, 220, 222, 0.08) 100%);
+  border-color: rgba(131, 245, 229, 0.25);
 }
 
 .tip-container {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-4);
-  background-color: var(--primary-bg);
-  border-radius: var(--radius);
-  border-left: 4px solid var(--primary);
+  padding: var(--space-3);
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  border-left: 3px solid rgba(131, 245, 229, 0.4);
 }
 
 .tip-nav-btn {
-  background: none;
+  background: rgba(131, 245, 229, 0.2);
   border: none;
-  color: var(--primary-dark);
+  color: var(--success-dark);
   cursor: pointer;
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   padding: var(--space-2);
   border-radius: var(--radius-sm);
   transition: var(--transition);
   min-height: auto;
   min-width: auto;
-  font-weight: bold;
+  font-weight: 500;
   line-height: 1;
+  opacity: 0.7;
 }
 
 .tip-nav-btn:hover {
-  background-color: var(--primary-light);
-  color: var(--primary-dark);
-  transform: scale(1.1);
+  background: rgba(131, 245, 229, 0.3);
+  color: var(--success-dark);
+  transform: scale(1.05);
+  opacity: 1;
 }
 
 .tip-content {
@@ -1485,101 +1491,41 @@ textarea {
   line-height: 1.5;
   color: var(--text-secondary);
   font-family: var(--font-body);
+  opacity: 0.9;
 }
 
 .tip-content strong {
-  color: var(--primary-dark);
+  color: var(--success-dark);
   font-family: var(--font-ui);
+  font-weight: 600;
+  opacity: 0.8;
 }
 
 .tip-source {
-  color: var(--primary-dark);
+  color: var(--success-dark);
   text-decoration: none;
   font-weight: 500;
   font-size: var(--text-xs);
   transition: var(--transition);
+  opacity: 0.7;
+  border-bottom: 1px dotted rgba(131, 245, 229, 0.4);
 }
 
 .tip-source:hover {
-  color: var(--primary);
-  text-decoration: underline;
+  color: var(--success-dark);
+  opacity: 1;
+  border-bottom-color: var(--success-dark);
 }
 
-/* Pro Tips Section - separate from footer */
-.footer-tips {
-  padding: var(--space-4);
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: var(--radius);
-  border: 1px solid var(--border-light);
-}
-
-.tip-container {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  background-color: var(--primary-bg);
-  border-radius: var(--radius);
-  border-left: 4px solid var(--primary);
-}
-
-.tip-nav-btn {
-  background: none;
-  border: none;
-  color: var(--primary-dark);
-  cursor: pointer;
-  font-size: var(--text-xl);
-  padding: var(--space-2);
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
-  min-height: auto;
-  min-width: auto;
-  font-weight: bold;
-  line-height: 1;
-}
-
-.tip-nav-btn:hover {
-  background-color: var(--primary-light);
-  color: var(--primary-dark);
-  transform: scale(1.1);
-}
-
-.tip-content {
-  flex: 1;
-  font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--text-secondary);
-  font-family: var(--font-body);
-}
-
-.tip-content strong {
-  color: var(--primary-dark);
-  font-family: var(--font-ui);
-}
-
-.tip-source {
-  color: var(--primary-dark);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: var(--text-xs);
-  transition: var(--transition);
-}
-
-.tip-source:hover {
-  color: var(--primary);
-  text-decoration: underline;
-}
-
-/* Footer Styles - now more subtle */
+/* Footer Styles - subtle and clean */
 .app-footer {
-  margin-top: var(--space-16);
-  background: rgba(245, 247, 248, 0.3); /* Much more subtle */
+  margin-top: var(--space-8);
+  background: rgba(245, 247, 248, 0.3);
   backdrop-filter: blur(5px);
   border-top: 1px solid rgba(225, 232, 234, 0.5);
   padding: var(--space-6) 0;
 }
 
-/* Main Footer Content */
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -1592,16 +1538,16 @@ textarea {
 
 .footer-section h3 {
   font-family: var(--font-headings);
-  font-size: var(--text-base); /* Smaller */
-  color: var(--text-secondary); /* Less prominent */
+  font-size: var(--text-base);
+  color: var(--text-secondary);
   margin-bottom: var(--space-2);
-  font-weight: 500; /* Less bold */
+  font-weight: 500;
 }
 
 .footer-section p {
-  font-size: var(--text-xs); /* Smaller */
+  font-size: var(--text-xs);
   line-height: 1.5;
-  color: var(--text-muted); /* More muted */
+  color: var(--text-muted);
   margin-bottom: 0;
 }
 
@@ -1630,23 +1576,20 @@ textarea {
   color: var(--text-muted);
   margin: 0;
   font-family: var(--font-ui);
-  opacity: 0.7; /* Even more subtle */
+  opacity: 0.7;
 }
 
-/* Mobile Responsive */
+/* Additional Mobile Responsive for Footer */
 @media (max-width: 768px) {
   .tip-container {
-    flex-direction: column;
+    flex-direction: row;
     gap: var(--space-2);
-    text-align: center;
+    text-align: left;
   }
   
   .tip-nav-btn {
-    order: 2;
-  }
-  
-  .tip-content {
-    order: 1;
+    font-size: var(--text-base);
+    padding: var(--space-1);
   }
   
   .footer-content {

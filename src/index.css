@@ -705,6 +705,38 @@ button:focus {
   opacity: 0;
 }
 
+/* ======= ENHANCED FADE SYSTEM FOR MULTIPLE SELECTIONS OF CHIPS ======= */
+.selection-counter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.selection-count {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.fade-indicator {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--accent);
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Smooth fade transition for chips */
+.chip--selected {
+  transition: opacity 0.3s ease-out, transform 0.2s ease-out;
+}
+
+.chip--selected:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
 /* Desktop: Allow wrapping when there's space */
 @media (min-width: 1200px) {
   .chip-group {

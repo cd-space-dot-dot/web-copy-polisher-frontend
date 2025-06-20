@@ -21,13 +21,66 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [revisions, setRevisions] = useState([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
-  const [selectedChips, setSelectedChips] = useState({});
+  const [selectedChips, setSelectedChips] = useState({
+    single: {}, // { length: "longer", platform: "social", industry: "business", generation: "millennial" }
+    multiple: {} // { tone: ["professional", "friendly"] }
+  });
 
   useEffect(() => {
     const handleScroll = () => setShowScrollButton(window.scrollY > 300);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Debug helper for chips - remove this later
+  useEffect(() => {
+  console.log('Chip State:', {
+    single: selectedChips.single,
+    multiple: selectedChips.multiple,
+    flattened: { ...selectedChips.single, ...selectedChips.multiple }
+  });
+  }, [selectedChips]);
+
+  // Helper function to calculate AI weights for chip selections
+const calculateChipWeights = (chipState) => {
+  const MULTIPLE_SELECTION_CATEGORIES = ['tone'];
+  const result = {};
+
+  // Handle single selections (full weight)
+  if (chipState.single) {
+    Object.entries(chipState.single).forEach(([category, value]) => {
+      if (value) {
+        result[category] = { value, weight: 1 };
+      }
+    });
+  }
+
+  // Chips - Handle multiple selections with exponential weights
+  if (chipState.multiple) {
+    Object.entries(chipState.multiple).forEach(([category, selections]) => {
+      if (selections && selections.length > 0) {
+        result[category] = selections.map((value, index) => {
+          // Same exponential formula as ChipSelector
+          let weight;
+          if (index === 0) {
+            weight = 1; // First selection full weight
+          } else if (index === 1) {
+            weight = 0.8; // Second selection strong
+          } else if (index === 2) {
+            weight = 0.6; // Third selection moderate
+          } else {
+            // Rapid drop: 0.4 * 0.7^(index-3)
+            weight = Math.max(0.05, 0.4 * Math.pow(0.7, index - 3));
+          }
+          
+          return { value, weight: Math.round(weight * 100) / 100 }; // Round to 2 decimal places
+        });
+      }
+    });
+  }
+
+  return result;
+  };
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   const scrollToInput = () => document.querySelector('.draft-input')?.scrollIntoView({ behavior: 'smooth' });
@@ -39,11 +92,16 @@ export default function App() {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/revise`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        const: chipWeights = calculateChipWeights(selectedChips),
         body: JSON.stringify({ 
           text: input, 
           contentType, 
           similarity,
-          chips: selectedChips 
+          chips: {
+            ...selectedChips.single,
+            ...selectedChips.multiple
+          },
+          chipWeights: chipWeights
         })
       });
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -73,11 +131,16 @@ export default function App() {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/revise`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        const: chipWeights = calculateChipWeights(selectedChips),
         body: JSON.stringify({ 
           text: input, 
           contentType, 
           similarity,
-          chips: selectedChips 
+          chips: {
+            ...selectedChips.single,
+            ...selectedChips.multiple
+          },
+          chipWeights: chipWeights
         })
       });
       

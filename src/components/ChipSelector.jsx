@@ -1,10 +1,12 @@
 // src/components/ChipSelector.jsx
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function ChipSelector({ selectedChips, onChipsChange }) {
   const chipGroupRefs = useRef({});
-  const [toneLimitMessage, setToneLimitMessage] = useState(false);
+
+  // Define which categories allow multiple selections
+  const MULTIPLE_SELECTION_CATEGORIES = ['tone'];
 
   useEffect(() => {
     const checkScrollability = () => {
@@ -42,6 +44,80 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       });
     };
   }, []);
+
+  // Calculate exponential fade opacity and AI weight
+  const calculateFadeProperties = (categoryId, chipValue, selectionIndex) => {
+    if (!MULTIPLE_SELECTION_CATEGORIES.includes(categoryId) || selectionIndex === -1) {
+      return { opacity: 1, aiWeight: 1 };
+    }
+
+    // Exponential fade: 1 -> 0.95 -> 0.85 -> 0.7 -> 0.5 -> 0.25 -> 0.05
+    // Formula: opacity = Math.pow(0.75, selectionIndex)
+    // But we want it more gradual for first few, then rapid drop
+    let opacity;
+    if (selectionIndex <= 1) {
+      opacity = 1; // First 2 selections stay full opacity
+    } else if (selectionIndex === 2) {
+      opacity = 0.9; // 3rd selection barely fades
+    } else {
+      // Exponential drop after 3rd: 0.75^(index-2)
+      opacity = Math.max(0.05, Math.pow(0.6, selectionIndex - 2) * 0.9);
+    }
+
+    // AI weight follows similar pattern but starts dropping earlier
+    let aiWeight;
+    if (selectionIndex === 0) {
+      aiWeight = 1; // First selection full weight
+    } else if (selectionIndex === 1) {
+      aiWeight = 0.8; // Second selection strong
+    } else if (selectionIndex === 2) {
+      aiWeight = 0.6; // Third selection moderate
+    } else {
+      // Rapid drop: 0.4 * 0.7^(index-3)
+      aiWeight = Math.max(0.05, 0.4 * Math.pow(0.7, selectionIndex - 3));
+    }
+
+    return { opacity, aiWeight };
+  };
+
+  const handleChipClick = (categoryId, chipValue) => {
+    if (MULTIPLE_SELECTION_CATEGORIES.includes(categoryId)) {
+      // Handle multiple selection categories (like tone)
+      const currentSelections = (selectedChips.multiple && selectedChips.multiple[categoryId]) || [];
+      
+      if (currentSelections.includes(chipValue)) {
+        // Remove if already selected
+        const newSelections = currentSelections.filter(item => item !== chipValue);
+        onChipsChange({
+          ...selectedChips,
+          multiple: {
+            ...selectedChips.multiple,
+            [categoryId]: newSelections.length > 0 ? newSelections : undefined
+          }
+        });
+      } else {
+        // Add new selection
+        onChipsChange({
+          ...selectedChips,
+          multiple: {
+            ...selectedChips.multiple,
+            [categoryId]: [...currentSelections, chipValue]
+          }
+        });
+      }
+    } else {
+      // Handle single selection categories (length, platform, industry, generation)
+      const currentSelection = (selectedChips.single && selectedChips.single[categoryId]);
+      
+      onChipsChange({
+        ...selectedChips,
+        single: {
+          ...selectedChips.single,
+          [categoryId]: currentSelection === chipValue ? undefined : chipValue
+        }
+      });
+    }
+  };
 
   const chipCategories = [
     {
@@ -119,52 +195,75 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
   
   return (
     <div className="chip-selector">
-      {chipCategories.map((category) => (
-        <div key={category.id} className="chip-category">
-          <div className="chip-category-label-wrapper">
-            <label className="chip-category-label">{category.label}</label>
-            {category.id === 'tone' && (
-              <div className="tone-counter">
-                <span className="tone-count">
-                  {(selectedChips.tone || []).length}/5
-                </span>
-                {toneLimitMessage && (
-                  <span className="tone-limit-message">
-                    Maximum 5 tones allowed
+      {chipCategories.map((category) => {
+        const isMultipleCategory = MULTIPLE_SELECTION_CATEGORIES.includes(category.id);
+        const selectedCount = isMultipleCategory 
+          ? (selectedChips.multiple && selectedChips.multiple[category.id] || []).length 
+          : 0;
+
+        return (
+          <div key={category.id} className="chip-category">
+            <div className="chip-category-label-wrapper">
+              <label className="chip-category-label">{category.label}</label>
+              {isMultipleCategory && selectedCount > 0 && (
+                <div className="selection-counter">
+                  <span className="selection-count">
+                    {selectedCount} selected
                   </span>
-                )}
-              </div>
-            )}
-          </div>
-          
-          <div className="chip-group-wrapper">
-            <div 
-              ref={el => chipGroupRefs.current[category.id] = el}
-              className="chip-group" 
-              role="group" 
-              aria-labelledby={`${category.id}-label`}
-            >
-              {category.chips.map((chip) => {
-                const isSelected = category.id === 'tone' 
-                  ? (selectedChips.tone || []).includes(chip.value)
-                  : selectedChips[category.id] === chip.value;
+                  {selectedCount > 3 && (
+                    <span className="fade-indicator">
+                      ✨ fading influence
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+            
+            <div className="chip-group-wrapper">
+              <div 
+                ref={el => chipGroupRefs.current[category.id] = el}
+                className="chip-group" 
+                role="group" 
+                aria-labelledby={`${category.id}-label`}
+              >
+                {category.chips.map((chip) => {
+                  let isSelected, selectionIndex, fadeProps;
                   
-                return (
-                  <button
-                    key={chip.value}
-                    type="button"
-                    className={`chip ${isSelected ? 'chip--selected' : ''}`}
-                    onClick={() => handleChipClick(category.id, chip.value)}
-                    aria-pressed={isSelected}
-                  >
-                    {chip.label}
-                  </button>
-                );
-              })}
+                  if (isMultipleCategory) {
+                    const currentSelections = (selectedChips.multiple && selectedChips.multiple[category.id]) || [];
+                    isSelected = currentSelections.includes(chip.value);
+                    selectionIndex = currentSelections.indexOf(chip.value);
+                    fadeProps = calculateFadeProperties(category.id, chip.value, selectionIndex);
+                  } else {
+                    isSelected = (selectedChips.single && selectedChips.single[category.id]) === chip.value;
+                    fadeProps = { opacity: 1, aiWeight: 1 };
+                  }
+                  
+                  return (
+                    <button
+                      key={chip.value}
+                      type="button"
+                      className={`chip ${isSelected ? 'chip--selected' : ''}`}
+                      onClick={() => handleChipClick(category.id, chip.value)}
+                      aria-pressed={isSelected}
+                      style={isSelected ? {
+                        opacity: fadeProps.opacity,
+                        transition: 'opacity 0.3s ease-out'
+                      } : {}}
+                      data-ai-weight={isSelected ? fadeProps.aiWeight : 0}
+                      title={isSelected && isMultipleCategory ? 
+                        `Selection #${selectionIndex + 1} - AI weight: ${Math.round(fadeProps.aiWeight * 100)}%` : 
+                        undefined}
+                    >
+                      {chip.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

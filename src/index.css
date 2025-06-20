@@ -1431,7 +1431,6 @@ textarea {
   .app-header h1 {
     font-size: var(--text-3xl);
   }
-}
   
   .app-header {
     padding-top: var(--space-4);
@@ -1601,6 +1600,7 @@ textarea {
   .footer-bottom {
     box-sizing: border-box;
   }
+}
 
 /* ======= PRO TIPS SECTION ======= */
 .footer-tips {

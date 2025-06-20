@@ -138,9 +138,10 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       label: "Industry",
       chips: [
         { value: "ecommerce", label: "🛒 E-comm" },
-        { value: "social-impact", label: "🌍 Impact" },
-        { value: "sports", label: "⚽ Sports" },
+        { value: "social-impact", label: "🌍 Social Impact" },
         { value: "business", label: "💼 Business" }
+        { value: "sports", label: "⚽ Sports" },
+        { value: "sports", label: "🩻 Health" },
       ]
     },
     {

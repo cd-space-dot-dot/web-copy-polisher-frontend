@@ -52,20 +52,15 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       return { opacity: 1, aiWeight: 1 };
     }
 
-    // Exponential fade: 1 -> 0.95 -> 0.85 -> 0.7 -> 0.5 -> 0.25 -> 0.05
-    // Formula: opacity = Math.pow(0.75, selectionIndex)
-    // But we want it more gradual for first few, then rapid drop
     let opacity;
     if (selectionIndex <= 1) {
       opacity = 1; // First 2 selections stay full opacity
     } else if (selectionIndex === 2) {
       opacity = 0.9; // 3rd selection barely fades
     } else {
-      // Exponential drop after 3rd: 0.75^(index-2)
       opacity = Math.max(0.05, Math.pow(0.6, selectionIndex - 2) * 0.9);
     }
 
-    // AI weight follows similar pattern but starts dropping earlier
     let aiWeight;
     if (selectionIndex === 0) {
       aiWeight = 1; // First selection full weight
@@ -74,7 +69,6 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
     } else if (selectionIndex === 2) {
       aiWeight = 0.6; // Third selection moderate
     } else {
-      // Rapid drop: 0.4 * 0.7^(index-3)
       aiWeight = Math.max(0.05, 0.4 * Math.pow(0.7, selectionIndex - 3));
     }
 
@@ -210,6 +204,13 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
             const selectedCount = isMultipleCategory 
               ? (selectedChips.multiple && selectedChips.multiple[category.id] || []).length 
               : 0;
+
+            // --- More Button Logic Start ---
+            const isExpanded = expandedCategories[category.id];
+            const maxVisible = 5;
+            const chipsToShow = isExpanded ? category.chips : category.chips.slice(0, maxVisible);
+            // --- More Button Logic End ---
+
             return (
               <div key={category.id} className="chip-category">
                 <div className="chip-category-label-wrapper">
@@ -255,7 +256,8 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                     role="group" 
                     aria-labelledby={`${category.id}-label`}
                   >
-                    {category.chips.map((chip) => {
+                    {/* --- More Button Logic Start --- */}
+                    {chipsToShow.map((chip) => {
                       let isSelected, selectionIndex, fadeProps;
                       
                       if (isMultipleCategory) {
@@ -288,6 +290,28 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                         </button>
                       );
                     })}
+                    {/* More/Show Less Button */}
+                    {category.chips.length > maxVisible && !isExpanded && (
+                      <button
+                        className="chip chip--more"
+                        type="button"
+                        onClick={() => toggleExpandCategory(category.id)}
+                        aria-label="Show more chips"
+                      >
+                        +{category.chips.length - maxVisible} more…
+                      </button>
+                    )}
+                    {category.chips.length > maxVisible && isExpanded && (
+                      <button
+                        className="chip chip--more"
+                        type="button"
+                        onClick={() => toggleExpandCategory(category.id)}
+                        aria-label="Show fewer chips"
+                      >
+                        Show less
+                      </button>
+                    )}
+                    {/* --- More Button Logic End --- */}
                   </div>
                 </div>
               </div>
@@ -296,4 +320,5 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         </div>
       </div>
     </div>
-  );}
+  );
+}

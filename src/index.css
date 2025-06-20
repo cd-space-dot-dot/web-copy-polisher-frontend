@@ -322,7 +322,7 @@ button:focus {
   max-width: 100vw;
   width: 100%;
   min-width: 1000px;
-  overflow-x: hidden; /* optional but can prevent horizontal scroll */
+  overflow-x: auto;
   box-sizing: border-box;
   margin: 0 auto;
 }
@@ -855,17 +855,20 @@ button:focus {
   }
   
   .chip-group-wrapper {
-    width: 100%;
-    max-width: calc(100vw - var(--space-8)); /* Account for app container padding */
-    overflow: hidden;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: auto !important; /* Allow scrolling */
+    overflow-y: visible;
   }
   
   .chip-group {
-    justify-content: flex-start;
-    padding-bottom: var(--space-2);
-    width: 100%;
-    max-width: 100%; /* Prevent overflow */
+    flex-wrap: nowrap;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    width: 100vw;        /* or min-width: max-content for full scroll */
+    max-width: 100vw;    /* let chips spill over for scrolling */
   }
+  
   
   .chip {
     font-size: var(--text-xs);
@@ -1420,7 +1423,7 @@ textarea {
     width: 100vw !important;
     max-width: 100vw !important;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-x: auto;
   }
 
   .container-base {
@@ -1565,7 +1568,7 @@ textarea {
     margin-top: var(--space-6);
     padding: var(--space-4) 0;
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: auto;
   }
   
   .footer-content {

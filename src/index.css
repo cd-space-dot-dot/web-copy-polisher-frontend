@@ -1449,9 +1449,14 @@ textarea {
   }
   
   .radio-group {
-    flex-direction: column;
+    flex-direction: row;     /* Not column! */
+    flex-wrap: wrap;         /* Allow multi-row wrap */
+    gap: var(--space-2);     /* Slightly tighter gap for mobile */
     align-items: stretch;
+    justify-content: flex-start;
+    width: 100%;
   }
+  
   
   .revision-item {
     grid-template-columns: 1fr;

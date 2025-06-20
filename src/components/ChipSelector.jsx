@@ -1,8 +1,9 @@
 // src/components/ChipSelector.jsx
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function ChipSelector({ selectedChips, onChipsChange }) {
+  const [expandedCategories, setExpandedCategories] = useState({});
   const chipGroupRefs = useRef({});
 
   // Define which categories allow multiple selections
@@ -193,6 +194,13 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
     }
   ];
   
+  const toggleExpandCategory = (categoryId) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryId]: !prev[categoryId]
+    }));
+  };
+
   return (
     <div className="chip-selector-wrapper">
       <div className="chip-selector-container">

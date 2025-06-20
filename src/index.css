@@ -693,6 +693,21 @@ button:focus {
   border-color: var(--primary-dark);
 }
 
+.chip--more {
+  background: var(--primary-bg);
+  border: 1px dashed var(--primary);
+  color: var(--primary-dark);
+  font-style: italic;
+  font-weight: 500;
+  min-width: 80px;
+  max-width: 100px;
+  cursor: pointer;
+}
+.chip--more:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-dark);
+}
+
 /* Scroll hint indicators */
 .chip-group-wrapper::after {
   content: "→";

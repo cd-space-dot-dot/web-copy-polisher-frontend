@@ -113,7 +113,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2024 Clear Convey. Made with care for better web writing.</p>
+        <p>&copy; 2025 Clear Convey. Made with care for better web writing.</p>
       </div>
     </footer>
   );

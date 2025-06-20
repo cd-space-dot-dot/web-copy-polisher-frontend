@@ -78,6 +78,9 @@ export default function Footer() {
               {getProtectedEmail()}
             </a>
           </p>
+          <p>
+            Made by Ruth 💛
+          </p>
         </div>
 
         <div className="footer-section">

@@ -141,7 +141,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         { value: "social-impact", label: "🌍 Social Impact" },
         { value: "business", label: "💼 Business" }
         { value: "sports", label: "⚽ Sports" },
-        { value: "sports", label: "🩻 Health" },
+        { value: "sports", label: "🩻 Health" }
       ]
     },
     {

@@ -1429,37 +1429,43 @@ textarea {
   }
 }
 
-/* Pro Tips Section - subtle easter egg styling */
+/* Pro Tips Section - no container, just floating content */
 .footer-tips {
-  padding: var(--space-5);
-  background: linear-gradient(135deg, 
-    rgba(131, 245, 229, 0.08) 0%, 
-    rgba(148, 220, 222, 0.06) 100%);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(131, 245, 229, 0.15);
-  border-radius: var(--radius-lg);
-  margin-bottom: var(--space-4);
+  padding: var(--space-5) 0; /* Only vertical padding */
+  background: transparent; /* No background at all */
+  border: none; /* No border */
+  border-radius: 0; /* No border radius */
+  margin-bottom: var(--space-6);
   opacity: 0.85;
   transition: var(--transition);
 }
 
 .footer-tips:hover {
   opacity: 1;
-  background: linear-gradient(135deg, 
-    rgba(131, 245, 229, 0.12) 0%, 
-    rgba(148, 220, 222, 0.08) 100%);
-  border-color: rgba(131, 245, 229, 0.25);
 }
 
 .tip-container {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-3);
-  background: transparent;
-  border-radius: 0;
-  border: none;
+  padding: var(--space-4) var(--space-6); /* Add horizontal padding here instead */
+  background: linear-gradient(135deg, 
+    rgba(131, 245, 229, 0.08) 0%, 
+    rgba(148, 220, 222, 0.06) 100%);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(131, 245, 229, 0.15);
+  border-radius: var(--radius-lg);
   border-left: 3px solid rgba(131, 245, 229, 0.4);
+  max-width: 1200px; /* Match other containers */
+  margin: 0 auto; /* Center it */
+  transition: var(--transition);
+}
+
+.tip-container:hover {
+  background: linear-gradient(135deg, 
+    rgba(131, 245, 229, 0.12) 0%, 
+    rgba(148, 220, 222, 0.08) 100%);
+  border-color: rgba(131, 245, 229, 0.25);
 }
 
 .tip-nav-btn {

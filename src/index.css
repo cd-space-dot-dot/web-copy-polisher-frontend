@@ -763,6 +763,12 @@ button:focus {
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
   line-height: 1.2;
+  width: 100%; /* Take full width of the label area */
+  max-width: 120px; /* Match the label wrapper width */
+  box-sizing: border-box; /* Include padding in width calculation */
+  word-wrap: break-word; /* Allow long words to break */
+  overflow-wrap: break-word; /* Better text wrapping */
+  hyphens: auto; /* Add hyphens for better breaking */
 }
 
 .tone-message--good {
@@ -830,12 +836,19 @@ button:focus {
   }
 
   .chip-category-label-wrapper {
-    position: static;
-    background: transparent;
-    backdrop-filter: none;
-    padding: 0;
-    min-width: auto;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    max-width: 120px; /* Add max-width to prevent expansion */
+    flex-shrink: 0;
+    position: sticky;
+    left: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    z-index: 2;
+    box-sizing: border-box; /* Include padding in width */
   }
   
   .chip-group-wrapper {
@@ -1401,21 +1414,11 @@ textarea {
 @media (max-width: 768px) {
   .app-container {
     padding: var(--space-3); /* Reduced from space-4 */
+    gap: var(--space-3);
+    min-width: auto; /* Allow responsive on mobile */
+    max-width: 100vw; /* Never exceed viewport */
     overflow-x: hidden; /* Prevent horizontal overflow */
-  }
-
-  @media (max-width: 768px) {
-
-    /* Force all potentially overflowing elements to respect boundaries */
-    .chip-selector-wrapper,
-    .chip-selector-container,
-    .chip-category,
-    .chip-group-wrapper,
-    .chip-group {
-      max-width: 100%;
-      overflow-x: auto;
-      box-sizing: border-box;
-    }
+    box-sizing: border-box;
   }
   
   .container-base {
@@ -1433,6 +1436,8 @@ textarea {
   
   .app-header {
     padding-top: var(--space-4);
+    max-width: calc(100vw - var(--space-6));
+    margin: 0 auto;
   }
   
   .action-row {
@@ -1464,6 +1469,12 @@ textarea {
   }
 
   /* Chip selector mobile fixes */
+  .chip-selector-container {
+    padding: var(--space-3);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
   .chip-category {
     flex-direction: column;
     gap: var(--space-2);
@@ -1471,6 +1482,7 @@ textarea {
   
   .chip-category-label {
     min-width: auto;
+    max-width: none; /* Remove width constraints on mobile */
     position: static;
     background: transparent;
     backdrop-filter: none;
@@ -1484,15 +1496,30 @@ textarea {
     backdrop-filter: none;
     padding: 0;
     min-width: auto;
+    max-width: none; /* Remove width constraints on mobile */
+    width: 100%;
   }
   
   .chip-group {
     justify-content: flex-start;
     padding-bottom: var(--space-2);
+    max-width: 100%;
+  }
+  
+  .chip-group-wrapper {
+    max-width: 100%;
+    overflow: hidden;
   }
   
   .chip-group-wrapper::after {
-    display: block;
+    display: none; /* Remove scroll indicators on mobile */
+  }
+
+  /* Form and content elements */
+  .draft-input,
+  .revised-text {
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .before-after {
@@ -1504,44 +1531,63 @@ textarea {
     gap: var(--space-2);
   }
 
+  /* Tone messages on mobile - remove width constraints */
+  .tone-message {
+    max-width: none;
+    width: auto;
+  }
+
   /* Pro Tips Mobile Fixes */
   .tip-container {
     flex-direction: column;
     gap: var(--space-3);
     text-align: center;
-    padding: var(--space-3) var(--space-4); /* Reduced padding on mobile */
-    margin: 0 var(--space-4); /* Add side margins so it doesn't touch screen edges */
-    max-width: calc(100vw - var(--space-8)); /* Ensure it never exceeds screen width */
+    padding: var(--space-3) var(--space-4);
+    margin: 0 var(--space-4);
+    max-width: calc(100vw - var(--space-8));
   }
   
   .tip-nav-btn {
     font-size: var(--text-base);
     padding: var(--space-1);
-    order: 1; /* Put navigation at bottom on mobile */
+    order: 1;
   }
   
   .tip-content {
-    order: 0; /* Put content at top on mobile */
+    order: 0;
   }
 
-  /* Footer Mobile Fixes - this was causing the expansion issue */
+  /* Footer Mobile Fixes */
   .app-footer {
-    margin-top: var(--space-6); /* Reduced margin */
-    padding: var(--space-4) 0; /* Reduced padding */
+    margin-top: var(--space-6);
+    padding: var(--space-4) 0;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
   
   .footer-content {
     grid-template-columns: 1fr;
     gap: var(--space-4);
-    padding: 0 var(--space-4); /* Add horizontal padding, contained within screen */
-    max-width: calc(100vw - var(--space-8)); /* Prevent footer from expanding beyond screen */
+    padding: 0 var(--space-4);
+    max-width: calc(100vw - var(--space-8));
     margin: 0 auto;
+    box-sizing: border-box;
   }
   
   .footer-bottom {
     padding: var(--space-3) var(--space-4);
-    max-width: calc(100vw - var(--space-8)); /* Same constraint as footer content */
+    max-width: calc(100vw - var(--space-8));
     margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  /* Force all potentially overflowing elements to respect boundaries */
+  .chip-selector-wrapper,
+  .chip-selector,
+  .card-content,
+  .card-header {
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   /* Ensure all containers respect mobile boundaries */
@@ -1549,6 +1595,6 @@ textarea {
   .tip-container,
   .footer-content,
   .footer-bottom {
-    box-sizing: border-box; /* Include padding in width calculations */
+    box-sizing: border-box;
   }
 }

@@ -20,37 +20,35 @@ export function ProTipsSection() {
 
   return (
     <section className="section">
-      <div className="container-base">
-        <div className="footer-tips">
-          <div className="tip-container">
-            <button 
-              className="tip-nav-btn tip-nav-prev"
-              onClick={prevTip}
-              aria-label="Previous tip"
+    <div className="footer-tips">
+        <div className="tip-container">
+        <button 
+            className="tip-nav-btn tip-nav-prev"
+            onClick={prevTip}
+            aria-label="Previous tip"
+        >
+            ‹
+        </button>
+        
+        <div className="tip-content">
+            <strong>Hot tip:</strong> {currentTip.snippet}{" "}
+            <a 
+            href={currentTip.url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="tip-source"
             >
-              ‹
-            </button>
-            
-            <div className="tip-content">
-              <strong>Hot tip:</strong> {currentTip.snippet}{" "}
-              <a 
-                href={currentTip.url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="tip-source"
-              >
-                {currentTip.article_title}
-              </a>
-            </div>
-            
-            <button 
-              className="tip-nav-btn tip-nav-next"
-              onClick={nextTip}
-              aria-label="Next tip"
-            >
-              ›
-            </button>
-          </div>
+            {currentTip.article_title}
+            </a>
+        </div>
+        
+        <button 
+            className="tip-nav-btn tip-nav-next"
+            onClick={nextTip}
+            aria-label="Next tip"
+        >
+            ›
+        </button>
         </div>
       </div>
     </section>

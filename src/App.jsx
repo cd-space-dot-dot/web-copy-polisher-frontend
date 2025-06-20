@@ -10,6 +10,7 @@ import RevisionHistory from "./components/RevisionHistory";
 import MeshGradientLoader from "./components/MeshGradientLoader";
 import ChipSelector from "./components/ChipSelector";
 import SmartContentDetector from "./components/SmartContentDetector";
+import Footer from "./components/Footer";
 
 export default function App() {
   const [input, setInput] = useState("");
@@ -398,12 +399,15 @@ const calculateChipWeights = (chipState) => {
   
       {/* Scroll to top button */}
       <button 
-        className={`scroll-to-top${showScrollButton ? '' : ' hidden'}`}
-        onClick={scrollToTop}
-        aria-label="Scroll to top"
-      >
-        ⬆️
-      </button>
+              className={`scroll-to-top${showScrollButton ? '' : ' hidden'}`}
+              onClick={scrollToTop}
+              aria-label="Scroll to top"
+            >
+              ⬆️
+            </button>
+
+            {/* Add Footer here */}
+            <Footer />
     </div>
   );
 }

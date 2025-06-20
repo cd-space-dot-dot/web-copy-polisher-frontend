@@ -140,7 +140,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
     },
     {
       id: "industry",
-      label: "Industry Vibe",
+      label: "Industry",
       chips: [
         { value: "ecommerce", label: "🛒 E-comm" },
         { value: "social-impact", label: "🌍 Impact" },
@@ -183,7 +183,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
     },
     {
       id: "generation",
-      label: "Sounds like",
+      label: "Vibe",
       chips: [
         { value: "boomer", label: "Baby Boomer" },
         { value: "genx", label: "Gen X" },
@@ -210,9 +210,29 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                   <span className="selection-count">
                     {selectedCount} selected
                   </span>
-                  {selectedCount > 3 && (
-                    <span className="fade-indicator">
-                      ✨ fading influence
+                  {selectedCount === 2 && (
+                    <span className="tone-message tone-message--good">
+                      Nice mix of tones!
+                    </span>
+                  )}
+                  {selectedCount >= 3 && selectedCount <= 4 && (
+                    <span className="tone-message tone-message--ok">
+                      Good variety
+                    </span>
+                  )}
+                  {selectedCount === 5 && (
+                    <span className="tone-message tone-message--warning">
+                      That's a lot...
+                    </span>
+                  )}
+                  {selectedCount >= 6 && selectedCount <= 7 && (
+                    <span className="tone-message tone-message--warning">
+                      Choose fewer tones for best results
+                    </span>
+                  )}
+                  {selectedCount >= 8 && (
+                    <span className="tone-message tone-message--error">
+                      Way too many! Pick your favorites
                     </span>
                   )}
                 </div>
@@ -247,8 +267,8 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                       onClick={() => handleChipClick(category.id, chip.value)}
                       aria-pressed={isSelected}
                       style={isSelected ? {
-                        opacity: fadeProps.opacity,
-                        transition: 'opacity 0.3s ease-out'
+                        '--fade-opacity': fadeProps.opacity,
+                        transition: 'all 0.3s ease-out'
                       } : {}}
                       data-ai-weight={isSelected ? fadeProps.aiWeight : 0}
                       title={isSelected && isMultipleCategory ? 

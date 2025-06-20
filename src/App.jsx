@@ -88,11 +88,54 @@ const calculateChipWeights = (chipState) => {
   async function handleSubmit() {
     if (!input.trim()) return;
     setLoading(true);
+    
+    // Helper function to calculate AI weights for chip selections
+    const calculateChipWeights = (chipState) => {
+      const MULTIPLE_SELECTION_CATEGORIES = ['tone'];
+      const result = {};
+  
+      // Handle single selections (full weight)
+      if (chipState.single) {
+        Object.entries(chipState.single).forEach(([category, value]) => {
+          if (value) {
+            result[category] = { value, weight: 1 };
+          }
+        });
+      }
+  
+      // Handle multiple selections with exponential weights
+      if (chipState.multiple) {
+        Object.entries(chipState.multiple).forEach(([category, selections]) => {
+          if (selections && selections.length > 0) {
+            result[category] = selections.map((value, index) => {
+              // Same exponential formula as ChipSelector
+              let weight;
+              if (index === 0) {
+                weight = 1; // First selection full weight
+              } else if (index === 1) {
+                weight = 0.8; // Second selection strong
+              } else if (index === 2) {
+                weight = 0.6; // Third selection moderate
+              } else {
+                // Rapid drop: 0.4 * 0.7^(index-3)
+                weight = Math.max(0.05, 0.4 * Math.pow(0.7, index - 3));
+              }
+              
+              return { value, weight: Math.round(weight * 100) / 100 }; // Round to 2 decimal places
+            });
+          }
+        });
+      }
+  
+      return result;
+    };
+  
     try {
+      const chipWeights = calculateChipWeights(selectedChips);
+      
       const response = await fetch(`${import.meta.env.VITE_API_URL}/revise`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        const: chipWeights = calculateChipWeights(selectedChips),
         body: JSON.stringify({ 
           text: input, 
           contentType, 
@@ -104,6 +147,7 @@ const calculateChipWeights = (chipState) => {
           chipWeights: chipWeights
         })
       });
+      
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
       setOutput(data.revised);
@@ -127,11 +171,52 @@ const calculateChipWeights = (chipState) => {
     if (!input.trim()) return;
     
     setLoading(true);
+    
+    // Helper function to calculate AI weights for chip selections
+    const calculateChipWeights = (chipState) => {
+      const MULTIPLE_SELECTION_CATEGORIES = ['tone'];
+      const result = {};
+  
+      // Handle single selections (full weight)
+      if (chipState.single) {
+        Object.entries(chipState.single).forEach(([category, value]) => {
+          if (value) {
+            result[category] = { value, weight: 1 };
+          }
+        });
+      }
+  
+      // Handle multiple selections with exponential weights
+      if (chipState.multiple) {
+        Object.entries(chipState.multiple).forEach(([category, selections]) => {
+          if (selections && selections.length > 0) {
+            result[category] = selections.map((value, index) => {
+              let weight;
+              if (index === 0) {
+                weight = 1;
+              } else if (index === 1) {
+                weight = 0.8;
+              } else if (index === 2) {
+                weight = 0.6;
+              } else {
+                weight = Math.max(0.05, 0.4 * Math.pow(0.7, index - 3));
+              }
+              
+              return { value, weight: Math.round(weight * 100) / 100 };
+            });
+          }
+        });
+      }
+  
+      return result;
+    };
+    
     try {
+      const chipWeights = calculateChipWeights(selectedChips);
+      
       const response = await fetch(`${import.meta.env.VITE_API_URL}/revise`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        const: chipWeights = calculateChipWeights(selectedChips),
         body: JSON.stringify({ 
           text: input, 
           contentType, 

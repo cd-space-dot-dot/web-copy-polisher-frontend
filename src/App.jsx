@@ -215,11 +215,6 @@ const calculateChipWeights = (chipState) => {
               selectedType={contentType}
               onTypeChange={setContentType}
             />
-            <SmartContentDetector 
-              input={input}
-              currentType={contentType}
-              onTypeDetected={setContentType}
-            />
           </div>
         </div>
       </section>

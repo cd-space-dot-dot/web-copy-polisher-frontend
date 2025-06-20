@@ -237,12 +237,12 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                       )}
                       {selectedCount >= 6 && selectedCount <= 7 && (
                         <span className="tone-message tone-message--warning">
-                          Choose fewer tones for best results
+                          Fewer tones = better results
                         </span>
                       )}
                       {selectedCount >= 8 && (
                         <span className="tone-message tone-message--error">
-                          Way too many! Pick your favorites
+                          Way too many! Pick your favs
                         </span>
                       )}
                     </div>

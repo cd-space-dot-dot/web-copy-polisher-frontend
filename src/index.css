@@ -1581,7 +1581,7 @@ textarea {
     box-sizing: border-box;
   }
 
-  /* Force all potentially overflowing elements to respect boundaries */
+  /* Force all potentially overflowing elements to respect boundaries! */
   .chip-selector-wrapper,
   .chip-selector,
   .card-content,

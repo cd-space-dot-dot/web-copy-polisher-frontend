@@ -642,17 +642,15 @@ button:focus {
 
 .chip-group {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;     /* <-- allow wrapping! */
   gap: var(--space-2);
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow-x: visible; /* <-- disables horizontal scrolling */
+  overflow-y: visible;
   padding: var(--space-1) 0;
   scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-  width: 100%; /* Explicit width */
+  justify-content: flex-start;
 }
+
 
 .chip-group::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
@@ -670,7 +668,10 @@ button:focus {
   transition: var(--transition);
   white-space: nowrap;
   flex-shrink: 0;
-  min-width: fit-content; /* Allow natural sizing */
+  flex: 0 1 auto;        /* Prevents full-width stretch */
+  min-width: 90px;       /* Tappable but compact */
+  max-width: 46vw;       /* Not too wide for mobile */
+  text-align: center;
 }
 
 .chip:hover {
@@ -867,7 +868,7 @@ button:focus {
     justify-content: flex-start;       /* Align chips to the left */
     gap: var(--space-2);               /* Your existing gap variable */
   }
-  
+
   .chip {
     min-width: 80px;      /* Or whatever looks best; 44px is a11y minimum */
     max-width: 48vw;      /* Prevent any single chip from stretching too wide */

@@ -542,6 +542,7 @@ button:focus {
 /* ======= CHIPS SELECTOR COMPONENT ======= */
 .chip-selector-wrapper {
   width: 100%;
+  overflow: hidden; /* Prevent any overflow */
 }
 
 .chip-selector-container {
@@ -550,6 +551,7 @@ button:focus {
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: var(--radius);
   border: 1px solid var(--border-light);
+  overflow: hidden; /* Contain all children */
 }
 
 .chip-selector {
@@ -557,6 +559,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  width: 100%; /* Explicit width */
 }
 
 .chip-category {
@@ -566,6 +569,8 @@ button:focus {
   gap: var(--space-4);
   margin-bottom: var(--space-4);
   position: relative;
+  width: 100%; /* Explicit width */
+  overflow: hidden; /* Prevent category overflow */
 }
 
 .chip-category-label {
@@ -625,20 +630,11 @@ button:focus {
   border: 1px solid rgba(255, 107, 107, 0.2);
 }
 
-@media (max-width: 768px) {
-  .chip-category-label-wrapper {
-    position: static;
-    background: transparent;
-    backdrop-filter: none;
-    padding: 0;
-    min-width: auto;
-  }
-}
-
 .chip-group-wrapper {
   flex: 1;
   position: relative;
   overflow: hidden;
+  max-width: calc(100vw - 200px); /* Ensure it never exceeds screen */
 }
 
 .chip-group {
@@ -652,6 +648,7 @@ button:focus {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
+  width: 100%; /* Explicit width */
 }
 
 .chip-group::-webkit-scrollbar {
@@ -670,6 +667,7 @@ button:focus {
   transition: var(--transition);
   white-space: nowrap;
   flex-shrink: 0;
+  min-width: fit-content; /* Allow natural sizing */
 }
 
 .chip:hover {
@@ -810,9 +808,16 @@ button:focus {
 
 /* Mobile: Stack vertically, keep horizontal scrolling for chips */
 @media (max-width: 768px) {
+  .chip-selector-container {
+    padding: var(--space-3); /* Reduced padding */
+    margin: 0 var(--space-2); /* Add side margins */
+  }
+  
   .chip-category {
     flex-direction: column;
     gap: var(--space-2);
+    width: 100%;
+    overflow: visible; /* Allow category to flow naturally */
   }
   
   .chip-category-label {
@@ -823,14 +828,37 @@ button:focus {
     padding: 0;
     margin-bottom: var(--space-1);
   }
+
+  .chip-category-label-wrapper {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    padding: 0;
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .chip-group-wrapper {
+    width: 100%;
+    max-width: calc(100vw - var(--space-8)); /* Account for app container padding */
+    overflow: hidden;
+  }
   
   .chip-group {
     justify-content: flex-start;
     padding-bottom: var(--space-2);
+    width: 100%;
+    max-width: 100%; /* Prevent overflow */
   }
   
+  .chip {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-2); /* Slightly smaller on mobile */
+  }
+  
+  /* Remove scroll indicators on mobile since they can cause issues */
   .chip-group-wrapper::after {
-    display: block;
+    display: none;
   }
 }
 
@@ -1372,14 +1400,31 @@ textarea {
 /* ======= RESPONSIVE DESIGN ======= */
 @media (max-width: 768px) {
   .app-container {
-    padding: var(--space-4);
-    gap: var(--space-4);
-    min-width: auto; /* Allow responsive on mobile */
+    padding: var(--space-3); /* Reduced from space-4 */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+  }
+
+  @media (max-width: 768px) {
+
+    /* Force all potentially overflowing elements to respect boundaries */
+    .chip-selector-wrapper,
+    .chip-selector-container,
+    .chip-category,
+    .chip-group-wrapper,
+    .chip-group {
+      max-width: 100%;
+      overflow-x: auto;
+      box-sizing: border-box;
+    }
   }
   
   .container-base {
-    min-width: auto; /* Allow responsive on mobile */
-    padding: var(--space-4); /* Reduced padding on mobile */
+    padding: var(--space-3); /* Reduced padding */
+    margin: 0 auto;
+    width: calc(100vw - var(--space-6)); /* Explicit width calculation */
+    max-width: calc(100vw - var(--space-6));
+    min-width: auto;
+    box-sizing: border-box;
   }
   
   .app-header h1 {

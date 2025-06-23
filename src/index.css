@@ -583,8 +583,11 @@ button:focus {
   margin-bottom: var(--space-4);
   position: relative;
   width: 100%;
-  overflow: visible; /* ✅ fixes chip clipping on desktop */
+  max-width: 100%;
+  flex-wrap: wrap; /* ✅ critical fix */
+  overflow: visible; /* ✅ allow chips to wrap, not vanish */
 }
+
 
 .chip-category-label {
   font-family: var(--font-ui);

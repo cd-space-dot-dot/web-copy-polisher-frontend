@@ -19,11 +19,11 @@ export default function SimilaritySlider({ value, onChange }) {
   return (
     <div className="similarity-slider-container">
       <div className="slider-description">
-        <small>How different should it be?</small>
+        How different should it be?
       </div>
       <div className="slider-wrapper">
         {!isMobile && (
-          <span className="slider-label-left">More similar</span>
+          <small>More similar</small>
         )}
         <input
           type="range"

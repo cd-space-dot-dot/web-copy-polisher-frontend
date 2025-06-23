@@ -198,6 +198,9 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
 
   return (
     <div className="chip-selector-wrapper">
+        <div className="chip-selector-description">
+            <h3>What tone should it have?</h3>
+        </div>
       <div className="chip-selector-container">
         <div className="chip-selector">
           {chipCategories.map((category) => {
@@ -248,10 +251,6 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                       )}
                     </div>
                   )}
-                </div>
-
-                <div className="chip-selector-description">
-                    <h3>What tone should it have?</h3>
                 </div>
 
                 <div className="chip-group-wrapper">

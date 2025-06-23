@@ -10,7 +10,6 @@ export default function SimilaritySlider({ value, onChange }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Set initial value and add resize listener
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -23,7 +22,9 @@ export default function SimilaritySlider({ value, onChange }) {
         <small>How different should it be?</small>
       </div>
       <div className="slider-wrapper">
-        <span className="slider-label-left">More similar</span>
+        {!isMobile && (
+          <span className="slider-label-left">More similar</span>
+        )}
         <input
           type="range"
           className="similarity-slider"
@@ -33,10 +34,12 @@ export default function SimilaritySlider({ value, onChange }) {
           onChange={e => onChange(Number(e.target.value))}
           aria-label="Similarity"
         />
-        <span className="slider-label-right">More different</span>
+        {!isMobile && (
+          <span className="slider-label-right">More different</span>
+        )}
       </div>
       <div className="slider-value">
-        {isMobile ? getSimilarityLabel(value) : `${value}%`}
+        {isMobile ? <b>{getSimilarityLabel(value)}</b> : `${value}%`}
       </div>
     </div>
   );

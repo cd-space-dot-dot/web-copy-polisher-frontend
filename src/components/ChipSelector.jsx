@@ -33,26 +33,6 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         }
       });
     };
-  
-    // Check on mount and resize
-    checkScrollability();
-    window.addEventListener('resize', checkScrollability);
-    
-    // Add scroll listeners to each chip group
-    Object.values(chipGroupRefs.current).forEach(chipGroup => {
-      if (chipGroup) {
-        chipGroup.addEventListener('scroll', checkScrollability);
-      }
-    });
-  
-    return () => {
-      window.removeEventListener('resize', checkScrollability);
-      Object.values(chipGroupRefs.current).forEach(chipGroup => {
-        if (chipGroup) {
-          chipGroup.removeEventListener('scroll', checkScrollability);
-        }
-      });
-    };
 
     // Check on mount and resize
     checkScrollability();
@@ -170,7 +150,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         { value: "social-impact", label: "🌍 Social Impact" },
         { value: "business", label: "💼 Business" },
         { value: "sports", label: "⚽ Sports" },
-        { value: "sports", label: "🩻 Health" }
+        { value: "health", label: "🩻 Health" }
       ]
     },
     {

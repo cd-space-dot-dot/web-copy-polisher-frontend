@@ -209,7 +209,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
     <div className="chip-selector-wrapper">
       <div className="chip-selector-container">
         <div className="chip-selector-description">
-            <h3>What tone should it have?</h3>
+            <h3>How should it sound?</h3>
         </div>
         <div className="chip-selector">
           {chipCategories.map((category) => {

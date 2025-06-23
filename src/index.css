@@ -582,8 +582,8 @@ button:focus {
   gap: var(--space-4);
   margin-bottom: var(--space-4);
   position: relative;
-  width: 100%; /* Explicit width */
-  overflow: hidden; /* Prevent category overflow */
+  width: 100%;
+  overflow: visible; /* ✅ fixes chip clipping on desktop */
 }
 
 .chip-category-label {

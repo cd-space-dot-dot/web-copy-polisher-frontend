@@ -16,11 +16,40 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         const wrapper = chipGroup?.parentElement;
         
         if (chipGroup && wrapper) {
-          const hasOverflow = chipGroup.scrollWidth > chipGroup.clientWidth;
-          const isScrolledToEnd = chipGroup.scrollLeft >= (chipGroup.scrollWidth - chipGroup.clientWidth - 5);
+          // Check if we're in a wrapping mode (large desktop)
+          const isLargeDesktop = window.innerWidth >= 1200;
           
-          wrapper.classList.toggle('has-overflow', hasOverflow);
-          wrapper.classList.toggle('scrolled-end', isScrolledToEnd);
+          if (isLargeDesktop) {
+            // On large desktop, chips wrap so no scroll indicators needed
+            wrapper.classList.remove('has-overflow', 'scrolled-end');
+          } else {
+            // On mobile/medium desktop, check for horizontal overflow
+            const hasOverflow = chipGroup.scrollWidth > chipGroup.clientWidth;
+            const isScrolledToEnd = chipGroup.scrollLeft >= (chipGroup.scrollWidth - chipGroup.clientWidth - 5);
+            
+            wrapper.classList.toggle('has-overflow', hasOverflow);
+            wrapper.classList.toggle('scrolled-end', isScrolledToEnd);
+          }
+        }
+      });
+    };
+  
+    // Check on mount and resize
+    checkScrollability();
+    window.addEventListener('resize', checkScrollability);
+    
+    // Add scroll listeners to each chip group
+    Object.values(chipGroupRefs.current).forEach(chipGroup => {
+      if (chipGroup) {
+        chipGroup.addEventListener('scroll', checkScrollability);
+      }
+    });
+  
+    return () => {
+      window.removeEventListener('resize', checkScrollability);
+      Object.values(chipGroupRefs.current).forEach(chipGroup => {
+        if (chipGroup) {
+          chipGroup.removeEventListener('scroll', checkScrollability);
         }
       });
     };

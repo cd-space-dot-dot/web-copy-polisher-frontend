@@ -214,6 +214,9 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
 
             return (
               <div key={category.id} className="chip-category">
+                <div className="chip-selector-description">
+                  <h3>What tone should it have?</h3>
+                </div>
                 <div className="chip-category-label-wrapper">
                   <label className="chip-category-label">{category.label}</label>
                   {isMultipleCategory && selectedCount > 0 && (

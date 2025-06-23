@@ -548,6 +548,12 @@ button:focus {
   overflow: hidden; /* Prevent any overflow */
 }
 
+.chip-selector-description {
+  text-align: center;
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
 .chip-selector-container {
   width: 100%;
   padding: var(--space-4);

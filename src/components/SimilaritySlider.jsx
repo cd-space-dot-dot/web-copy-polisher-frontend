@@ -1,8 +1,22 @@
-// src/components/SimilaritySlider.jsx
+import React, { useState, useEffect } from "react";
 
-import React from "react";
+function getSimilarityLabel(value) {
+  if (value <= 33) return "Very similar";
+  if (value <= 66) return "Some changes";
+  return "Very different";
+}
 
 export default function SimilaritySlider({ value, onChange }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Set initial value and add resize listener
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <div className="similarity-slider-container">
       <div className="slider-description">
@@ -22,7 +36,7 @@ export default function SimilaritySlider({ value, onChange }) {
         <span className="slider-label-right">More different</span>
       </div>
       <div className="slider-value">
-        {value}%
+        {isMobile ? getSimilarityLabel(value) : `${value}%`}
       </div>
     </div>
   );

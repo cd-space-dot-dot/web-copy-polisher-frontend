@@ -216,9 +216,6 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
               <div key={category.id} className="chip-category">
                 <div className="chip-category-label-wrapper">
                   <label className="chip-category-label">{category.label}</label>
-                  <div className="chip-selector-description">
-                    <h3>What tone should it have?</h3>
-                  </div>
                   {isMultipleCategory && selectedCount > 0 && (
                     <div className="selection-counter">
                       <span className="selection-count">
@@ -252,7 +249,11 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                     </div>
                   )}
                 </div>
-                
+
+                <div className="chip-selector-description">
+                    <h3>What tone should it have?</h3>
+                </div>
+
                 <div className="chip-group-wrapper">
                   <div 
                     ref={el => chipGroupRefs.current[category.id] = el}

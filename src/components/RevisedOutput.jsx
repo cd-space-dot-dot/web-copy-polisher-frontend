@@ -42,7 +42,7 @@ export default function RevisedOutput({
 
   return (
     <>
-      <h3>✨ Polished Copy</h3>
+      <h3>✨ Polished Writing</h3>
       <div className="revised-text">{output}</div>
       
       {metadata && (

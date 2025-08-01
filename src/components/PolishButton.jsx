@@ -16,7 +16,7 @@ export default function PolishButton({
       // This is the "Polish Again" button
       onPolishAgain();
     } else {
-      // This is the regular "Polish My Copy" button
+      // This is the regular "Polish My Writing" button
       handleSubmit();
     }
   };
@@ -28,7 +28,7 @@ export default function PolishButton({
     if (label) {
       return label;
     }
-    return variant === "secondary" ? "✨ Polish Again!" : "✨ Polish My Copy";
+    return variant === "secondary" ? "✨ Polish Again!" : "✨ Polish My Writing";
   };
 
   const getButtonClass = () => {

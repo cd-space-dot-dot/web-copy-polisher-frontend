@@ -338,8 +338,8 @@ const calculateChipWeights = (chipState) => {
             />
           ) : (
             <div className="output-placeholder">
-              <h3>✨ Your polished copy will appear here</h3>
-              <p>Add your text and click "Polish My Copy" above!</p>
+              <h3>✨ Your polished writing will appear here</h3>
+              <p>Add your text and click "Polish My Writing" above!</p>
               {input.length === 0 && (
                 <div className="scroll-up-hint" onClick={scrollToTop}>
                   ⬆️ Add your text first

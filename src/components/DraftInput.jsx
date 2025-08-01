@@ -8,7 +8,7 @@ export default function DraftInput({ input, setInput }) {
       className="draft-input"
       value={input}
       onChange={e => setInput(e.target.value)}
-      placeholder="Paste or write your copy here..."
+      placeholder="Paste or type your writing here..."
       rows={7}
       aria-label="Draft text input"
     />

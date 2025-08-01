@@ -7,6 +7,7 @@ export default function ContentTypeSelector({ selectedType, onTypeChange }) {
     { value: "webpage", label: "Web Page" },
     { value: "social", label: "Social Media" },
     { value: "blog", label: "Blog Post" },
+    { value: "slack", label: "Slack" },
     { value: "email", label: "Email" },
     { value: "other", label: "Other" },
   ];

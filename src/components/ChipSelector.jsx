@@ -136,10 +136,11 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       id: "platform",
       label: "Adapt it for", 
       chips: [
-        { value: "social", label: "📱 Social" },
-        { value: "email", label: "📧 Email" },
         { value: "webpage", label: "🌐 Web Page" },
-        { value: "blog", label: "📝 Blog" }
+        { value: "social", label: "📱 Social" },
+        { value: "blog", label: "📝 Blog" },
+        { value: "slack", label: "#️⃣ Slack" },
+        { value: "email", label: "📧 Email" },
       ]
     },
     {

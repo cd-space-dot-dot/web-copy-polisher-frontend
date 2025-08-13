@@ -24,8 +24,15 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [revisions, setRevisions] = useState([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
-  const [threadId, setThreadId] = useState(null);
-  const [sessionHistory, setSessionHistory] = useState([]);
+  const [threadId, setThreadId] = useState(() => {
+    // Initialize threadId from localStorage if available
+    return localStorage.getItem('clearConveyThreadId') || null;
+  });
+  const [sessionHistory, setSessionHistory] = useState(() => {
+    // Initialize session history from localStorage if available
+    const saved = localStorage.getItem('clearConveySessionHistory');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [selectedChips, setSelectedChips] = useState({
     single: {}, // { length: "longer", platform: "social", industry: "business", generation: "millennial" }
     multiple: {} // { tone: ["professional", "friendly"] }
@@ -36,6 +43,24 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Save threadId to localStorage whenever it changes
+  useEffect(() => {
+    if (threadId) {
+      localStorage.setItem('clearConveyThreadId', threadId);
+    } else {
+      localStorage.removeItem('clearConveyThreadId');
+    }
+  }, [threadId]);
+
+  // Save session history to localStorage whenever it changes
+  useEffect(() => {
+    if (sessionHistory.length > 0) {
+      localStorage.setItem('clearConveySessionHistory', JSON.stringify(sessionHistory));
+    } else {
+      localStorage.removeItem('clearConveySessionHistory');
+    }
+  }, [sessionHistory]);
 
   // Debug helper for chips - remove this later
   useEffect(() => {
@@ -349,6 +374,13 @@ const calculateChipWeights = (chipState) => {
     scrollToTop();
   };
 
+  const clearSession = () => {
+    setThreadId(null);
+    setSessionHistory([]);
+    localStorage.removeItem('clearConveyThreadId');
+    localStorage.removeItem('clearConveySessionHistory');
+  };
+
   return (
     <div className="app-container">
       <header className="app-header">
@@ -454,6 +486,7 @@ const calculateChipWeights = (chipState) => {
             <SessionHistory 
               history={sessionHistory}
               threadId={threadId}
+              onClearSession={clearSession}
             />
           </div>
         </section>

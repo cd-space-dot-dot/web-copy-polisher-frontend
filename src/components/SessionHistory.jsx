@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function SessionHistory({ history, threadId }) {
+export default function SessionHistory({ history, threadId, onClearSession }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!history || history.length === 0) {
@@ -14,181 +14,107 @@ export default function SessionHistory({ history, threadId }) {
     });
   };
 
+  // Build version structure - original input + progressive outputs
+  const buildVersions = (history) => {
+    if (history.length === 0) return [];
+    
+    const versions = [];
+    const originalInput = history[0].inputText;
+    
+    // Add original version
+    versions.push({
+      type: 'original',
+      content: originalInput,
+      timestamp: history[0].timestamp,
+      metadata: {
+        contentType: history[0].contentType,
+        socialPlatform: history[0].socialPlatform,
+        similarity: history[0].similarity
+      }
+    });
+    
+    // Add each output version
+    history.forEach((entry, index) => {
+      versions.push({
+        type: 'version',
+        versionNumber: index + 1,
+        content: entry.outputText,
+        timestamp: entry.timestamp,
+        requestType: entry.requestType,
+        metadata: {
+          contentType: entry.contentType,
+          socialPlatform: entry.socialPlatform,
+          similarity: entry.similarity
+        }
+      });
+    });
+    
+    return versions;
+  };
+
+  const versions = buildVersions(history);
+
   return (
-    <div className="session-history">
-      <div className="session-history-header" onClick={() => setIsExpanded(!isExpanded)}>
-        <h3>📋 Session History ({history.length} {history.length === 1 ? 'revision' : 'revisions'})</h3>
+    <>
+      <div className="session-header" onClick={() => setIsExpanded(!isExpanded)}>
+        <h3>📋 Session History ({history.length} {history.length === 1 ? 'version' : 'versions'})</h3>
         <span className="toggle-icon">{isExpanded ? '▼' : '▶'}</span>
       </div>
       
       {isExpanded && (
-        <div className="session-history-content">
+        <div className="session-content">
           {threadId && (
             <div className="thread-info">
-              <small>Thread ID: {threadId}</small>
+              <span>Thread ID: {threadId}</span>
+              {onClearSession && (
+                <button 
+                  className="btn-outline btn-sm" 
+                  onClick={onClearSession}
+                  style={{ marginLeft: 'auto', fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
+                >
+                  🗑️ Clear Session
+                </button>
+              )}
             </div>
           )}
           
-          <div className="history-list">
-            {history.map((entry, index) => (
-              <div key={index} className="history-entry">
-                <div className="history-entry-header">
-                  <span className="entry-number">#{index + 1}</span>
-                  <span className="entry-time">{formatTime(entry.timestamp)}</span>
-                  <span className="entry-type">{entry.requestType}</span>
+          <div className="version-list">
+            {versions.map((version, index) => (
+              <div key={index} className={`version-entry ${version.type}`}>
+                <div className="version-header">
+                  {version.type === 'original' ? (
+                    <div className="version-label">
+                      <span className="version-badge original">Original</span>
+                      <span className="version-time">{formatTime(version.timestamp)}</span>
+                    </div>
+                  ) : (
+                    <div className="version-label">
+                      <span className="version-badge version">Version {version.versionNumber}</span>
+                      <span className="version-time">{formatTime(version.timestamp)}</span>
+                      <span className="request-type">
+                        {version.requestType === 'initial' ? 'First submission' : 'Refinement'}
+                        {version.requestType !== 'initial' && version.versionNumber > 1 && (
+                          <span className="refinement-note">from v{version.versionNumber - 1}</span>
+                        )}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 
-                <div className="history-entry-content">
-                  <div className="history-input">
-                    <strong>Input:</strong>
-                    <p>{entry.inputText}</p>
-                  </div>
-                  
-                  <div className="history-output">
-                    <strong>Output:</strong>
-                    <p>{entry.outputText}</p>
-                  </div>
-                  
-                  <div className="history-meta">
-                    <span>Type: {entry.contentType}</span>
-                    {entry.socialPlatform && <span>Platform: {entry.socialPlatform}</span>}
-                    <span>Similarity: {entry.similarity}%</span>
-                  </div>
+                <div className="version-content">
+                  <p>{version.content}</p>
+                </div>
+                
+                <div className="version-meta">
+                  <span>Type: {version.metadata.contentType}</span>
+                  {version.metadata.socialPlatform && <span>Platform: {version.metadata.socialPlatform}</span>}
+                  <span>Similarity: {version.metadata.similarity}%</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
-      
-      <style jsx>{`
-        .session-history {
-          background: #f8f9fa;
-          border-radius: 8px;
-          padding: 1rem;
-          margin: 1rem 0;
-        }
-        
-        .session-history-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          cursor: pointer;
-          user-select: none;
-        }
-        
-        .session-history-header h3 {
-          margin: 0;
-          color: #333;
-          font-size: 1.1rem;
-        }
-        
-        .toggle-icon {
-          color: #666;
-          font-size: 0.9rem;
-        }
-        
-        .session-history-content {
-          margin-top: 1rem;
-        }
-        
-        .thread-info {
-          background: #e9ecef;
-          padding: 0.5rem;
-          border-radius: 4px;
-          margin-bottom: 1rem;
-        }
-        
-        .thread-info small {
-          color: #666;
-          font-family: monospace;
-        }
-        
-        .history-list {
-          max-height: 400px;
-          overflow-y: auto;
-        }
-        
-        .history-entry {
-          background: white;
-          border-radius: 6px;
-          padding: 1rem;
-          margin-bottom: 0.75rem;
-          border-left: 3px solid #007bff;
-        }
-        
-        .history-entry-header {
-          display: flex;
-          gap: 1rem;
-          align-items: center;
-          margin-bottom: 0.75rem;
-          font-size: 0.9rem;
-        }
-        
-        .entry-number {
-          background: #007bff;
-          color: white;
-          padding: 2px 6px;
-          border-radius: 12px;
-          font-size: 0.8rem;
-          font-weight: bold;
-        }
-        
-        .entry-time {
-          color: #666;
-        }
-        
-        .entry-type {
-          background: #28a745;
-          color: white;
-          padding: 2px 8px;
-          border-radius: 12px;
-          font-size: 0.8rem;
-          text-transform: capitalize;
-        }
-        
-        .history-entry-content > div {
-          margin-bottom: 0.75rem;
-        }
-        
-        .history-input strong,
-        .history-output strong {
-          display: block;
-          color: #333;
-          margin-bottom: 0.25rem;
-          font-size: 0.9rem;
-        }
-        
-        .history-input p,
-        .history-output p {
-          margin: 0;
-          background: #f8f9fa;
-          padding: 0.5rem;
-          border-radius: 4px;
-          font-size: 0.9rem;
-          line-height: 1.4;
-        }
-        
-        .history-meta {
-          display: flex;
-          gap: 1rem;
-          font-size: 0.8rem;
-          color: #666;
-        }
-        
-        @media (max-width: 768px) {
-          .history-entry-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.5rem;
-          }
-          
-          .history-meta {
-            flex-direction: column;
-            gap: 0.25rem;
-          }
-        }
-      `}</style>
-    </div>
+    </>
   );
 }

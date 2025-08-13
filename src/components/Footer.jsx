@@ -96,6 +96,7 @@ export default function Footer() {
             >
               Nielsen Norman Group
             </a>{" "}
+            , the Hubspot Blog, the Sprout Social blog,
             and experience in copywriting across industries and platforms.
           </p>
         </div>

@@ -144,6 +144,22 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       ]
     },
     {
+      id: "social-platform",
+      label: "Social Platform",
+      chips: [
+        { value: "instagram", label: "💕 Instagram" },
+        { value: "linkedin", label: "👔 LinkedIn" },
+        { value: "twitter", label: "🐦 X (Twitter)" },
+        { value: "facebook", label: "👍 Facebook" },
+        { value: "tiktok", label: "🎬 TikTok" },
+        { value: "youtube", label: "▶️ YouTube" },
+        { value: "threads", label: "🪡 Threads" },
+        { value: "bluesky", label: "☁️ Bluesky" },
+        { value: "reddit", label: "🔴 Reddit" },
+        { value: "product-description", label: "🏷️ Product Description" }
+      ]
+    },
+    {
       id: "industry",
       label: "Industry",
       chips: [
@@ -235,6 +251,14 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         </div>
         <div className="chip-selector">
           {chipCategories.map((category) => {
+            // Only show social-platform category if "social" is selected in platform
+            if (category.id === "social-platform") {
+              const platformSelected = selectedChips.single && selectedChips.single.platform;
+              if (platformSelected !== "social") {
+                return null; // Don't render this category
+              }
+            }
+
             const isMultipleCategory = MULTIPLE_SELECTION_CATEGORIES.includes(category.id);
             const selectedCount = isMultipleCategory 
               ? (selectedChips.multiple && selectedChips.multiple[category.id] || []).length 

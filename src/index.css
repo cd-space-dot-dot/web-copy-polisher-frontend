@@ -649,6 +649,7 @@ button:focus {
   flex-direction: column;
   gap: var(--space-1);
   margin-top: var(--space-1);
+  min-height: 60px; /* Reserve space to prevent layout shifts */
 }
 
 .tone-count {
@@ -850,6 +851,9 @@ button:focus {
   word-wrap: break-word; /* Allow long words to break */
   overflow-wrap: break-word; /* Better text wrapping */
   hyphens: auto; /* Add hyphens for better breaking */
+  min-height: 24px; /* Reserve consistent space for messages */
+  display: flex;
+  align-items: center; /* Vertically center text within the reserved space */
 }
 
 .tone-message--good {

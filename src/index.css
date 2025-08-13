@@ -1379,8 +1379,7 @@ textarea {
   position: relative;
   z-index: 2; /* Puts it above the mesh animation  for visibility */
   box-shadow: 
-    0 0 20px rgba(255, 255, 255, 0.8), /* White glow */
-    0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle drop shadow */
+    0 2px 4px rgba(0, 0, 0, 0.1); /* Just subtle drop shadow, removed white glow */
 }
 
 .revision-actions {
@@ -1433,13 +1432,13 @@ textarea {
 }
 
 .mesh-loader-overlay.show {
-  opacity: 0.25; /* Even more subtle for text readability */
-  animation: pulse 2s ease-in-out infinite; /* Option 2: Pulsing effect */
+  opacity: 0.35; /* More visible animation */
+  animation: pulse 2s ease-in-out infinite;
 }
 
 /* More visible during initial load when no content is present */
 .container--output:not(.has-content) .mesh-loader-overlay.show {
-  opacity: 0.4;
+  opacity: 0.6; /* Much more visible for initial load */
 }
 
 .mesh-gradient-blob {
@@ -1447,10 +1446,10 @@ textarea {
   width: 45%; /* Slightly smaller to avoid text areas */
   height: 45%; /* Slightly smaller to avoid text areas */
   border-radius: 44% 56% 60% 40% / 53% 40% 60% 47%;
-  filter: blur(40px) brightness(1.1) saturate(1.1); /* More blur, less saturation */
-  opacity: 0.6;
-  mix-blend-mode: soft-light; /* Gentler blend mode for text visibility */
-  animation: meshMove1 8s ease-in-out infinite alternate; /* Slower animation */
+  filter: blur(35px) brightness(1.2) saturate(1.3); /* Less blur, more vibrant */
+  opacity: 0.8;
+  mix-blend-mode: multiply; /* More visible blend mode */
+  animation: meshMove1 6s ease-in-out infinite alternate; /* Faster animation */
   transition: opacity 0.5s;
 }
 
@@ -1492,23 +1491,23 @@ textarea {
   animation-name: meshMove3;
   animation-delay: 4s;
 }
-/* Reduced movement animations to stay contained */
+/* More noticeable movement animations */
 @keyframes meshMove1 {
-  0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(3%, 2%) scale(1.05);} /* Gentle edge movement */
-  100% { transform: translate(-2%, 3%) scale(1);}
+  0% { transform: translate(0, 0) scale(1) rotate(0deg);}
+  50% { transform: translate(8%, 5%) scale(1.15) rotate(2deg);} /* More dramatic movement */
+  100% { transform: translate(-5%, 8%) scale(0.95) rotate(-1deg);}
 }
 
 @keyframes meshMove2 {
-  0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(-3%, -2%) scale(1.06);} /* Gentle edge movement */
-  100% { transform: translate(2%, -1%) scale(0.98);}
+  0% { transform: translate(0, 0) scale(1) rotate(0deg);}
+  50% { transform: translate(-8%, -5%) scale(1.2) rotate(-2deg);} /* More dramatic movement */
+  100% { transform: translate(6%, -3%) scale(0.9) rotate(1deg);}
 }
 
 @keyframes meshMove3 {
-  0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(-2%, 4%) scale(1.04);} /* Gentle top movement */
-  100% { transform: translate(1%, -2%) scale(1);}
+  0% { transform: translate(0, 0) scale(1) rotate(0deg);}
+  50% { transform: translate(-6%, 10%) scale(1.1) rotate(3deg);} /* More dramatic movement */
+  100% { transform: translate(4%, -6%) scale(1.05) rotate(-2deg);}
 }
 
 @keyframes pulse {

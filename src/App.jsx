@@ -168,6 +168,7 @@ const calculateChipWeights = (chipState) => {
         body: JSON.stringify({ 
           text: input, 
           contentType, 
+          socialPlatform: selectedChips.single?.['social-platform'] || null,
           similarity,
           chips: {
             ...selectedChips.single,
@@ -249,6 +250,7 @@ const calculateChipWeights = (chipState) => {
         body: JSON.stringify({ 
           text: input, 
           contentType, 
+          socialPlatform: selectedChips.single?.['social-platform'] || null,
           similarity,
           chips: {
             ...selectedChips.single,

@@ -82,6 +82,9 @@ export default function Footer() {
           <p>
             Made by Ruth 💛
           </p>
+          <p>
+            <PrivacyPolicy />
+          </p>
         </div>
 
         <div className="footer-section">
@@ -96,7 +99,7 @@ export default function Footer() {
               className="footer-link"
             >
               Nielsen Norman Group
-            </a>{" "}
+            </a>{""}
             , the Hubspot Blog, the Sprout Social blog,
             and experience in copywriting across industries and platforms.
           </p>
@@ -111,10 +114,6 @@ export default function Footer() {
             suitability, or effectiveness for your specific use case. Always review and 
             adapt AI-generated content to meet your needs and standards.
           </p>
-        </div>
-
-        <div className="footer-section">
-          <PrivacyPolicy />
         </div>
       </div>
 

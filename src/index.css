@@ -2153,40 +2153,87 @@ textarea {
   }
 }
 
-/* ===== PRIVACY POLICY COMPONENT ===== */
-.privacy-policy {
-  margin-bottom: var(--space-2);
+/* ===== PRIVACY POLICY MODAL ===== */
+.privacy-link {
+  background: none;
+  border: none;
+  color: var(--primary-dark);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  transition: var(--transition);
+  padding: 0;
 }
 
-.privacy-header {
+.privacy-link:hover {
+  color: var(--primary);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-4);
+}
+
+.modal-content {
+  background: var(--background-alt);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+}
+
+.modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  user-select: none;
-  padding: var(--space-1) 0;
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  border-bottom: 1px solid var(--border-light);
 }
 
-.privacy-header h3 {
+.modal-header h2 {
   margin: 0;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-family: var(--font-headings);
-  font-size: var(--text-base);
+  font-size: var(--text-xl);
   font-weight: 600;
 }
 
-.privacy-header .toggle-icon {
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
   color: var(--text-muted);
-  font-size: var(--text-sm);
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
   transition: var(--transition);
 }
 
-.privacy-header:hover .toggle-icon {
+.modal-close:hover {
+  background: var(--surface);
   color: var(--text-secondary);
 }
 
-.privacy-content {
-  margin-top: var(--space-3);
+.modal-body {
+  padding: var(--space-4);
   font-size: var(--text-sm);
   line-height: 1.5;
 }

@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
 
 export default function PrivacyPolicy() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="privacy-policy">
-      <div className="privacy-header" onClick={() => setIsExpanded(!isExpanded)}>
-        <h3>Privacy & Data</h3>
-        <span className="toggle-icon">{isExpanded ? '▼' : '▶'}</span>
-      </div>
+    <>
+      <button 
+        className="privacy-link" 
+        onClick={openModal}
+      >
+        Privacy & Data
+      </button>
       
-      {isExpanded && (
-        <div className="privacy-content">
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Privacy & Data</h2>
+              <button className="modal-close" onClick={closeModal}>×</button>
+            </div>
+            
+            <div className="modal-body">
           <div className="privacy-section">
             <h4>What We Store Locally (On Your Device)</h4>
             <ul>
@@ -42,11 +54,13 @@ export default function PrivacyPolicy() {
             </ul>
           </div>
 
-          <div className="privacy-note">
-            <strong>Private browsing:</strong> If you use incognito/private mode, your session history won't persist between visits.
+              <div className="privacy-note">
+                <strong>Private browsing:</strong> If you use incognito/private mode, your session history won't persist between visits.
+              </div>
+            </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

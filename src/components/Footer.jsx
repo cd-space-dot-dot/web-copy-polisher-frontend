@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import proTipsData from "../data/proTips.json";
+import PrivacyPolicy from "./PrivacyPolicy";
 
 export function ProTipsSection() {
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
@@ -110,6 +111,10 @@ export default function Footer() {
             suitability, or effectiveness for your specific use case. Always review and 
             adapt AI-generated content to meet your needs and standards.
           </p>
+        </div>
+
+        <div className="footer-section">
+          <PrivacyPolicy />
         </div>
       </div>
 

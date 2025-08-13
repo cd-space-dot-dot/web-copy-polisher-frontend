@@ -7,6 +7,7 @@ import SimilaritySlider from "./components/SimilaritySlider";
 import PolishButton from "./components/PolishButton";
 import RevisedOutput from "./components/RevisedOutput";
 import RevisionHistory from "./components/RevisionHistory";
+import SessionHistory from "./components/SessionHistory";
 import MeshGradientLoader from "./components/MeshGradientLoader";
 import ChipSelector from "./components/ChipSelector";
 import SmartContentDetector from "./components/SmartContentDetector";
@@ -23,6 +24,8 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [revisions, setRevisions] = useState([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [threadId, setThreadId] = useState(null);
+  const [sessionHistory, setSessionHistory] = useState([]);
   const [selectedChips, setSelectedChips] = useState({
     single: {}, // { length: "longer", platform: "social", industry: "business", generation: "millennial" }
     multiple: {} // { tone: ["professional", "friendly"] }
@@ -183,6 +186,24 @@ const calculateChipWeights = (chipState) => {
       setOutput(data.revised);
       setAnalysis(data.analysis);
       setMetadata(data.metadata);
+      
+      // Capture threadId for session tracking
+      if (data.threadId) {
+        setThreadId(data.threadId);
+        
+        // Add to session history
+        const historyEntry = {
+          timestamp: new Date().toISOString(),
+          inputText: input,
+          outputText: data.revised,
+          contentType,
+          socialPlatform: selectedChips.single?.['social-platform'] || null,
+          similarity,
+          requestType: threadId ? 'refinement' : 'initial'
+        };
+        setSessionHistory(prev => [...prev, historyEntry]);
+      }
+      
       if (data.revision) setRevisions(prev => [data.revision, ...prev.slice(0, 9)]);
       setTimeout(() => {
         document.querySelector('.revised-output')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -252,6 +273,7 @@ const calculateChipWeights = (chipState) => {
           contentType, 
           socialPlatform: selectedChips.single?.['social-platform'] || null,
           similarity,
+          threadId: threadId, // Include threadId for refinements
           chips: {
             ...selectedChips.single,
             ...selectedChips.multiple
@@ -266,6 +288,20 @@ const calculateChipWeights = (chipState) => {
       setOutput(data.revised);
       setAnalysis(data.analysis);
       setMetadata(data.metadata);
+      
+      // Update session history for refinements
+      if (data.threadId) {
+        const historyEntry = {
+          timestamp: new Date().toISOString(),
+          inputText: input,
+          outputText: data.revised,
+          contentType,
+          socialPlatform: selectedChips.single?.['social-platform'] || null,
+          similarity,
+          requestType: 'refinement'
+        };
+        setSessionHistory(prev => [...prev, historyEntry]);
+      }
       
       if (data.revision) setRevisions(prev => [data.revision, ...prev.slice(0, 9)]);
       
@@ -411,6 +447,18 @@ const calculateChipWeights = (chipState) => {
         </div>
       </section>
   
+      {/* Session History Section */}
+      {sessionHistory.length > 0 && (
+        <section className="section">
+          <div className="container-base">
+            <SessionHistory 
+              history={sessionHistory}
+              threadId={threadId}
+            />
+          </div>
+        </section>
+      )}
+
       {/* Revisions Section */}
       {revisions.length > 0 && (
         <section className="section">

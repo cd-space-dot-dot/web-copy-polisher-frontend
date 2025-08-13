@@ -404,6 +404,15 @@ button:focus {
 .output-placeholder p {
   font-size: var(--text-base);
   margin-bottom: var(--space-4);
+  min-height: 24px; /* Reserve space to prevent jumping */
+}
+
+/* Reserve space for the scroll hint area */
+.output-placeholder .scroll-hint-area {
+  min-height: 36px; /* Reserve space for scroll hint */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* ======= SECTION SPACING ======= */

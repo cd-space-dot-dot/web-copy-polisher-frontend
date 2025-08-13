@@ -87,6 +87,33 @@ const calculateChipWeights = (chipState) => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   const scrollToInput = () => document.querySelector('.draft-input')?.scrollIntoView({ behavior: 'smooth' });
 
+  // Sync content type with platform chips
+  const syncContentTypeWithChips = (newContentType) => {
+    setContentType(newContentType);
+    
+    // Map content type to platform chip value
+    const platformChipValue = newContentType === 'other' ? undefined : newContentType;
+    
+    setSelectedChips(prev => ({
+      ...prev,
+      single: {
+        ...prev.single,
+        platform: platformChipValue
+      }
+    }));
+  };
+
+  const syncChipsWithContentType = (newChipState) => {
+    setSelectedChips(newChipState);
+    
+    // If platform chip changed, sync with content type
+    if (newChipState.single?.platform && newChipState.single.platform !== contentType) {
+      setContentType(newChipState.single.platform);
+    } else if (!newChipState.single?.platform && contentType !== 'other') {
+      setContentType('other');
+    }
+  };
+
   async function handleSubmit() {
     if (!input.trim()) return;
     setLoading(true);
@@ -300,7 +327,7 @@ const calculateChipWeights = (chipState) => {
           <div className="card-content">
             <ContentTypeSelector 
               selectedType={contentType}
-              onTypeChange={setContentType}
+              onTypeChange={syncContentTypeWithChips}
             />
           </div>
         </div>
@@ -364,7 +391,7 @@ const calculateChipWeights = (chipState) => {
             />
             <ChipSelector 
               selectedChips={selectedChips}
-              onChipsChange={setSelectedChips}
+              onChipsChange={syncChipsWithContentType}
             />
           </div>
           <div className="action-row">

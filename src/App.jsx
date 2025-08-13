@@ -11,6 +11,7 @@ import MeshGradientLoader from "./components/MeshGradientLoader";
 import ChipSelector from "./components/ChipSelector";
 import SmartContentDetector from "./components/SmartContentDetector";
 import Footer, { ProTipsSection } from "./components/Footer";
+import { Analytics } from "@vercel/analytics/next"
 
 export default function App() {
   const [input, setInput] = useState("");

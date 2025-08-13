@@ -562,7 +562,7 @@ button:focus {
   border-color: var(--primary);
   background-color: var(--primary-bg);
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 500; /* Reduced from 600 to prevent text wrapping */
 }
 
 /* ======= CHIPS SELECTOR COMPONENT ======= */

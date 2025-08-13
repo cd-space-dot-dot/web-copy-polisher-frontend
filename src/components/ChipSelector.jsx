@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function ChipSelector({ selectedChips, onChipsChange }) {
   const [expandedCategories, setExpandedCategories] = useState({});
+  const [showSocialModal, setShowSocialModal] = useState(false);
   const chipGroupRefs = useRef({});
 
   // Define which categories allow multiple selections
@@ -113,8 +114,19 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       // Handle single selection categories (length, content-type, industry, generation)
       const currentSelection = (selectedChips.single && selectedChips.single[categoryId]);
       
+      // If selecting social media, show modal
+      if (categoryId === 'content-type' && chipValue === 'social') {
+        onChipsChange({
+          ...selectedChips,
+          single: {
+            ...selectedChips.single,
+            [categoryId]: chipValue
+          }
+        });
+        setShowSocialModal(true);
+      }
       // If deselecting social media, also clear social platform
-      if (categoryId === 'content-type' && currentSelection === 'social' && chipValue !== 'social') {
+      else if (categoryId === 'content-type' && currentSelection === 'social' && chipValue !== 'social') {
         onChipsChange({
           ...selectedChips,
           single: {
@@ -161,19 +173,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       label: "Content Type", 
       chips: [
         { value: "webpage", label: "🌐 Web Page" },
-        { value: "social", label: "📱 Social Media", subOptions: [
-          { value: "instagram", label: "💕 Instagram" },
-          { value: "linkedin", label: "👔 LinkedIn" },
-          { value: "twitter", label: "🐦 X (Twitter)" },
-          { value: "facebook", label: "👍 Facebook" },
-          { value: "tiktok", label: "🎬 TikTok" },
-          { value: "youtube-description", label: "📝 YouTube Description" },
-          { value: "youtube-comment", label: "💬 YouTube Comment" },
-          { value: "threads", label: "🪡 Threads" },
-          { value: "bluesky", label: "☁️ Bluesky" },
-          { value: "reddit", label: "🔴 Reddit" },
-          { value: "product-description", label: "🏷️ Product Description" }
-        ]},
+        { value: "social", label: "📱 Social Media" },
         { value: "blog", label: "📝 Blog" },
         { value: "slack", label: "#️⃣ Slack" },
         { value: "email", label: "📧 Email" },
@@ -342,47 +342,23 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                       }
                       
                       return (
-                        <div key={chip.value} className="chip-with-suboptions">
-                          <button
-                            type="button"
-                            className={`chip ${isSelected ? 'chip--selected' : ''}`}
-                            onClick={() => handleChipClick(category.id, chip.value)}
-                            aria-pressed={isSelected}
-                            style={isSelected ? {
-                              '--fade-opacity': fadeProps.opacity,
-                              transition: 'all 0.3s ease-out'
-                            } : {}}
-                            data-ai-weight={isSelected ? fadeProps.aiWeight : 0}
-                            title={isSelected && isMultipleCategory ? 
-                              `Selection #${selectionIndex + 1} - AI weight: ${Math.round(fadeProps.aiWeight * 100)}%` : 
-                              undefined}
-                          >
-                            {chip.label}
-                          </button>
-                          
-                          {/* Show sub-options if this chip is selected and has sub-options */}
-                          {isSelected && chip.subOptions && (
-                            <div className="chip-suboptions">
-                              <div className="chip-suboptions-label">Choose platform:</div>
-                              <div className="chip-suboptions-group">
-                                {chip.subOptions.map((subOption) => {
-                                  const isSubSelected = (selectedChips.single && selectedChips.single['social-platform']) === subOption.value;
-                                  return (
-                                    <button
-                                      key={subOption.value}
-                                      type="button"
-                                      className={`chip chip--sub ${isSubSelected ? 'chip--selected' : ''}`}
-                                      onClick={() => handleSocialPlatformClick(subOption.value)}
-                                      aria-pressed={isSubSelected}
-                                    >
-                                      {subOption.label}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          )}
-                        </div>
+                        <button
+                          key={chip.value}
+                          type="button"
+                          className={`chip ${isSelected ? 'chip--selected' : ''}`}
+                          onClick={() => handleChipClick(category.id, chip.value)}
+                          aria-pressed={isSelected}
+                          style={isSelected ? {
+                            '--fade-opacity': fadeProps.opacity,
+                            transition: 'all 0.3s ease-out'
+                          } : {}}
+                          data-ai-weight={isSelected ? fadeProps.aiWeight : 0}
+                          title={isSelected && isMultipleCategory ? 
+                            `Selection #${selectionIndex + 1} - AI weight: ${Math.round(fadeProps.aiWeight * 100)}%` : 
+                            undefined}
+                        >
+                          {chip.label}
+                        </button>
                       );
                     })}
                     {/* More/Show Less Button */}
@@ -414,6 +390,50 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
           })}
         </div>
       </div>
+      
+      {/* Social Media Platform Modal */}
+      {showSocialModal && (
+        <div className="modal-overlay" onClick={() => setShowSocialModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Choose Social Media Platform</h3>
+              <button className="modal-close" onClick={() => setShowSocialModal(false)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <div className="social-platforms-grid">
+                {[
+                  { value: "instagram", label: "💕 Instagram" },
+                  { value: "linkedin", label: "👔 LinkedIn" },
+                  { value: "twitter", label: "🐦 X (Twitter)" },
+                  { value: "facebook", label: "👍 Facebook" },
+                  { value: "tiktok", label: "🎬 TikTok" },
+                  { value: "youtube-description", label: "📝 YouTube Description" },
+                  { value: "youtube-comment", label: "💬 YouTube Comment" },
+                  { value: "threads", label: "🪡 Threads" },
+                  { value: "bluesky", label: "☁️ Bluesky" },
+                  { value: "reddit", label: "🔴 Reddit" },
+                  { value: "product-description", label: "🏷️ Product Description" }
+                ].map((platform) => {
+                  const isSelected = (selectedChips.single && selectedChips.single['social-platform']) === platform.value;
+                  return (
+                    <button
+                      key={platform.value}
+                      type="button"
+                      className={`platform-option ${isSelected ? 'selected' : ''}`}
+                      onClick={() => {
+                        handleSocialPlatformClick(platform.value);
+                        setShowSocialModal(false);
+                      }}
+                    >
+                      {platform.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

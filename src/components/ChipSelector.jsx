@@ -177,6 +177,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         { value: "gentle", label: "🕊️ Gentle" },
         { value: "serious", label: "🎯 Serious" },
         { value: "playful", label: "😄 Playful" },
+        { value: "uncaring", label: "🤷🏽 Uncaring" },
         { value: "humble", label: "🙏 Humble" },
         { value: "diplomatic", label: "🤝 Diplomatic" },
         { value: "exclusive", label: "💎 Exclusive" },

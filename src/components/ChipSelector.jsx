@@ -110,17 +110,41 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         });
       }
     } else {
-      // Handle single selection categories (length, platform, industry, generation)
+      // Handle single selection categories (length, content-type, industry, generation)
       const currentSelection = (selectedChips.single && selectedChips.single[categoryId]);
       
-      onChipsChange({
-        ...selectedChips,
-        single: {
-          ...selectedChips.single,
-          [categoryId]: currentSelection === chipValue ? undefined : chipValue
-        }
-      });
+      // If deselecting social media, also clear social platform
+      if (categoryId === 'content-type' && currentSelection === 'social' && chipValue !== 'social') {
+        onChipsChange({
+          ...selectedChips,
+          single: {
+            ...selectedChips.single,
+            [categoryId]: currentSelection === chipValue ? undefined : chipValue,
+            'social-platform': undefined
+          }
+        });
+      } else {
+        onChipsChange({
+          ...selectedChips,
+          single: {
+            ...selectedChips.single,
+            [categoryId]: currentSelection === chipValue ? undefined : chipValue
+          }
+        });
+      }
     }
+  };
+
+  const handleSocialPlatformClick = (platformValue) => {
+    const currentPlatform = selectedChips.single && selectedChips.single['social-platform'];
+    
+    onChipsChange({
+      ...selectedChips,
+      single: {
+        ...selectedChips.single,
+        'social-platform': currentPlatform === platformValue ? undefined : platformValue
+      }
+    });
   };
 
   const chipCategories = [
@@ -133,30 +157,26 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       ]
     },
     {
-      id: "platform",
-      label: "Adapt it for", 
+      id: "content-type",
+      label: "Content Type", 
       chips: [
         { value: "webpage", label: "🌐 Web Page" },
-        { value: "social", label: "📱 Social" },
+        { value: "social", label: "📱 Social Media", subOptions: [
+          { value: "instagram", label: "💕 Instagram" },
+          { value: "linkedin", label: "👔 LinkedIn" },
+          { value: "twitter", label: "🐦 X (Twitter)" },
+          { value: "facebook", label: "👍 Facebook" },
+          { value: "tiktok", label: "🎬 TikTok" },
+          { value: "youtube-description", label: "📝 YouTube Description" },
+          { value: "youtube-comment", label: "💬 YouTube Comment" },
+          { value: "threads", label: "🪡 Threads" },
+          { value: "bluesky", label: "☁️ Bluesky" },
+          { value: "reddit", label: "🔴 Reddit" },
+          { value: "product-description", label: "🏷️ Product Description" }
+        ]},
         { value: "blog", label: "📝 Blog" },
         { value: "slack", label: "#️⃣ Slack" },
         { value: "email", label: "📧 Email" },
-      ]
-    },
-    {
-      id: "social-platform",
-      label: "Social Platform",
-      chips: [
-        { value: "instagram", label: "💕 Instagram" },
-        { value: "linkedin", label: "👔 LinkedIn" },
-        { value: "twitter", label: "🐦 X (Twitter)" },
-        { value: "facebook", label: "👍 Facebook" },
-        { value: "tiktok", label: "🎬 TikTok" },
-        { value: "youtube", label: "▶️ YouTube" },
-        { value: "threads", label: "🪡 Threads" },
-        { value: "bluesky", label: "☁️ Bluesky" },
-        { value: "reddit", label: "🔴 Reddit" },
-        { value: "product-description", label: "🏷️ Product Description" }
       ]
     },
     {
@@ -251,14 +271,6 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         </div>
         <div className="chip-selector">
           {chipCategories.map((category) => {
-            // Only show social-platform category if "social" is selected in platform
-            if (category.id === "social-platform") {
-              const platformSelected = selectedChips.single && selectedChips.single.platform;
-              if (platformSelected !== "social") {
-                return null; // Don't render this category
-              }
-            }
-
             const isMultipleCategory = MULTIPLE_SELECTION_CATEGORIES.includes(category.id);
             const selectedCount = isMultipleCategory 
               ? (selectedChips.multiple && selectedChips.multiple[category.id] || []).length 
@@ -330,23 +342,47 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                       }
                       
                       return (
-                        <button
-                          key={chip.value}
-                          type="button"
-                          className={`chip ${isSelected ? 'chip--selected' : ''}`}
-                          onClick={() => handleChipClick(category.id, chip.value)}
-                          aria-pressed={isSelected}
-                          style={isSelected ? {
-                            '--fade-opacity': fadeProps.opacity,
-                            transition: 'all 0.3s ease-out'
-                          } : {}}
-                          data-ai-weight={isSelected ? fadeProps.aiWeight : 0}
-                          title={isSelected && isMultipleCategory ? 
-                            `Selection #${selectionIndex + 1} - AI weight: ${Math.round(fadeProps.aiWeight * 100)}%` : 
-                            undefined}
-                        >
-                          {chip.label}
-                        </button>
+                        <div key={chip.value} className="chip-with-suboptions">
+                          <button
+                            type="button"
+                            className={`chip ${isSelected ? 'chip--selected' : ''}`}
+                            onClick={() => handleChipClick(category.id, chip.value)}
+                            aria-pressed={isSelected}
+                            style={isSelected ? {
+                              '--fade-opacity': fadeProps.opacity,
+                              transition: 'all 0.3s ease-out'
+                            } : {}}
+                            data-ai-weight={isSelected ? fadeProps.aiWeight : 0}
+                            title={isSelected && isMultipleCategory ? 
+                              `Selection #${selectionIndex + 1} - AI weight: ${Math.round(fadeProps.aiWeight * 100)}%` : 
+                              undefined}
+                          >
+                            {chip.label}
+                          </button>
+                          
+                          {/* Show sub-options if this chip is selected and has sub-options */}
+                          {isSelected && chip.subOptions && (
+                            <div className="chip-suboptions">
+                              <div className="chip-suboptions-label">Choose platform:</div>
+                              <div className="chip-suboptions-group">
+                                {chip.subOptions.map((subOption) => {
+                                  const isSubSelected = (selectedChips.single && selectedChips.single['social-platform']) === subOption.value;
+                                  return (
+                                    <button
+                                      key={subOption.value}
+                                      type="button"
+                                      className={`chip chip--sub ${isSubSelected ? 'chip--selected' : ''}`}
+                                      onClick={() => handleSocialPlatformClick(subOption.value)}
+                                      aria-pressed={isSubSelected}
+                                    >
+                                      {subOption.label}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       );
                     })}
                     {/* More/Show Less Button */}

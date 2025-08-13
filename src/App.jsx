@@ -87,18 +87,18 @@ const calculateChipWeights = (chipState) => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   const scrollToInput = () => document.querySelector('.draft-input')?.scrollIntoView({ behavior: 'smooth' });
 
-  // Sync content type with platform chips
+  // Sync content type with content-type chips
   const syncContentTypeWithChips = (newContentType) => {
     setContentType(newContentType);
     
-    // Map content type to platform chip value
-    const platformChipValue = newContentType === 'other' ? undefined : newContentType;
+    // Map content type to content-type chip value
+    const contentTypeChipValue = newContentType === 'other' ? undefined : newContentType;
     
     setSelectedChips(prev => ({
       ...prev,
       single: {
         ...prev.single,
-        platform: platformChipValue
+        'content-type': contentTypeChipValue
       }
     }));
   };
@@ -106,10 +106,10 @@ const calculateChipWeights = (chipState) => {
   const syncChipsWithContentType = (newChipState) => {
     setSelectedChips(newChipState);
     
-    // If platform chip changed, sync with content type
-    if (newChipState.single?.platform && newChipState.single.platform !== contentType) {
-      setContentType(newChipState.single.platform);
-    } else if (!newChipState.single?.platform && contentType !== 'other') {
+    // If content-type chip changed, sync with content type
+    if (newChipState.single?.['content-type'] && newChipState.single['content-type'] !== contentType) {
+      setContentType(newChipState.single['content-type']);
+    } else if (!newChipState.single?.['content-type'] && contentType !== 'other') {
       setContentType('other');
     }
   };

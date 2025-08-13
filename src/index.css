@@ -372,6 +372,11 @@ button:focus {
   padding: var(--space-8);
   color: var(--text-muted);
   font-family: var(--font-body);
+  position: relative;
+  z-index: 2; /* Ensure text is above gradient */
+  background: rgba(255, 255, 255, 0.3); /* Subtle white overlay for readability */
+  backdrop-filter: blur(2px); /* Slight blur to soften background */
+  border-radius: var(--radius);
 }
 
 .output-placeholder h3 {
@@ -1414,18 +1419,18 @@ textarea {
 }
 
 .mesh-loader-overlay.show {
-  opacity: 0.3; /* Reverted to original subtle opacity */
+  opacity: 0.25; /* Even more subtle for text readability */
   animation: pulse 2s ease-in-out infinite; /* Option 2: Pulsing effect */
 }
 
 .mesh-gradient-blob {
   position: absolute;
-  width: 50%; /* Option 5: Larger blobs for more presence */
-  height: 50%; /* Option 5: Larger blobs for more presence */
+  width: 45%; /* Slightly smaller to avoid text areas */
+  height: 45%; /* Slightly smaller to avoid text areas */
   border-radius: 44% 56% 60% 40% / 53% 40% 60% 47%;
-  filter: blur(35px) brightness(1.25) saturate(1.3); /* Option 5: More blur and brightness */
-  opacity: 0.8;
-  mix-blend-mode: multiply; /* Changed blend mode for better text visibility */
+  filter: blur(40px) brightness(1.1) saturate(1.1); /* More blur, less saturation */
+  opacity: 0.6;
+  mix-blend-mode: soft-light; /* Gentler blend mode for text visibility */
   animation: meshMove1 8s ease-in-out infinite alternate; /* Slower animation */
   transition: opacity 0.5s;
 }
@@ -1434,24 +1439,24 @@ textarea {
 .mesh-blob-1 {
   background: radial-gradient(
     circle at 30% 70%,
-    var(--accent-light), /* F189D0 - stronger pink */
-    var(--secondary) 50%, /* C692CA - purple */
+    var(--secondary-light), /* D9B3DD - light purple */
+    var(--primary-light) 70%, /* B8E7E9 - light teal */
     transparent 100%
   );
-  left: 10%;
-  top: 10%;
+  left: -5%; /* Move more to edge */
+  top: -5%;
   animation-name: meshMove1;
 }
 
 .mesh-blob-2 {
   background: radial-gradient(
     circle at 60% 40%,
-    var(--success), /* 83F5E5 - cyan */
-    var(--primary) 60%, /* 94DCDE - teal */
+    var(--primary-light), /* B8E7E9 - light teal */
+    var(--success) 60%, /* 83F5E5 - cyan */
     transparent 100%
   );
-  right: 10%;
-  bottom: 10%;
+  right: -5%; /* Move more to edge */
+  bottom: -5%;
   animation-name: meshMove2;
   animation-delay: 2s;
 }
@@ -1459,37 +1464,37 @@ textarea {
 .mesh-blob-3 {
   background: radial-gradient(
     circle at 70% 80%,
-    var(--secondary-light), /* D9B3DD - light purple */
-    var(--accent) 60%, /* E761BD - magenta accent */
+    rgba(217, 179, 221, 0.5), /* D9B3DD - very light purple with transparency */
+    rgba(198, 146, 202, 0.4) 60%, /* C692CA - subtle purple */
     transparent 100%
   );
-  left: 25%;
-  top: 25%;
+  left: 50%; /* Move to side */
+  top: -10%; /* Move to top edge */
   animation-name: meshMove3;
   animation-delay: 4s;
 }
 /* Reduced movement animations to stay contained */
 @keyframes meshMove1 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(10%, 5%) scale(1.1);} /* More movement */
-  100% { transform: translate(-5%, 8%) scale(1);}
+  50% { transform: translate(3%, 2%) scale(1.05);} /* Gentle edge movement */
+  100% { transform: translate(-2%, 3%) scale(1);}
 }
 
 @keyframes meshMove2 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(-8%, -5%) scale(1.12);} /* More movement */
-  100% { transform: translate(6%, -3%) scale(0.95);}
+  50% { transform: translate(-3%, -2%) scale(1.06);} /* Gentle edge movement */
+  100% { transform: translate(2%, -1%) scale(0.98);}
 }
 
 @keyframes meshMove3 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(-5%, 7%) scale(1.08);} /* More movement */
-  100% { transform: translate(4%, -4%) scale(1);}
+  50% { transform: translate(-2%, 4%) scale(1.04);} /* Gentle top movement */
+  100% { transform: translate(1%, -2%) scale(1);}
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.5; }
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.3; }
 }
 
 /* ======= RESPONSIVE DESIGN ======= */

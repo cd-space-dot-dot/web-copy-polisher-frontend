@@ -1414,16 +1414,16 @@ textarea {
 }
 
 .mesh-loader-overlay.show {
-  opacity: 0.5; /* Increased from 0.3 for more visibility */
+  opacity: 0.3; /* Reverted to original subtle opacity */
   animation: pulse 2s ease-in-out infinite; /* Option 2: Pulsing effect */
 }
 
 .mesh-gradient-blob {
   position: absolute;
-  width: 40%; /* Reduced from 60% to stay within bounds */
-  height: 40%; /* Reduced from 60% to stay within bounds */
+  width: 50%; /* Option 5: Larger blobs for more presence */
+  height: 50%; /* Option 5: Larger blobs for more presence */
   border-radius: 44% 56% 60% 40% / 53% 40% 60% 47%;
-  filter: blur(25px) brightness(1.2) saturate(1.4); /* Option 1: More saturation and brightness */
+  filter: blur(35px) brightness(1.25) saturate(1.3); /* Option 5: More blur and brightness */
   opacity: 0.8;
   mix-blend-mode: multiply; /* Changed blend mode for better text visibility */
   animation: meshMove1 8s ease-in-out infinite alternate; /* Slower animation */
@@ -1434,8 +1434,8 @@ textarea {
 .mesh-blob-1 {
   background: radial-gradient(
     circle at 30% 70%,
-    var(--secondary-light), /* D9B3DD - light purple */
-    var(--primary-light) 70%, /* B8E7E9 - light teal */
+    var(--accent-light), /* F189D0 - stronger pink */
+    var(--secondary) 50%, /* C692CA - purple */
     transparent 100%
   );
   left: 10%;
@@ -1459,8 +1459,8 @@ textarea {
 .mesh-blob-3 {
   background: radial-gradient(
     circle at 70% 80%,
-    var(--primary-light), /* B8E7E9 - light teal */
-    var(--success) 70%, /* 83F5E5 - cyan */
+    var(--secondary-light), /* D9B3DD - light purple */
+    var(--accent) 60%, /* E761BD - magenta accent */
     transparent 100%
   );
   left: 25%;
@@ -1471,20 +1471,20 @@ textarea {
 /* Reduced movement animations to stay contained */
 @keyframes meshMove1 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(5%, 3%) scale(1.05);}
-  100% { transform: translate(-3%, 5%) scale(1);}
+  50% { transform: translate(10%, 5%) scale(1.1);} /* More movement */
+  100% { transform: translate(-5%, 8%) scale(1);}
 }
 
 @keyframes meshMove2 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(-3%, -2%) scale(1.08);}
-  100% { transform: translate(3%, -1%) scale(0.98);}
+  50% { transform: translate(-8%, -5%) scale(1.12);} /* More movement */
+  100% { transform: translate(6%, -3%) scale(0.95);}
 }
 
 @keyframes meshMove3 {
   0% { transform: translate(0, 0) scale(1);}
-  50% { transform: translate(-1%, 3%) scale(1.06);}
-  100% { transform: translate(2%, -2%) scale(1);}
+  50% { transform: translate(-5%, 7%) scale(1.08);} /* More movement */
+  100% { transform: translate(4%, -4%) scale(1);}
 }
 
 @keyframes pulse {

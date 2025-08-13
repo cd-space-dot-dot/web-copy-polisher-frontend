@@ -378,18 +378,21 @@ button:focus {
 .output-placeholder {
   text-align: center;
   padding: var(--space-8);
-  color: var(--text-muted);
+  color: var(--text-primary); /* Darker text for better contrast */
   font-family: var(--font-body);
   position: relative;
   z-index: 2; /* Ensure text is above gradient */
-  background: rgba(255, 255, 255, 0.7); /* More opaque for better visibility over gradient */
-  backdrop-filter: blur(2px); /* Slight blur to soften background */
+  background: rgba(255, 255, 255, 0.95); /* Very opaque white overlay */
+  backdrop-filter: blur(8px); /* Smooth backdrop blur */
   border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.8); /* Subtle white border */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Gentle shadow for depth */
   min-height: 200px; /* Prevent content jumping when placeholder disappears */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-sizing: border-box; /* Ensure consistent sizing */
+  box-sizing: border-box;
+  margin: var(--space-4); /* Inset from container edges for elegant framing */
 }
 
 .output-placeholder h3 {

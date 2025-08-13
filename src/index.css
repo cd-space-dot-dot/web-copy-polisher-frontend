@@ -342,6 +342,13 @@ button:focus {
   box-shadow: var(--shadow-sm);
 }
 
+/* When loading, reduce the purple border opacity for better loader visibility */
+.container--output:has(.mesh-loader-overlay.show),
+.container--output.loading {
+  border: 2px dashed rgba(199, 146, 202, 0.2);
+  background: rgba(255, 255, 255, 0.7);
+}
+
 .container--input {
   background-color: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(148, 220, 222, 0.2);
@@ -1421,6 +1428,11 @@ textarea {
 .mesh-loader-overlay.show {
   opacity: 0.25; /* Even more subtle for text readability */
   animation: pulse 2s ease-in-out infinite; /* Option 2: Pulsing effect */
+}
+
+/* More visible during initial load when no content is present */
+.container--output:not(.has-content) .mesh-loader-overlay.show {
+  opacity: 0.4;
 }
 
 .mesh-gradient-blob {

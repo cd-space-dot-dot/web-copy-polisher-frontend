@@ -327,7 +327,7 @@ const calculateChipWeights = (chipState) => {
   
       {/* Output Section */}
       <section className="section">
-        <div className="container-base container--output revised-output">
+        <div className={`container-base container--output revised-output${output ? ' has-content' : ''}${loading ? ' loading' : ''}`}>
           <MeshGradientLoader loading={loading} />
           {output ? (
             <RevisedOutput 

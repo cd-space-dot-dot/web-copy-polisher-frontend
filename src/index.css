@@ -382,13 +382,14 @@ button:focus {
   font-family: var(--font-body);
   position: relative;
   z-index: 2; /* Ensure text is above gradient */
-  background: rgba(255, 255, 255, 0.3); /* Subtle white overlay for readability */
+  background: rgba(255, 255, 255, 0.7); /* More opaque for better visibility over gradient */
   backdrop-filter: blur(2px); /* Slight blur to soften background */
   border-radius: var(--radius);
   min-height: 200px; /* Prevent content jumping when placeholder disappears */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-sizing: border-box; /* Ensure consistent sizing */
 }
 
 .output-placeholder h3 {
@@ -1446,7 +1447,7 @@ textarea {
 
 /* More visible during initial load when no content is present */
 .container--output:not(.has-content) .mesh-loader-overlay.show {
-  opacity: 0.6; /* Much more visible for initial load */
+  opacity: 0.8; /* Much more visible for initial load */
 }
 
 .mesh-gradient-blob {
@@ -1456,7 +1457,7 @@ textarea {
   border-radius: 44% 56% 60% 40% / 53% 40% 60% 47%;
   filter: blur(35px) brightness(1.2) saturate(1.3); /* Less blur, more vibrant */
   opacity: 0.8;
-  mix-blend-mode: multiply; /* More visible blend mode */
+  mix-blend-mode: normal; /* Clear visibility for gradient */
   animation: meshMove1 6s ease-in-out infinite alternate; /* Faster animation */
   transition: opacity 0.5s;
 }

@@ -14,6 +14,19 @@ export default function SessionHistory({ history, threadId, onClearSession }) {
     });
   };
 
+  // Map content type values to their display labels (DRY - matches ContentTypeSelector)
+  const getContentTypeLabel = (value) => {
+    const typeMap = {
+      "webpage": "Web Page",
+      "social": "Social Media", 
+      "blog": "Blog Post",
+      "slack": "Slack",
+      "email": "Email",
+      "other": "Other"
+    };
+    return typeMap[value] || value;
+  };
+
   // Build version structure - original input + progressive outputs
   const buildVersions = (history) => {
     if (history.length === 0) return [];
@@ -82,33 +95,23 @@ export default function SessionHistory({ history, threadId, onClearSession }) {
             {versions.map((version, index) => (
               <div key={index} className={`version-entry ${version.type}`}>
                 <div className="version-header">
-                  {version.type === 'original' ? (
-                    <div className="version-label">
-                      <span className="version-badge original">Original</span>
-                      <span className="version-time">{formatTime(version.timestamp)}</span>
-                    </div>
-                  ) : (
-                    <div className="version-label">
-                      <span className="version-badge version">Version {version.versionNumber}</span>
-                      <span className="version-time">{formatTime(version.timestamp)}</span>
-                      <span className="request-type">
-                        {version.requestType === 'initial' ? 'First submission' : 'Refinement'}
-                        {version.requestType !== 'initial' && version.versionNumber > 1 && (
-                          <span className="refinement-note">from v{version.versionNumber - 1}</span>
-                        )}
+                  <div className="version-label">
+                    <div className="version-main">
+                      <span className={`version-badge ${version.type}`}>
+                        {version.type === 'original' ? 'Original' : `Version ${version.versionNumber}`}
                       </span>
+                      <span className="version-time">{formatTime(version.timestamp)}</span>
                     </div>
-                  )}
+                    <div className="version-meta-inline">
+                      <span>Type: {getContentTypeLabel(version.metadata.contentType)}</span>
+                      {version.metadata.socialPlatform && <span>Platform: {version.metadata.socialPlatform}</span>}
+                      <span>Similarity: {version.metadata.similarity}%</span>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="version-content">
                   <p>{version.content}</p>
-                </div>
-                
-                <div className="version-meta">
-                  <span>Type: {version.metadata.contentType}</span>
-                  {version.metadata.socialPlatform && <span>Platform: {version.metadata.socialPlatform}</span>}
-                  <span>Similarity: {version.metadata.similarity}%</span>
                 </div>
               </div>
             ))}

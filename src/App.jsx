@@ -427,24 +427,56 @@ const calculateChipWeights = (chipState) => {
         <div className={`container-base container--output revised-output${output ? ' has-content' : ''}${loading ? ' loading' : ''}`}>
           <MeshGradientLoader loading={loading} />
           {output ? (
-            <RevisedOutput 
-              output={output}
-              analysis={analysis}
-              originalInput={input}
-              metadata={metadata}
-              onNewRevision={handleNewRevision}
-            />
+            <>
+              <RevisedOutput 
+                output={output}
+                analysis={analysis}
+                originalInput={input}
+                metadata={metadata}
+                onNewRevision={handleNewRevision}
+              />
+              
+              {sessionHistory.length > 0 && (
+                <div className="see-history-hint">
+                  <button 
+                    className="see-history-link"
+                    onClick={() => {
+                      const historySection = document.querySelector('.session-header');
+                      if (historySection) {
+                        historySection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Expand history if collapsed
+                        const historyContent = document.querySelector('.session-content');
+                        if (!historyContent) {
+                          historySection.click();
+                        }
+                      }
+                    }}
+                  >
+                    📋 See History ({sessionHistory.length} version{sessionHistory.length !== 1 ? 's' : ''})
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="output-placeholder">
-              <h3>✨ Your polished writing will appear here</h3>
-              <p>Add your text and click "Polish My Writing" above!</p>
-              <div className="scroll-hint-area">
-                {input.length === 0 && (
-                  <div className="scroll-up-hint" onClick={scrollToTop}>
-                    ⬆️ Add your text first
+              {loading ? (
+                <>
+                  <h3>✨ Polishing your writing...</h3>
+                  <p>This usually takes just a few seconds</p>
+                </>
+              ) : (
+                <>
+                  <h3>✨ Your polished writing will appear here</h3>
+                  <p>Add your text and click "Polish My Writing" above!</p>
+                  <div className="scroll-hint-area">
+                    {input.length === 0 && (
+                      <div className="scroll-up-hint" onClick={scrollToTop}>
+                        ⬆️ Add your text first
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                </>
+              )}
             </div>
           )}
         </div>

@@ -909,8 +909,11 @@ button:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9999;
   animation: fadeIn 0.2s ease-out;
+  /* Ensure it's not affected by any parent positioning */
+  transform: none;
+  overflow: auto;
 }
 
 .modal-content {
@@ -1228,7 +1231,7 @@ textarea {
 .draft-input,
 .revised-text,
 .version-text-container p {
-  font-family: var(--font-input); /* Mono font */
+  font-family: var(--font-body); /* Regular font for better readability */
   font-size: var(--text-base);
   line-height: 1.7;
   color: var(--text-primary);
@@ -2044,9 +2047,49 @@ textarea {
   color: var(--text-muted);
 }
 
-.version-list {
+/* Thread separation styling */
+.thread-list {
   max-height: 500px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.thread-group {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.thread-separator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--primary);
+}
+
+.thread-separator h4 {
+  margin: 0;
+  color: var(--primary);
+  font-family: var(--font-headings);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.thread-id {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  background: var(--background-alt);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.version-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);

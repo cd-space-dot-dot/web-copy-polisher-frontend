@@ -24,16 +24,19 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [revisions, setRevisions] = useState([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
-  const [threadId, setThreadId] = useState(() => {
+  const [threads, setThreads] = useState(() => {
+    // Initialize threads from localStorage if available
+    const saved = localStorage.getItem('clearConveyThreads');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [currentThreadId, setCurrentThreadId] = useState(() => {
     // First check URL params for bookmarked session
     const urlParams = new URLSearchParams(window.location.search);
     const urlThreadId = urlParams.get('thread');
     if (urlThreadId) {
-      localStorage.setItem('clearConveyThreadId', urlThreadId);
       return urlThreadId;
     }
-    // Otherwise initialize from localStorage if available
-    return localStorage.getItem('clearConveyThreadId') || null;
+    return null;
   });
   const [sessionHistory, setSessionHistory] = useState(() => {
     // Initialize session history from localStorage if available
@@ -51,22 +54,27 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Save threadId to localStorage and URL whenever it changes
+  // Save threads to localStorage whenever they change
   useEffect(() => {
-    if (threadId) {
-      localStorage.setItem('clearConveyThreadId', threadId);
-      // Update URL for bookmarking
+    if (threads.length > 0) {
+      localStorage.setItem('clearConveyThreads', JSON.stringify(threads));
+    } else {
+      localStorage.removeItem('clearConveyThreads');
+    }
+  }, [threads]);
+
+  // Update URL for current thread
+  useEffect(() => {
+    if (currentThreadId) {
       const url = new URL(window.location);
-      url.searchParams.set('thread', threadId);
+      url.searchParams.set('thread', currentThreadId);
       window.history.replaceState({}, '', url);
     } else {
-      localStorage.removeItem('clearConveyThreadId');
-      // Remove from URL
       const url = new URL(window.location);
       url.searchParams.delete('thread');
       window.history.replaceState({}, '', url);
     }
-  }, [threadId]);
+  }, [currentThreadId]);
 
   // Save session history to localStorage whenever it changes
   useEffect(() => {
@@ -229,23 +237,42 @@ const calculateChipWeights = (chipState) => {
       
       // Capture threadId for session tracking
       if (data.threadId) {
-        setThreadId(data.threadId);
-        
         // Determine if this is a refinement of the current output or a new original
         const isRefinement = output && input === output;
+        
+        // Create or update thread
+        if (!isRefinement || !currentThreadId) {
+          // New thread for new original
+          const newThread = {
+            threadId: data.threadId,
+            originalText: input,
+            startTime: new Date().toISOString(),
+            versions: []
+          };
+          setThreads(prev => [...prev, newThread]);
+          setCurrentThreadId(data.threadId);
+        }
         
         // Add to session history with thread tracking
         const historyEntry = {
           timestamp: new Date().toISOString(),
-          inputText: isRefinement ? sessionHistory[sessionHistory.length - 1]?.inputText : input,
+          inputText: input,
           outputText: data.revised,
           contentType,
           socialPlatform: selectedChips.single?.['social-platform'] || null,
           similarity,
           requestType: isRefinement ? 'refinement' : 'initial',
           threadId: data.threadId,
-          originalText: isRefinement ? sessionHistory[sessionHistory.length - 1]?.originalText : input
+          isNewThread: !isRefinement || !currentThreadId
         };
+        
+        // Update thread with new version
+        setThreads(prev => prev.map(thread => 
+          thread.threadId === data.threadId 
+            ? { ...thread, versions: [...(thread.versions || []), historyEntry] }
+            : thread
+        ));
+        
         setSessionHistory(prev => [...prev, historyEntry]);
       }
       
@@ -318,7 +345,7 @@ const calculateChipWeights = (chipState) => {
           contentType, 
           socialPlatform: selectedChips.single?.['social-platform'] || null,
           similarity,
-          threadId: threadId, // Include threadId for refinements
+          threadId: currentThreadId, // Include threadId for refinements
           chips: {
             ...selectedChips.single,
             ...selectedChips.multiple
@@ -344,8 +371,18 @@ const calculateChipWeights = (chipState) => {
           contentType,
           socialPlatform: selectedChips.single?.['social-platform'] || null,
           similarity,
-          requestType: 'refinement'
+          requestType: 'refinement',
+          threadId: data.threadId,
+          isNewThread: false
         };
+        
+        // Update thread with new version
+        setThreads(prev => prev.map(thread => 
+          thread.threadId === data.threadId 
+            ? { ...thread, versions: [...(thread.versions || []), historyEntry] }
+            : thread
+        ));
+        
         setSessionHistory(prev => [...prev, historyEntry]);
       }
       
@@ -396,9 +433,10 @@ const calculateChipWeights = (chipState) => {
   };
 
   const clearSession = () => {
-    setThreadId(null);
+    setCurrentThreadId(null);
+    setThreads([]);
     setSessionHistory([]);
-    localStorage.removeItem('clearConveyThreadId');
+    localStorage.removeItem('clearConveyThreads');
     localStorage.removeItem('clearConveySessionHistory');
   };
 
@@ -529,7 +567,8 @@ const calculateChipWeights = (chipState) => {
           <div className="container-base">
             <SessionHistory 
               history={sessionHistory}
-              threadId={threadId}
+              threads={threads}
+              currentThreadId={currentThreadId}
               onClearSession={clearSession}
             />
           </div>

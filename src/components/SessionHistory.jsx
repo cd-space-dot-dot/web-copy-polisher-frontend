@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function SessionHistory({ history, threadId, onClearSession }) {
+export default function SessionHistory({ history, threads, currentThreadId, onClearSession }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
 
@@ -56,58 +56,62 @@ export default function SessionHistory({ history, threadId, onClearSession }) {
     return platformMap[value] || value;
   };
 
-  // Build version structure - original input + progressive outputs
-  const buildVersions = (history) => {
-    if (history.length === 0) return [];
+  // Build thread structure with proper separation
+  const buildThreadStructure = (threads) => {
+    if (!threads || threads.length === 0) return [];
     
-    const versions = [];
-    const originalInput = history[0].inputText;
-    
-    // Add original version
-    versions.push({
-      type: 'original',
-      content: originalInput,
-      timestamp: history[0].timestamp,
-      metadata: {
-        contentType: history[0].contentType,
-        socialPlatform: history[0].socialPlatform,
-        similarity: history[0].similarity
-      }
-    });
-    
-    // Add each output version
-    history.forEach((entry, index) => {
+    return threads.map(thread => {
+      const versions = [];
+      
+      // Add original text as first entry
       versions.push({
-        type: 'version',
-        versionNumber: index + 1,
-        content: entry.outputText,
-        timestamp: entry.timestamp,
-        requestType: entry.requestType,
-        metadata: {
-          contentType: entry.contentType,
-          socialPlatform: entry.socialPlatform,
-          similarity: entry.similarity
-        }
+        type: 'original',
+        content: thread.originalText,
+        timestamp: thread.startTime,
+        threadId: thread.threadId
       });
+      
+      // Add polished versions
+      thread.versions.forEach((version, index) => {
+        versions.push({
+          type: 'version',
+          versionNumber: index + 1,
+          content: version.outputText,
+          timestamp: version.timestamp,
+          threadId: thread.threadId,
+          metadata: {
+            contentType: version.contentType,
+            socialPlatform: version.socialPlatform,
+            similarity: version.similarity
+          }
+        });
+      });
+      
+      return {
+        threadId: thread.threadId,
+        originalText: thread.originalText,
+        startTime: thread.startTime,
+        versions
+      };
     });
-    
-    return versions;
   };
 
-  const versions = buildVersions(history);
+  const threadStructure = buildThreadStructure(threads);
+  const totalVersions = threadStructure.reduce((total, thread) => total + thread.versions.length - 1, 0); // -1 to exclude original
 
   return (
     <>
       <div className="session-header" onClick={() => setIsExpanded(!isExpanded)}>
-        <h3>📋 Session History ({history.length} {history.length === 1 ? 'version' : 'versions'})</h3>
+        <h3>📋 Session History ({totalVersions} {totalVersions === 1 ? 'version' : 'versions'} across {threadStructure.length} {threadStructure.length === 1 ? 'thread' : 'threads'})</h3>
         <span className="toggle-icon">{isExpanded ? '▼' : '▶'}</span>
       </div>
       
       {isExpanded && (
         <div className="session-content">
-          {threadId && (
+          {threadStructure.length > 0 && (
             <div className="thread-info">
-              <span>Thread ID: {threadId}</span>
+              <span>Active Threads: {threadStructure.length}</span>
+              {currentThreadId && <span> | Current: {currentThreadId.slice(-8)}</span>}
               {onClearSession && (
                 <button 
                   className="btn-outline btn-sm" 
@@ -120,36 +124,52 @@ export default function SessionHistory({ history, threadId, onClearSession }) {
             </div>
           )}
           
-          <div className="version-list">
-            {versions.map((version, index) => (
-              <div key={index} className={`version-entry ${version.type}`}>
-                <div className="version-header">
-                  <div className="version-label">
-                    <div className="version-main">
-                      <span className={`version-badge ${version.type}`}>
-                        {version.type === 'original' ? 'Original' : `Version ${version.versionNumber}`}
-                      </span>
-                      <span className="version-time">{formatTime(version.timestamp)}</span>
-                    </div>
-                    <div className="version-meta-inline">
-                      <span>Type: {getContentTypeLabel(version.metadata.contentType)}</span>
-                      {version.metadata.socialPlatform && <span>Platform: {getSocialPlatformLabel(version.metadata.socialPlatform)}</span>}
-                      <span>Similarity: {version.metadata.similarity}%</span>
-                    </div>
-                  </div>
+          <div className="thread-list">
+            {threadStructure.map((thread, threadIndex) => (
+              <div key={thread.threadId} className="thread-group">
+                <div className="thread-separator">
+                  <h4>Thread {threadIndex + 1} - {formatTime(thread.startTime)}</h4>
+                  <span className="thread-id">{thread.threadId.slice(-8)}</span>
                 </div>
                 
-                <div className="version-content">
-                  <div className="version-text-container">
-                    <p>{version.content}</p>
-                    <button 
-                      className="copy-version-btn"
-                      onClick={() => handleCopy(version.content, index)}
-                      title="Copy text"
-                    >
-                      {copiedIndex === index ? '✅' : '📋'}
-                    </button>
-                  </div>
+                <div className="version-list">
+                  {thread.versions.map((version, versionIndex) => {
+                    const globalIndex = `${threadIndex}-${versionIndex}`;
+                    return (
+                      <div key={globalIndex} className={`version-entry ${version.type}`}>
+                        <div className="version-header">
+                          <div className="version-label">
+                            <div className="version-main">
+                              <span className={`version-badge ${version.type}`}>
+                                {version.type === 'original' ? 'Original' : `Version ${version.versionNumber}`}
+                              </span>
+                              <span className="version-time">{formatTime(version.timestamp)}</span>
+                            </div>
+                            {version.metadata && (
+                              <div className="version-meta-inline">
+                                <span>Type: {getContentTypeLabel(version.metadata.contentType)}</span>
+                                {version.metadata.socialPlatform && <span>Platform: {getSocialPlatformLabel(version.metadata.socialPlatform)}</span>}
+                                <span>Similarity: {version.metadata.similarity}%</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="version-content">
+                          <div className="version-text-container">
+                            <p>{version.content}</p>
+                            <button 
+                              className="copy-version-btn"
+                              onClick={() => handleCopy(version.content, globalIndex)}
+                              title="Copy text"
+                            >
+                              {copiedIndex === globalIndex ? '✅' : '📋'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ))}

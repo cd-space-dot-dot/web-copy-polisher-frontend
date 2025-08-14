@@ -423,34 +423,54 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
             </div>
             <div className="modal-body">
               <div className="social-modal-section">
-                <h4>Number of Posts</h4>
-                <div className="post-count-chips">
-                  {[
-                    { value: "1", label: "1 Post" },
-                    { value: "3", label: "3 Posts" },
-                    { value: "5", label: "5 Posts" },
-                    { value: "10", label: "10 Posts" }
-                  ].map((count) => {
-                    const isSelected = (selectedChips.single && selectedChips.single['post-count']) === count.value;
-                    return (
-                      <button
-                        key={count.value}
-                        type="button"
-                        className={`chip ${isSelected ? 'chip--selected' : ''}`}
-                        onClick={() => {
-                          onChipsChange({
-                            ...selectedChips,
-                            single: {
-                              ...selectedChips.single,
-                              'post-count': isSelected ? undefined : count.value
-                            }
-                          });
-                        }}
-                      >
-                        {count.label}
-                      </button>
-                    );
-                  })}
+                <h4>Number</h4>
+                <div className="number-counter">
+                  <button 
+                    className="counter-btn counter-btn--minus"
+                    onClick={() => {
+                      const currentCount = parseInt(selectedChips.single?.['post-count'] || '1');
+                      const newCount = Math.max(1, currentCount - 1);
+                      onChipsChange({
+                        ...selectedChips,
+                        single: {
+                          ...selectedChips.single,
+                          'post-count': newCount.toString()
+                        }
+                      });
+                    }}
+                    disabled={parseInt(selectedChips.single?.['post-count'] || '1') <= 1}
+                    title="Decrease number"
+                  >
+                    −
+                  </button>
+                  
+                  <div className="counter-display">
+                    <span className="counter-number">
+                      {selectedChips.single?.['post-count'] || '1'}
+                    </span>
+                    <span className="counter-label">
+                      {parseInt(selectedChips.single?.['post-count'] || '1') === 1 ? 'item' : 'items'}
+                    </span>
+                  </div>
+                  
+                  <button 
+                    className="counter-btn counter-btn--plus"
+                    onClick={() => {
+                      const currentCount = parseInt(selectedChips.single?.['post-count'] || '1');
+                      const newCount = Math.min(20, currentCount + 1);
+                      onChipsChange({
+                        ...selectedChips,
+                        single: {
+                          ...selectedChips.single,
+                          'post-count': newCount.toString()
+                        }
+                      });
+                    }}
+                    disabled={parseInt(selectedChips.single?.['post-count'] || '1') >= 20}
+                    title="Increase number"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
               

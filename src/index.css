@@ -2337,27 +2337,30 @@ textarea {
 .version-meta-inline {
   display: flex;
   gap: var(--space-3);
-  font-size: var(--text-sm); /* Same as chip labels and standard body */
-  color: var(--text-muted);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
   flex-wrap: wrap;
+  font-weight: 500;
 }
 
 .word-count-meta {
-  color: var(--success) !important;
+  color: var(--text-secondary) !important;
   font-weight: 500;
 }
 
 .improvement-indicator {
-  color: var(--success-dark) !important;
+  color: var(--text-secondary) !important;
+  font-weight: 500;
 }
 
 .chip-meta {
-  background: var(--primary-bg);
-  border: 1px solid var(--primary-light);
+  background: var(--background-alt);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
   padding: 2px 6px;
-  font-size: 10px !important;
-  color: var(--primary-dark) !important;
+  font-size: var(--text-xs) !important;
+  color: var(--text-secondary) !important;
+  font-weight: 500;
 }
 
 .version-badge {

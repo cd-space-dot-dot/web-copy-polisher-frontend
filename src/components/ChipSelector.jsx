@@ -400,7 +400,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
               <button className="modal-close" onClick={() => setShowSocialModal(false)}>✕</button>
             </div>
             <div className="modal-body">
-              <div className="social-platforms-grid">
+              <div className="social-platforms-chips">
                 {[
                   { value: "instagram", label: "💕 Instagram" },
                   { value: "linkedin", label: "👔 LinkedIn" },
@@ -419,7 +419,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                     <button
                       key={platform.value}
                       type="button"
-                      className={`platform-option ${isSelected ? 'selected' : ''}`}
+                      className={`chip ${isSelected ? 'chip--selected' : ''}`}
                       onClick={() => {
                         handleSocialPlatformClick(platform.value);
                         setShowSocialModal(false);

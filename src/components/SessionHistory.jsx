@@ -112,10 +112,13 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
             <div className="thread-info">
               <span>Active Threads: {threadStructure.length}</span>
               {currentThreadId && <span> | Current: {currentThreadId.slice(-8)}</span>}
+              <span className="permalink-hint" title="Your session is automatically bookmarked in the URL">🔗 Session bookmarked</span>
               {onClearSession && (
                 <button 
                   className="btn-outline btn-sm" 
                   onClick={onClearSession}
+                  title="Clear all session history and threads"
+                  aria-label="Clear all session history and threads"
                   style={{ marginLeft: 'auto', fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
                 >
                   🗑️ Clear Session
@@ -128,8 +131,11 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
             {threadStructure.map((thread, threadIndex) => (
               <div key={thread.threadId} className="thread-group">
                 <div className="thread-separator">
-                  <h4>Thread {threadIndex + 1} - {formatTime(thread.startTime)}</h4>
-                  <span className="thread-id">{thread.threadId.slice(-8)}</span>
+                  <h4>Thread {threadIndex + 1}</h4>
+                  <div className="thread-metadata">
+                    <span className="thread-time">{formatTime(thread.startTime)}</span>
+                    <span className="thread-id">{thread.threadId.slice(-8)}</span>
+                  </div>
                 </div>
                 
                 <div className="version-list">
@@ -162,14 +168,16 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                               <button 
                                 className="copy-version-btn"
                                 onClick={() => handleCopy(version.content, globalIndex)}
-                                title="Copy text"
+                                title="Copy text to clipboard"
+                                aria-label="Copy text to clipboard"
                               >
                                 {copiedIndex === globalIndex ? '✅' : '📋'}
                               </button>
                               <button 
                                 className="use-as-original-btn"
                                 onClick={() => onUseAsOriginal && onUseAsOriginal(version.content)}
-                                title="Use as original"
+                                title="Use this text as new original input"
+                                aria-label="Use this text as new original input"
                               >
                                 ↗️
                               </button>

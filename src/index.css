@@ -232,6 +232,7 @@ button {
   background-color: var(--primary);
   color: var(--text-primary);
   box-shadow: var(--shadow-sm);
+  font-weight: 600;
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -758,15 +759,17 @@ button:focus {
 }
 
 .chip--selected {
-  background-color: var(--primary);
+  background-color: var(--primary-bg);
   border-color: var(--primary);
+  border-width: 2px;
   color: var(--text-primary);
   font-weight: 500;
 }
 
 .chip--selected:hover {
-  background-color: var(--primary-dark);
-  border-color: var(--primary-dark);
+  background-color: var(--primary-bg);
+  border-color: var(--primary);
+  transform: translateY(-1px);
 }
 
 .chip--more {
@@ -823,7 +826,9 @@ button:focus {
 /* Fallback for browsers that don't support color-mix */
 @supports not (background-color: color-mix(in srgb, red, blue)) {
   .chip--selected {
-    background-color: var(--primary);
+    background-color: var(--primary-bg);
+    border-color: var(--primary);
+    border-width: 2px;
     opacity: var(--fade-opacity, 1);
   }
 }
@@ -960,36 +965,11 @@ button:focus {
   padding: var(--space-6);
 }
 
-.social-platforms-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-3);
-}
-
-.platform-option {
-  padding: var(--space-4);
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  background: white;
-  font-family: var(--font-ui);
-  font-size: var(--text-base);
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-  min-height: auto;
-}
-
-.platform-option:hover {
-  border-color: var(--primary);
-  background: var(--primary-bg);
-  transform: translateY(-1px);
-}
-
-.platform-option.selected {
-  border-color: var(--primary);
-  background: var(--primary);
-  color: var(--text-primary);
-  font-weight: 500;
+.social-platforms-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2);
 }
 
 @keyframes slideUp {
@@ -2047,6 +2027,13 @@ textarea {
   color: var(--text-muted);
 }
 
+.permalink-hint {
+  font-family: var(--font-ui) !important;
+  color: var(--success) !important;
+  font-size: var(--text-xs);
+  cursor: help;
+}
+
 /* Thread separation styling */
 .thread-list {
   max-height: 500px;
@@ -2074,10 +2061,23 @@ textarea {
 
 .thread-separator h4 {
   margin: 0;
-  color: var(--primary);
+  color: var(--text-primary);
   font-family: var(--font-headings);
   font-size: var(--text-base);
-  font-weight: 600;
+  font-weight: 700;
+}
+
+.thread-metadata {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.thread-time {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .thread-id {
@@ -2097,9 +2097,11 @@ textarea {
 
 .version-entry {
   background: var(--background-alt);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius);
   padding: var(--space-4);
-  border-left: 3px solid var(--primary);
+  border-left: 4px solid var(--primary);
+  border-top-left-radius: calc(var(--radius) + 2px);
+  border-bottom-left-radius: calc(var(--radius) + 2px);
   transition: var(--transition);
 }
 

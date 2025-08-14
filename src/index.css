@@ -1620,7 +1620,7 @@ textarea {
   white-space: pre-wrap;
   margin-bottom: var(--space-5);
   color: var(--text-primary);
-  font-family: var(--font-input);
+  font-family: var(--font-mono);
   position: relative;
   z-index: 2; /* Puts it above the mesh animation  for visibility */
   box-shadow: 

@@ -787,9 +787,9 @@ button:focus {
 .chip--selected {
   background-color: var(--primary-bg);
   border-color: var(--primary);
-  border-width: 2px;
   color: var(--text-primary);
   font-weight: 500;
+  box-shadow: var(--shadow-sm);
 }
 
 .chip--selected:hover {
@@ -854,8 +854,8 @@ button:focus {
   .chip--selected {
     background-color: var(--primary-bg);
     border-color: var(--primary);
-    border-width: 2px;
     opacity: var(--fade-opacity, 1);
+    box-shadow: var(--shadow-sm);
   }
 }
 

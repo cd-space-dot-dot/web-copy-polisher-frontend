@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
               <li><strong>Web Traffic Analytics:</strong> <a href="https://vercel.com/docs/analytics">Basic analytics</a> from our server, which show information like the number of visits over a span of time, percent of visitors from different countries, and percent of users accessing via a mobile or desktop device</li>
               <li><strong>Purpose:</strong> Improving our prompts and AI responses</li>
               <li><strong>Anonymized:</strong> No personal information, names, or account data collected <strong>unless</strong> you share it while using Clear Convey</li>
-              <li><strong>Agreement</strong>: When you use Clear Convey, what you input will be accessible by our team and partners who help (for example) build, maintain, improve or share this tool; this not a guarantee that anyone will see it, nor does it mean that we own the content. You are responsible for staying on the right side of copyright and the legal and ethical dimensions of intellectual property, and you retain ownership over owned content you input into the form</li>
+              <li><strong>Agreement</strong>: When you use Clear Convey, what you input will be accessible by our team and partners who help (for example) build, maintain, improve or share this tool; this is not a guarantee that anyone will see it, nor does it mean that we own the content. You are responsible for staying on the right side of copyright and the legal and ethical dimensions of intellectual property, and you retain ownership over owned content you input into the form</li>
             </ul>
           </div>
 

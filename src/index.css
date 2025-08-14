@@ -2269,6 +2269,46 @@ textarea {
   font-weight: 700;
 }
 
+.thread-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: var(--space-3);
+}
+
+.thread-title-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.thread-summary {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.thread-copy-btn {
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.thread-copy-btn:hover {
+  background: var(--primary-bg);
+  border-color: var(--primary-light);
+  color: var(--text-primary);
+}
+
 .thread-metadata {
   display: flex;
   align-items: center;
@@ -2338,29 +2378,26 @@ textarea {
   display: flex;
   gap: var(--space-3);
   font-size: var(--text-sm);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   flex-wrap: wrap;
-  font-weight: 500;
 }
 
 .word-count-meta {
-  color: var(--text-secondary) !important;
+  color: var(--success) !important;
   font-weight: 500;
 }
 
 .improvement-indicator {
-  color: var(--text-secondary) !important;
-  font-weight: 500;
+  color: var(--success-dark) !important;
 }
 
 .chip-meta {
-  background: var(--background-alt);
-  border: 1px solid var(--border-light);
+  background: var(--primary-bg);
+  border: 1px solid var(--primary-light);
   border-radius: var(--radius-sm);
   padding: 2px 6px;
-  font-size: var(--text-xs) !important;
-  color: var(--text-secondary) !important;
-  font-weight: 500;
+  font-size: 10px !important;
+  color: var(--primary-dark) !important;
 }
 
 .version-badge {

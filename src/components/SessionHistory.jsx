@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 export default function SessionHistory({ history, threads, currentThreadId, onClearSession, onUseAsOriginal, hasEverInteracted }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
-  const [urlCopied, setUrlCopied] = useState(false);
+  const [urlCopied, setUrlCopied] = useState(null); // Store threadId of copied URL
 
   // Show placeholder if user has interacted but no history
   if (!history || history.length === 0) {
@@ -52,11 +52,14 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
     }
   };
 
-  const handleCopyUrl = async () => {
+  const handleCopyThreadUrl = async (threadId) => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
-      setUrlCopied(true);
-      setTimeout(() => setUrlCopied(false), 2000);
+      // Construct URL with specific thread ID
+      const url = new URL(window.location.origin + window.location.pathname);
+      url.searchParams.set('thread', threadId);
+      await navigator.clipboard.writeText(url.toString());
+      setUrlCopied(threadId);
+      setTimeout(() => setUrlCopied(null), 2000);
     } catch (err) {
       console.error('Failed to copy URL: ', err);
     }
@@ -180,14 +183,6 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                   <span className="threads-count">Active Threads: {threadStructure.length}</span>
                   {currentThreadId && <span className="current-thread">Current: {currentThreadId.slice(-8)}</span>}
                 </div>
-                <button 
-                  className="permalink-hint" 
-                  onClick={handleCopyUrl}
-                  title="Copy session URL to clipboard"
-                  aria-label="Copy session URL to clipboard"
-                >
-                  {urlCopied ? '✅ URL Copied!' : '🔗 Copy Session URL'}
-                </button>
               </div>
               {onClearSession && (
                 <button 
@@ -207,7 +202,22 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
             {threadStructure.map((thread, threadIndex) => (
               <div key={thread.threadId} className="thread-group">
                 <div className="thread-separator">
-                  <h4>Thread {threadIndex + 1}</h4>
+                  <div className="thread-header">
+                    <div className="thread-title-section">
+                      <h4>Thread {threadIndex + 1}</h4>
+                      {thread.threadSummary && (
+                        <span className="thread-summary">{thread.threadSummary}</span>
+                      )}
+                    </div>
+                    <button 
+                      className="thread-copy-btn" 
+                      onClick={() => handleCopyThreadUrl(thread.threadId)}
+                      title="Copy thread URL to share this specific conversation"
+                      aria-label="Copy thread URL"
+                    >
+                      {urlCopied === thread.threadId ? '✅' : '🔗'}
+                    </button>
+                  </div>
                   <div className="thread-metadata">
                     <span className="thread-time">{formatTime(thread.startTime)}</span>
                     <span className="thread-id">{thread.threadId.slice(-8)}</span>

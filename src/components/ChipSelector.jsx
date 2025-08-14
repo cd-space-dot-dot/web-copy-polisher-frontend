@@ -173,7 +173,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       label: "Content Type", 
       chips: [
         { value: "webpage", label: "🌐 Web Page" },
-        { value: "social", label: "📱 Social Media" },
+        { value: "social", label: "📱 Social Media ↗" },
         { value: "blog", label: "📝 Blog" },
         { value: "slack", label: "#️⃣ Slack" },
         { value: "email", label: "📧 Email" },

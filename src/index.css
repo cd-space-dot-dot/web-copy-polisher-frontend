@@ -2276,7 +2276,7 @@ textarea {
 }
 
 .thread-time {
-  font-family: var(--font-ui);
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--text-secondary);
   font-weight: 500;

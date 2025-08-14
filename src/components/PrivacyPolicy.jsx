@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function PrivacyPolicy() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,7 +16,7 @@ export default function PrivacyPolicy() {
         Privacy & Data
       </button>
       
-      {isModalOpen && (
+      {isModalOpen && createPortal(
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
@@ -59,7 +60,8 @@ export default function PrivacyPolicy() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

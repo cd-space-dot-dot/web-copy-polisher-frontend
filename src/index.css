@@ -1341,7 +1341,7 @@ textarea {
 .draft-input,
 .revised-text,
 .version-text-container p {
-  font-family: var(--font-input); /* Mono font to match output content */
+  font-family: var(--font-mono);
   font-size: var(--text-base);
   line-height: 1.7;
   color: var(--text-primary);

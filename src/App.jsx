@@ -216,6 +216,10 @@ const calculateChipWeights = (chipState) => {
       if (data.threadId) {
         setThreadId(data.threadId);
         
+        // Determine if this is a refinement or new original
+        const isRefinement = threadId && sessionHistory.length > 0 && 
+          sessionHistory[sessionHistory.length - 1].inputText === input;
+        
         // Add to session history
         const historyEntry = {
           timestamp: new Date().toISOString(),
@@ -224,7 +228,7 @@ const calculateChipWeights = (chipState) => {
           contentType,
           socialPlatform: selectedChips.single?.['social-platform'] || null,
           similarity,
-          requestType: threadId ? 'refinement' : 'initial'
+          requestType: isRefinement ? 'refinement' : 'initial'
         };
         setSessionHistory(prev => [...prev, historyEntry]);
       }
@@ -316,6 +320,7 @@ const calculateChipWeights = (chipState) => {
       
       // Update session history for refinements
       if (data.threadId) {
+        // This is always a refinement since it's triggered by "Polish Again"
         const historyEntry = {
           timestamp: new Date().toISOString(),
           inputText: input,

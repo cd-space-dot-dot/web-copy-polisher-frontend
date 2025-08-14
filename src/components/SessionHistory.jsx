@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 export default function SessionHistory({ history, threadId, onClearSession }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState(null);
 
   if (!history || history.length === 0) {
     return null;
@@ -12,6 +13,16 @@ export default function SessionHistory({ history, threadId, onClearSession }) {
       hour: '2-digit', 
       minute: '2-digit' 
     });
+  };
+
+  const handleCopy = async (text, index) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
   };
 
   // Map content type values to their display labels (DRY - matches ContentTypeSelector)
@@ -25,6 +36,24 @@ export default function SessionHistory({ history, threadId, onClearSession }) {
       "other": "Other"
     };
     return typeMap[value] || value;
+  };
+
+  // Map social platform values to their display labels (DRY - matches ChipSelector)
+  const getSocialPlatformLabel = (value) => {
+    const platformMap = {
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "twitter": "X (Twitter)",
+      "facebook": "Facebook", 
+      "tiktok": "TikTok",
+      "youtube-description": "YouTube Description",
+      "youtube-comment": "YouTube Comment",
+      "threads": "Threads",
+      "bluesky": "Bluesky",
+      "reddit": "Reddit",
+      "product-description": "Product Description"
+    };
+    return platformMap[value] || value;
   };
 
   // Build version structure - original input + progressive outputs
@@ -104,14 +133,23 @@ export default function SessionHistory({ history, threadId, onClearSession }) {
                     </div>
                     <div className="version-meta-inline">
                       <span>Type: {getContentTypeLabel(version.metadata.contentType)}</span>
-                      {version.metadata.socialPlatform && <span>Platform: {version.metadata.socialPlatform}</span>}
+                      {version.metadata.socialPlatform && <span>Platform: {getSocialPlatformLabel(version.metadata.socialPlatform)}</span>}
                       <span>Similarity: {version.metadata.similarity}%</span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="version-content">
-                  <p>{version.content}</p>
+                  <div className="version-text-container">
+                    <p>{version.content}</p>
+                    <button 
+                      className="copy-version-btn"
+                      onClick={() => handleCopy(version.content, index)}
+                      title="Copy text"
+                    >
+                      {copiedIndex === index ? '✅' : '📋'}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

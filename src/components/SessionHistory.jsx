@@ -1,11 +1,37 @@
 import React, { useState } from 'react';
 
-export default function SessionHistory({ history, threads, currentThreadId, onClearSession, onUseAsOriginal }) {
+export default function SessionHistory({ history, threads, currentThreadId, onClearSession, onUseAsOriginal, hasEverInteracted }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
 
+  // Show placeholder if user has interacted but no history
   if (!history || history.length === 0) {
-    return null;
+    if (!hasEverInteracted) {
+      return null;
+    }
+    
+    return (
+      <>
+        <div className="session-header" onClick={() => setIsExpanded(!isExpanded)}>
+          <h3>📋 Session History</h3>
+          <span className="toggle-icon">{isExpanded ? '▼' : '▶'}</span>
+        </div>
+        
+        {isExpanded && (
+          <div className="session-content">
+            <div className="history-placeholder">
+              <h4>✨ Your session history will appear here</h4>
+              <p>After you polish some text, you'll see your original and polished versions here for easy comparison and reuse.</p>
+              <div className="placeholder-features">
+                <span>📋 Copy any version</span>
+                <span>↗️ Use as new original</span>
+                <span>🗂️ Organized by threads</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
   }
 
   const formatTime = (timestamp) => {
@@ -56,6 +82,32 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
     return platformMap[value] || value;
   };
 
+  // Format chip selections for display
+  const formatChipSelections = (chipSelections) => {
+    if (!chipSelections) return [];
+    const chips = [];
+    
+    // Add single selections
+    if (chipSelections.single) {
+      Object.entries(chipSelections.single).forEach(([category, value]) => {
+        if (value && category !== 'content-type' && category !== 'social-platform') {
+          chips.push(`${category}: ${value}`);
+        }
+      });
+    }
+    
+    // Add multiple selections (like tone)
+    if (chipSelections.multiple) {
+      Object.entries(chipSelections.multiple).forEach(([category, values]) => {
+        if (values && values.length > 0) {
+          chips.push(`${category}: ${values.join(', ')}`);
+        }
+      });
+    }
+    
+    return chips;
+  };
+
   // Build thread structure with proper separation
   const buildThreadStructure = (threads) => {
     if (!threads || threads.length === 0) return [];
@@ -82,7 +134,9 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
           metadata: {
             contentType: version.contentType,
             socialPlatform: version.socialPlatform,
-            similarity: version.similarity
+            similarity: version.similarity,
+            chipSelections: version.chipSelections,
+            wordCount: version.wordCount
           }
         });
       });
@@ -156,6 +210,17 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                                 <span>Type: {getContentTypeLabel(version.metadata.contentType)}</span>
                                 {version.metadata.socialPlatform && <span>Platform: {getSocialPlatformLabel(version.metadata.socialPlatform)}</span>}
                                 <span>Similarity: {version.metadata.similarity}%</span>
+                                {version.metadata.wordCount && (
+                                  <span className="word-count-meta">
+                                    {version.metadata.wordCount.original} → {version.metadata.wordCount.revised} words
+                                    {version.metadata.wordCount.revised < version.metadata.wordCount.original && (
+                                      <span className="improvement-indicator"> ✓ Shorter</span>
+                                    )}
+                                  </span>
+                                )}
+                                {version.metadata.chipSelections && formatChipSelections(version.metadata.chipSelections).map((chip, chipIndex) => (
+                                  <span key={chipIndex} className="chip-meta">{chip}</span>
+                                ))}
                               </div>
                             )}
                           </div>

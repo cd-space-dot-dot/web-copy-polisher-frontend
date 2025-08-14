@@ -339,7 +339,7 @@ button:focus {
 .container--output {
   background: rgba(199, 146, 202, 0.1);
   backdrop-filter: blur(10px);
-  border: 2px dashed rgba(199, 146, 202, 0.4);
+  border: 2px solid rgba(199, 146, 202, 0.4);
   box-shadow: var(--shadow-sm);
   min-height: 280px; /* Consistent height to prevent content jumping */
 }
@@ -347,7 +347,7 @@ button:focus {
 /* When loading, reduce the purple border opacity for better loader visibility */
 .container--output:has(.mesh-loader-overlay.show),
 .container--output.loading {
-  border: 2px dashed rgba(199, 146, 202, 0.2);
+  border: 2px solid rgba(199, 146, 202, 0.2);
   background: rgba(255, 255, 255, 0.7);
 }
 
@@ -2034,6 +2034,41 @@ textarea {
   cursor: help;
 }
 
+.history-placeholder {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-muted);
+}
+
+.history-placeholder h4 {
+  margin: 0 0 var(--space-3) 0;
+  color: var(--text-secondary);
+  font-family: var(--font-headings);
+  font-weight: 600;
+}
+
+.history-placeholder p {
+  margin: 0 0 var(--space-4) 0;
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+.placeholder-features {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.placeholder-features span {
+  background: var(--background-alt);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
 /* Thread separation styling */
 .thread-list {
   max-height: 500px;
@@ -2138,6 +2173,24 @@ textarea {
   flex-wrap: wrap;
 }
 
+.word-count-meta {
+  color: var(--success) !important;
+  font-weight: 500;
+}
+
+.improvement-indicator {
+  color: var(--success-dark) !important;
+}
+
+.chip-meta {
+  background: var(--primary-bg);
+  border: 1px solid var(--primary-light);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  font-size: 10px !important;
+  color: var(--primary-dark) !important;
+}
+
 .version-badge {
   padding: 2px var(--space-2);
   border-radius: var(--radius-full);
@@ -2176,7 +2229,7 @@ textarea {
 
 .version-text-container p {
   padding: var(--space-3);
-  padding-right: calc(var(--space-3) + 2.5rem); /* Space for copy button */
+  padding-right: calc(var(--space-3) + 3rem); /* Space for vertical action buttons */
   margin: 0;
   /* Font styles inherited from .user-content class group */
 }
@@ -2186,6 +2239,7 @@ textarea {
   top: var(--space-2);
   right: var(--space-2);
   display: flex;
+  flex-direction: column;
   gap: var(--space-1);
 }
 
@@ -2229,6 +2283,28 @@ textarea {
   
   .version-list {
     max-height: 300px;
+  }
+  
+  .thread-separator {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  .thread-metadata {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+  
+  .thread-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  .version-text-container p {
+    padding-right: calc(var(--space-3) + 2.5rem); /* Smaller space on mobile */
   }
 }
 

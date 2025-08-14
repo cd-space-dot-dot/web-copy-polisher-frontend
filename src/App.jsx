@@ -43,6 +43,11 @@ export default function App() {
     const saved = localStorage.getItem('clearConveySessionHistory');
     return saved ? JSON.parse(saved) : [];
   });
+  const [hasEverInteracted, setHasEverInteracted] = useState(() => {
+    // Check if user has ever used the app
+    return localStorage.getItem('clearConveyHasInteracted') === 'true' || 
+           localStorage.getItem('clearConveySessionHistory') !== null;
+  });
   const [selectedChips, setSelectedChips] = useState({
     single: {}, // { length: "longer", platform: "social", industry: "business", generation: "millennial" }
     multiple: {} // { tone: ["professional", "friendly"] }
@@ -169,6 +174,12 @@ const calculateChipWeights = (chipState) => {
     if (!input.trim()) return;
     setLoading(true);
     
+    // Mark that user has interacted
+    if (!hasEverInteracted) {
+      setHasEverInteracted(true);
+      localStorage.setItem('clearConveyHasInteracted', 'true');
+    }
+    
     // Helper function to calculate AI weights for chip selections
     const calculateChipWeights = (chipState) => {
       const MULTIPLE_SELECTION_CATEGORIES = ['tone'];
@@ -263,7 +274,12 @@ const calculateChipWeights = (chipState) => {
           similarity,
           requestType: isRefinement ? 'refinement' : 'initial',
           threadId: data.threadId,
-          isNewThread: !isRefinement || !currentThreadId
+          isNewThread: !isRefinement || !currentThreadId,
+          chipSelections: selectedChips,
+          wordCount: {
+            original: input.trim().split(/\s+/).length,
+            revised: data.revised.trim().split(/\s+/).length
+          }
         };
         
         // Update thread with new version
@@ -373,7 +389,12 @@ const calculateChipWeights = (chipState) => {
           similarity,
           requestType: 'refinement',
           threadId: data.threadId,
-          isNewThread: false
+          isNewThread: false,
+          chipSelections: selectedChips,
+          wordCount: {
+            original: input.trim().split(/\s+/).length,
+            revised: data.revised.trim().split(/\s+/).length
+          }
         };
         
         // Update thread with new version
@@ -438,6 +459,7 @@ const calculateChipWeights = (chipState) => {
     setSessionHistory([]);
     localStorage.removeItem('clearConveyThreads');
     localStorage.removeItem('clearConveySessionHistory');
+    // Keep hasEverInteracted true so they see placeholder
   };
 
   const handleUseAsOriginal = (text) => {
@@ -579,7 +601,7 @@ const calculateChipWeights = (chipState) => {
       </section>
   
       {/* Session History Section */}
-      {sessionHistory.length > 0 && (
+      {hasEverInteracted && (
         <section className="section">
           <div className="container-base">
             <SessionHistory 
@@ -588,6 +610,7 @@ const calculateChipWeights = (chipState) => {
               currentThreadId={currentThreadId}
               onClearSession={clearSession}
               onUseAsOriginal={handleUseAsOriginal}
+              hasEverInteracted={hasEverInteracted}
             />
           </div>
         </section>

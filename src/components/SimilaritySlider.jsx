@@ -16,6 +16,25 @@ export default function SimilaritySlider({ value, onChange }) {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Calculate dynamic font weights based on slider value
+  // Value ranges from 0-100, where 0 = most similar, 100 = most different
+  const calculateLeftWeight = (sliderValue) => {
+    // "More similar" gets heavier as slider moves left (toward 0)
+    // Range: 400 (default) to 600 (bold)
+    const weight = 400 + ((100 - sliderValue) / 100) * 200;
+    return Math.round(weight);
+  };
+
+  const calculateRightWeight = (sliderValue) => {
+    // "More different" gets heavier as slider moves right (toward 100)
+    // Range: 400 (default) to 600 (bold)
+    const weight = 400 + (sliderValue / 100) * 200;
+    return Math.round(weight);
+  };
+
+  const leftWeight = calculateLeftWeight(value);
+  const rightWeight = calculateRightWeight(value);
+
   return (
     <div className="similarity-slider-container">
       <div className="slider-description">
@@ -23,7 +42,12 @@ export default function SimilaritySlider({ value, onChange }) {
       </div>
       <div className="slider-wrapper">
         {!isMobile && (
-          <span className="slider-label-left">More similar</span>
+          <span 
+            className="slider-label-left"
+            style={{ fontWeight: leftWeight }}
+          >
+            More similar
+          </span>
         )}
         <input
           type="range"
@@ -35,7 +59,12 @@ export default function SimilaritySlider({ value, onChange }) {
           aria-label="Similarity"
         />
         {!isMobile && (
-          <span className="slider-label-right">More different</span>
+          <span 
+            className="slider-label-right"
+            style={{ fontWeight: rightWeight }}
+          >
+            More different
+          </span>
         )}
       </div>
       <div className="slider-value">

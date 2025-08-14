@@ -25,7 +25,14 @@ export default function App() {
   const [revisions, setRevisions] = useState([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [threadId, setThreadId] = useState(() => {
-    // Initialize threadId from localStorage if available
+    // First check URL params for bookmarked session
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlThreadId = urlParams.get('thread');
+    if (urlThreadId) {
+      localStorage.setItem('clearConveyThreadId', urlThreadId);
+      return urlThreadId;
+    }
+    // Otherwise initialize from localStorage if available
     return localStorage.getItem('clearConveyThreadId') || null;
   });
   const [sessionHistory, setSessionHistory] = useState(() => {
@@ -44,12 +51,20 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Save threadId to localStorage whenever it changes
+  // Save threadId to localStorage and URL whenever it changes
   useEffect(() => {
     if (threadId) {
       localStorage.setItem('clearConveyThreadId', threadId);
+      // Update URL for bookmarking
+      const url = new URL(window.location);
+      url.searchParams.set('thread', threadId);
+      window.history.replaceState({}, '', url);
     } else {
       localStorage.removeItem('clearConveyThreadId');
+      // Remove from URL
+      const url = new URL(window.location);
+      url.searchParams.delete('thread');
+      window.history.replaceState({}, '', url);
     }
   }, [threadId]);
 
@@ -216,19 +231,20 @@ const calculateChipWeights = (chipState) => {
       if (data.threadId) {
         setThreadId(data.threadId);
         
-        // Determine if this is a refinement or new original
-        const isRefinement = threadId && sessionHistory.length > 0 && 
-          sessionHistory[sessionHistory.length - 1].inputText === input;
+        // Determine if this is a refinement of the current output or a new original
+        const isRefinement = output && input === output;
         
-        // Add to session history
+        // Add to session history with thread tracking
         const historyEntry = {
           timestamp: new Date().toISOString(),
-          inputText: input,
+          inputText: isRefinement ? sessionHistory[sessionHistory.length - 1]?.inputText : input,
           outputText: data.revised,
           contentType,
           socialPlatform: selectedChips.single?.['social-platform'] || null,
           similarity,
-          requestType: isRefinement ? 'refinement' : 'initial'
+          requestType: isRefinement ? 'refinement' : 'initial',
+          threadId: data.threadId,
+          originalText: isRefinement ? sessionHistory[sessionHistory.length - 1]?.originalText : input
         };
         setSessionHistory(prev => [...prev, historyEntry]);
       }
@@ -439,28 +455,19 @@ const calculateChipWeights = (chipState) => {
                 originalInput={input}
                 metadata={metadata}
                 onNewRevision={handleNewRevision}
+                sessionHistoryCount={sessionHistory.length}
+                onViewHistory={() => {
+                  const historySection = document.querySelector('.session-header');
+                  if (historySection) {
+                    historySection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Expand history if collapsed
+                    const historyContent = document.querySelector('.session-content');
+                    if (!historyContent) {
+                      historySection.click();
+                    }
+                  }
+                }}
               />
-              
-              {sessionHistory.length > 0 && (
-                <div className="see-history-hint">
-                  <button 
-                    className="see-history-link"
-                    onClick={() => {
-                      const historySection = document.querySelector('.session-header');
-                      if (historySection) {
-                        historySection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        // Expand history if collapsed
-                        const historyContent = document.querySelector('.session-content');
-                        if (!historyContent) {
-                          historySection.click();
-                        }
-                      }
-                    }}
-                  >
-                    📋 See History ({sessionHistory.length} version{sessionHistory.length !== 1 ? 's' : ''})
-                  </button>
-                </div>
-              )}
             </>
           ) : (
             <div className="output-placeholder">

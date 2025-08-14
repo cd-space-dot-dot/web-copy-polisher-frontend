@@ -8,6 +8,8 @@ export default function RevisedOutput({
   originalInput, 
   metadata, 
   onNewRevision,
+  sessionHistoryCount = 0,
+  onViewHistory,
   loading = false 
 }) {
   const [copied, setCopied] = useState(false);
@@ -70,6 +72,15 @@ export default function RevisedOutput({
         >
           📝 Edit Original
         </button>
+        
+        {sessionHistoryCount > 0 && onViewHistory && (
+          <button 
+            className="btn-outline"
+            onClick={onViewHistory}
+          >
+            📋 History ({sessionHistoryCount})
+          </button>
+        )}
       </div>
     </>
   );

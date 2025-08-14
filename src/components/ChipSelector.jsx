@@ -361,6 +361,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                             // Special handling for social media chip to show selected platform
                             if (category.id === 'content-type' && chip.value === 'social' && isSelected) {
                               const selectedPlatform = selectedChips.single?.['social-platform'];
+                              const postCount = selectedChips.single?.['post-count'] || '1';
                               if (selectedPlatform) {
                                 const platformLabels = {
                                   "instagram": "Instagram",
@@ -375,7 +376,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                                   "reddit": "Reddit",
                                   "product-description": "Product Description"
                                 };
-                                return `📱 Social Media: ${platformLabels[selectedPlatform] || selectedPlatform}`;
+                                return `📱 Social Media: ${platformLabels[selectedPlatform] || selectedPlatform} x ${postCount}`;
                               }
                             }
                             return chip.label;

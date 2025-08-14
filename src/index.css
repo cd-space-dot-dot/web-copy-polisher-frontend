@@ -2179,10 +2179,16 @@ textarea {
   /* Font styles inherited from .user-content class group */
 }
 
-.copy-version-btn {
+.version-actions {
   position: absolute;
   top: var(--space-2);
   right: var(--space-2);
+  display: flex;
+  gap: var(--space-1);
+}
+
+.copy-version-btn,
+.use-as-original-btn {
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -2198,7 +2204,8 @@ textarea {
   justify-content: center;
 }
 
-.copy-version-btn:hover {
+.copy-version-btn:hover,
+.use-as-original-btn:hover {
   background: var(--surface);
   border-color: var(--primary);
   color: var(--primary);

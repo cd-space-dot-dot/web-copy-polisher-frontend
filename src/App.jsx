@@ -440,6 +440,23 @@ const calculateChipWeights = (chipState) => {
     localStorage.removeItem('clearConveySessionHistory');
   };
 
+  const handleUseAsOriginal = (text) => {
+    setInput(text);
+    setOutput(''); // Clear current output since we're starting fresh
+    
+    // Scroll to input area
+    setTimeout(() => {
+      const inputElement = document.querySelector('.draft-input');
+      if (inputElement) {
+        inputElement.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'center'
+        });
+        inputElement.focus();
+      }
+    }, 100);
+  };
+
   return (
     <div className="app-container">
       <header className="app-header">
@@ -570,6 +587,7 @@ const calculateChipWeights = (chipState) => {
               threads={threads}
               currentThreadId={currentThreadId}
               onClearSession={clearSession}
+              onUseAsOriginal={handleUseAsOriginal}
             />
           </div>
         </section>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function SessionHistory({ history, threads, currentThreadId, onClearSession }) {
+export default function SessionHistory({ history, threads, currentThreadId, onClearSession, onUseAsOriginal }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
 
@@ -158,13 +158,22 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                         <div className="version-content">
                           <div className="version-text-container">
                             <p>{version.content}</p>
-                            <button 
-                              className="copy-version-btn"
-                              onClick={() => handleCopy(version.content, globalIndex)}
-                              title="Copy text"
-                            >
-                              {copiedIndex === globalIndex ? '✅' : '📋'}
-                            </button>
+                            <div className="version-actions">
+                              <button 
+                                className="copy-version-btn"
+                                onClick={() => handleCopy(version.content, globalIndex)}
+                                title="Copy text"
+                              >
+                                {copiedIndex === globalIndex ? '✅' : '📋'}
+                              </button>
+                              <button 
+                                className="use-as-original-btn"
+                                onClick={() => onUseAsOriginal && onUseAsOriginal(version.content)}
+                                title="Use as original"
+                              >
+                                ↗️
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>

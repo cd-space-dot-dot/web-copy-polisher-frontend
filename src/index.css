@@ -2305,9 +2305,10 @@ textarea {
 
 .version-text-container {
   position: relative;
-  background: var(--surface);
+  background: var(--background-alt); /* Pure white like output box */
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-light);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle depth like output */
 }
 
 .version-text-container p {

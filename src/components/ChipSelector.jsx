@@ -357,7 +357,29 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                             `Selection #${selectionIndex + 1} - AI weight: ${Math.round(fadeProps.aiWeight * 100)}%` : 
                             undefined}
                         >
-                          {chip.label}
+                          {(() => {
+                            // Special handling for social media chip to show selected platform
+                            if (category.id === 'content-type' && chip.value === 'social' && isSelected) {
+                              const selectedPlatform = selectedChips.single?.['social-platform'];
+                              if (selectedPlatform) {
+                                const platformLabels = {
+                                  "instagram": "Instagram",
+                                  "linkedin": "LinkedIn", 
+                                  "twitter": "X (Twitter)",
+                                  "facebook": "Facebook",
+                                  "tiktok": "TikTok",
+                                  "youtube-description": "YouTube Description",
+                                  "youtube-comment": "YouTube Comment",
+                                  "threads": "Threads",
+                                  "bluesky": "Bluesky",
+                                  "reddit": "Reddit",
+                                  "product-description": "Product Description"
+                                };
+                                return `📱 Social Media: ${platformLabels[selectedPlatform] || selectedPlatform}`;
+                              }
+                            }
+                            return chip.label;
+                          })()}
                         </button>
                       );
                     })}
@@ -396,39 +418,82 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         <div className="modal-overlay" onClick={() => setShowSocialModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Choose Social Media Platform</h3>
+              <h3>Social Media Settings</h3>
               <button className="modal-close" onClick={() => setShowSocialModal(false)}>✕</button>
             </div>
             <div className="modal-body">
-              <div className="social-platforms-chips">
-                {[
-                  { value: "instagram", label: "💕 Instagram" },
-                  { value: "linkedin", label: "👔 LinkedIn" },
-                  { value: "twitter", label: "🐦 X (Twitter)" },
-                  { value: "facebook", label: "👍 Facebook" },
-                  { value: "tiktok", label: "🎬 TikTok" },
-                  { value: "youtube-description", label: "📝 YouTube Description" },
-                  { value: "youtube-comment", label: "💬 YouTube Comment" },
-                  { value: "threads", label: "🪡 Threads" },
-                  { value: "bluesky", label: "☁️ Bluesky" },
-                  { value: "reddit", label: "🔴 Reddit" },
-                  { value: "product-description", label: "🏷️ Product Description" }
-                ].map((platform) => {
-                  const isSelected = (selectedChips.single && selectedChips.single['social-platform']) === platform.value;
-                  return (
-                    <button
-                      key={platform.value}
-                      type="button"
-                      className={`chip ${isSelected ? 'chip--selected' : ''}`}
-                      onClick={() => {
-                        handleSocialPlatformClick(platform.value);
-                        setShowSocialModal(false);
-                      }}
-                    >
-                      {platform.label}
-                    </button>
-                  );
-                })}
+              <div className="social-modal-section">
+                <h4>Number of Posts</h4>
+                <div className="post-count-chips">
+                  {[
+                    { value: "1", label: "1 Post" },
+                    { value: "3", label: "3 Posts" },
+                    { value: "5", label: "5 Posts" },
+                    { value: "10", label: "10 Posts" }
+                  ].map((count) => {
+                    const isSelected = (selectedChips.single && selectedChips.single['post-count']) === count.value;
+                    return (
+                      <button
+                        key={count.value}
+                        type="button"
+                        className={`chip ${isSelected ? 'chip--selected' : ''}`}
+                        onClick={() => {
+                          onChipsChange({
+                            ...selectedChips,
+                            single: {
+                              ...selectedChips.single,
+                              'post-count': isSelected ? undefined : count.value
+                            }
+                          });
+                        }}
+                      >
+                        {count.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              
+              <div className="social-modal-section">
+                <h4>Platform</h4>
+                <div className="social-platforms-chips">
+                  {[
+                    { value: "instagram", label: "💕 Instagram" },
+                    { value: "linkedin", label: "👔 LinkedIn" },
+                    { value: "twitter", label: "🐦 X (Twitter)" },
+                    { value: "facebook", label: "👍 Facebook" },
+                    { value: "tiktok", label: "🎬 TikTok" },
+                    { value: "youtube-description", label: "📝 YouTube Description" },
+                    { value: "youtube-comment", label: "💬 YouTube Comment" },
+                    { value: "threads", label: "🪡 Threads" },
+                    { value: "bluesky", label: "☁️ Bluesky" },
+                    { value: "reddit", label: "🔴 Reddit" },
+                    { value: "product-description", label: "🏷️ Product Description" }
+                  ].map((platform) => {
+                    const isSelected = (selectedChips.single && selectedChips.single['social-platform']) === platform.value;
+                    return (
+                      <button
+                        key={platform.value}
+                        type="button"
+                        className={`chip ${isSelected ? 'chip--selected' : ''}`}
+                        onClick={() => {
+                          handleSocialPlatformClick(platform.value);
+                        }}
+                      >
+                        {platform.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              
+              <div className="modal-actions">
+                <button 
+                  className="btn-primary"
+                  onClick={() => setShowSocialModal(false)}
+                >
+                  Done
+                </button>
               </div>
             </div>
           </div>

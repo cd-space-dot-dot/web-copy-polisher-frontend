@@ -276,6 +276,32 @@ button {
   color: var(--text-primary);
 }
 
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  font-weight: 500;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--background-alt);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.btn-teal {
+  background-color: rgba(20, 184, 166, 0.1);
+  color: var(--primary);
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  font-weight: 600;
+}
+
+.btn-teal:hover:not(:disabled) {
+  background-color: rgba(20, 184, 166, 0.15);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
 .btn-outline.active {
   background-color: var(--primary);
   color: var(--text-primary);
@@ -965,11 +991,31 @@ button:focus {
   padding: var(--space-6);
 }
 
+.social-modal-section {
+  margin-bottom: var(--space-5);
+}
+
+.social-modal-section h4 {
+  margin: 0 0 var(--space-3) 0;
+  color: var(--text-primary);
+  font-family: var(--font-headings);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.post-count-chips,
 .social-platforms-chips {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  padding: var(--space-2);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-light);
+  margin-top: var(--space-4);
 }
 
 @keyframes slideUp {
@@ -2013,12 +2059,37 @@ textarea {
 .thread-info {
   background: var(--background-alt);
   border: 1px solid var(--border-light);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-3);
   border-radius: var(--radius-sm);
   margin-bottom: var(--space-4);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.thread-info-main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.thread-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.threads-count,
+.current-thread {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.current-thread {
+  color: var(--text-secondary);
 }
 
 .thread-info span {
@@ -2031,7 +2102,17 @@ textarea {
   font-family: var(--font-ui) !important;
   color: var(--success) !important;
   font-size: var(--text-xs);
-  cursor: help;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.permalink-hint:hover {
+  background: var(--success-bg);
+  color: var(--success-dark);
 }
 
 .history-placeholder {
@@ -2131,18 +2212,20 @@ textarea {
 }
 
 .version-entry {
-  background: var(--background-alt);
   border-radius: var(--radius);
   padding: var(--space-4);
   border-left: 4px solid var(--primary);
   border-top-left-radius: calc(var(--radius) + 2px);
   border-bottom-left-radius: calc(var(--radius) + 2px);
   transition: var(--transition);
+  /* Soft teal background for revisions */
+  background: rgba(20, 184, 166, 0.03);
 }
 
 .version-entry.original {
   border-left-color: var(--secondary);
-  background: rgba(199, 146, 202, 0.05);
+  /* Soft magenta background for originals */
+  background: rgba(199, 146, 202, 0.03);
 }
 
 .version-entry:hover {
@@ -2300,7 +2383,20 @@ textarea {
   .thread-info {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--space-3);
+  }
+  
+  .thread-info-main {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--space-2);
+  }
+  
+  .thread-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
   }
   
   .version-text-container p {

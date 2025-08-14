@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 export default function SessionHistory({ history, threads, currentThreadId, onClearSession, onUseAsOriginal, hasEverInteracted }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const [urlCopied, setUrlCopied] = useState(false);
 
   // Show placeholder if user has interacted but no history
   if (!history || history.length === 0) {
@@ -48,6 +49,16 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
       setTimeout(() => setCopiedIndex(null), 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
+    }
+  };
+
+  const handleCopyUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setUrlCopied(true);
+      setTimeout(() => setUrlCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy URL: ', err);
     }
   };
 
@@ -164,16 +175,27 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
         <div className="session-content">
           {threadStructure.length > 0 && (
             <div className="thread-info">
-              <span>Active Threads: {threadStructure.length}</span>
-              {currentThreadId && <span> | Current: {currentThreadId.slice(-8)}</span>}
-              <span className="permalink-hint" title="Your session is automatically bookmarked in the URL">🔗 Session bookmarked</span>
+              <div className="thread-info-main">
+                <div className="thread-stats">
+                  <span className="threads-count">Active Threads: {threadStructure.length}</span>
+                  {currentThreadId && <span className="current-thread">Current: {currentThreadId.slice(-8)}</span>}
+                </div>
+                <button 
+                  className="permalink-hint" 
+                  onClick={handleCopyUrl}
+                  title="Copy session URL to clipboard"
+                  aria-label="Copy session URL to clipboard"
+                >
+                  {urlCopied ? '✅ URL Copied!' : '🔗 Copy Session URL'}
+                </button>
+              </div>
               {onClearSession && (
                 <button 
                   className="btn-outline btn-sm" 
                   onClick={onClearSession}
                   title="Clear all session history and threads"
                   aria-label="Clear all session history and threads"
-                  style={{ marginLeft: 'auto', fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
+                  style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
                 >
                   🗑️ Clear Session
                 </button>

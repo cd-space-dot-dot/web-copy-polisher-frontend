@@ -60,7 +60,7 @@ export default function RevisedOutput({
       
       <div className="action-row">
         <button 
-          className="btn-secondary"
+          className="btn-ghost"
           onClick={handleCopy}
           title="Copy polished text to clipboard"
           aria-label="Copy polished text to clipboard"
@@ -68,18 +68,9 @@ export default function RevisedOutput({
           {copied ? '✅ Copied!' : '📋 Copy Text'}
         </button>
         
-        <button 
-          className="btn-outline" 
-          onClick={handleEditOriginal}
-          title="Edit the original text input"
-          aria-label="Edit the original text input"
-        >
-          📝 Edit Original
-        </button>
-        
         {sessionHistoryCount > 0 && onViewHistory && (
           <button 
-            className="btn-outline"
+            className="btn-ghost"
             onClick={onViewHistory}
             title={`View session history with ${sessionHistoryCount} versions`}
             aria-label={`View session history with ${sessionHistoryCount} versions`}
@@ -87,6 +78,15 @@ export default function RevisedOutput({
             📋 History ({sessionHistoryCount})
           </button>
         )}
+        
+        <button 
+          className="btn-teal" 
+          onClick={handleEditOriginal}
+          title="Edit the original text input"
+          aria-label="Edit the original text input"
+        >
+          📝 Edit Original
+        </button>
       </div>
     </>
   );

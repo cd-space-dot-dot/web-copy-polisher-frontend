@@ -1639,8 +1639,7 @@ textarea {
   font-size: var(--text-base);
   line-height: 1.7;
   white-space: pre-wrap;
-  margin: var(--space-6) auto; /* Center with more margin to show gradient */
-  max-width: 85%; /* Narrower to show more gradient on sides */
+  margin-bottom: var(--space-5);
   color: var(--text-primary);
   font-family: var(--font-mono);
   position: relative;
@@ -2630,22 +2629,34 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   .version-main {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-1);
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+  
+  .version-entry {
+    margin-bottom: var(--space-4);
+    clear: both;
+  }
+  
+  .version-header {
+    margin-bottom: var(--space-2);
   }
   
   .version-meta-inline {
     flex-direction: column;
     gap: var(--space-1);
+    margin-bottom: var(--space-2);
   }
   
   .version-list {
-    max-height: 300px;
+    max-height: none; /* Remove height restriction on mobile */
   }
   
   .thread-separator {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-2);
+    margin-bottom: var(--space-3);
   }
   
   .thread-metadata {
@@ -2680,19 +2691,30 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   }
   
   .version-actions {
-    position: fixed;
-    top: var(--space-4);
+    position: absolute;
+    top: var(--space-2);
     right: var(--space-2);
-    z-index: 20;
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    z-index: 10;
+    flex-direction: row;
+    gap: var(--space-1);
+  }
+  
+  .copy-version-btn,
+  .use-as-original-btn,
+  .select-version-btn {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.7rem;
     padding: var(--space-1);
-    box-shadow: var(--shadow-sm);
+  }
+  
+  .version-text-container {
+    padding-right: 6rem; /* Make space for smaller horizontal action buttons */
+    margin-bottom: var(--space-3);
   }
   
   .version-text-container p {
-    padding-right: var(--space-3); /* Reset padding on mobile */
+    padding-right: var(--space-3);
   }
   
   .thread-copy-btn {

@@ -6,6 +6,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
   const [urlCopied, setUrlCopied] = useState(null); // Store threadId of copied URL
   const [selectedOutputs, setSelectedOutputs] = useState(new Set());
   const [clipboardCopied, setClipboardCopied] = useState(false);
+  const [multiSelectMode, setMultiSelectMode] = useState(false);
 
   // Show placeholder if user has interacted but no history
   if (!history || history.length === 0) {
@@ -223,6 +224,20 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                 </div>
               </div>
               <div className="thread-actions">
+                <button 
+                  className={`btn-outline btn-sm ${multiSelectMode ? 'active' : ''}`}
+                  onClick={() => {
+                    setMultiSelectMode(!multiSelectMode);
+                    if (!multiSelectMode) {
+                      setSelectedOutputs(new Set()); // Clear selections when exiting multi-select
+                    }
+                  }}
+                  title={multiSelectMode ? "Exit multi-select mode" : "Enter multi-select mode"}
+                  aria-label={multiSelectMode ? "Exit multi-select mode" : "Enter multi-select mode"}
+                  style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
+                >
+                  {multiSelectMode ? '✕ Exit Multi-Select' : '☐ Copy Multiple'}
+                </button>
                 {selectedOutputs.size > 0 && (
                   <button 
                     className="btn-outline btn-sm" 
@@ -314,14 +329,16 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                           <div className="version-text-container">
                             <p>{version.content}</p>
                             <div className="version-actions">
-                              <button 
-                                className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
-                                onClick={() => toggleOutputSelection(globalIndex, version.content)}
-                                title="Select for multi-copy"
-                                aria-label="Select for multi-copy"
-                              >
-                                {selectedOutputs.has(globalIndex) ? '☑️' : '☐'}
-                              </button>
+                              {multiSelectMode && (
+                                <button 
+                                  className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
+                                  onClick={() => toggleOutputSelection(globalIndex, version.content)}
+                                  title="Select for multi-copy"
+                                  aria-label="Select for multi-copy"
+                                >
+                                  {selectedOutputs.has(globalIndex) ? '✓' : '+'}
+                                </button>
+                              )}
                               <button 
                                 className="copy-version-btn"
                                 onClick={() => handleCopy(version.content, globalIndex)}

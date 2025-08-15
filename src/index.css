@@ -236,7 +236,7 @@ button {
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: var(--primary-dark);
+  background-color: var(--primary-light);
   box-shadow: var(--shadow);
   transform: translateY(-1px);
 }
@@ -251,7 +251,7 @@ button {
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: var(--secondary-dark);
+  background-color: var(--secondary-light);
 }
 
 .btn-accent {
@@ -261,7 +261,7 @@ button {
 }
 
 .btn-accent:hover:not(:disabled) {
-  background-color: var(--accent-dark);
+  background-color: var(--accent-light);
 }
 
 .btn-outline {
@@ -272,7 +272,7 @@ button {
 }
 
 .btn-outline:hover:not(:disabled) {
-  background-color: var(--primary);
+  background-color: var(--primary-light);
   color: var(--text-primary);
 }
 
@@ -297,8 +297,22 @@ button {
 }
 
 .btn-teal:hover:not(:disabled) {
-  background-color: rgba(20, 184, 166, 0.15);
+  background-color: var(--primary-light);
   border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* Special class for modal Done button - the ONLY button with dark teal hover */
+.btn-modal-done {
+  background-color: var(--primary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+}
+
+.btn-modal-done:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+  box-shadow: var(--shadow);
   transform: translateY(-1px);
 }
 
@@ -987,6 +1001,9 @@ button:focus {
 
 .modal-body {
   padding: var(--space-6);
+  padding-bottom: 0;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .social-modal-section {
@@ -1002,8 +1019,8 @@ button:focus {
 }
 
 .social-platforms-chips {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-2);
 }
 
@@ -1037,8 +1054,8 @@ button:focus {
 }
 
 .counter-btn:hover:not(:disabled) {
-  background: var(--primary);
-  color: var(--background-alt);
+  background: var(--primary-light);
+  color: var(--text-primary);
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
 }
@@ -1097,9 +1114,13 @@ button:focus {
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  padding-top: var(--space-4);
+  padding: var(--space-4) 0;
   border-top: 1px solid var(--border-light);
   margin-top: var(--space-4);
+  position: sticky;
+  bottom: 0;
+  background: white;
+  z-index: 10;
 }
 
 @keyframes slideUp {
@@ -1193,9 +1214,9 @@ button:focus {
   }
 
   .chip {
-    min-width: 80px;      /* Or whatever looks best; 44px is a11y minimum */
-    max-width: 48vw;      /* Prevent any single chip from stretching too wide */
-    flex: 0 1 auto;       /* Allow chips to shrink/grow naturally */
+    min-width: 100%;      /* Full width on mobile */
+    max-width: 100%;      /* Full width on mobile */
+    flex: 1 1 100%;       /* Grow to fill container */
     margin-bottom: var(--space-2); /* Space between rows */
     /* Keep font-size and padding same as desktop, per your preference */
   }
@@ -2160,6 +2181,12 @@ textarea {
   flex: 1;
 }
 
+.thread-actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
 .thread-stats {
   display: flex;
   align-items: center;
@@ -2258,7 +2285,6 @@ textarea {
   align-items: center;
   margin-bottom: var(--space-4);
   padding-bottom: var(--space-2);
-  border-bottom: 2px solid var(--primary);
 }
 
 .thread-separator h4 {
@@ -2295,12 +2321,15 @@ textarea {
   background: none;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
+  padding: var(--space-2) var(--space-3);
   cursor: pointer;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: var(--text-secondary);
   transition: var(--transition);
   flex-shrink: 0;
+  white-space: nowrap;
+  margin-left: var(--space-3);
+  min-height: auto;
 }
 
 .thread-copy-btn:hover {
@@ -2377,13 +2406,14 @@ textarea {
 .version-meta-inline {
   display: flex;
   gap: var(--space-3);
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+  font-size: var(--text-base);
+  color: var(--text-primary);
   flex-wrap: wrap;
+  margin-top: var(--space-2);
 }
 
 .word-count-meta {
-  color: var(--success) !important;
+  color: var(--text-primary) !important;
   font-weight: 500;
 }
 
@@ -2392,12 +2422,12 @@ textarea {
 }
 
 .chip-meta {
-  background: var(--primary-bg);
+  background: rgba(148, 220, 222, 0.15);
   border: 1px solid var(--primary-light);
   border-radius: var(--radius-sm);
-  padding: 2px 6px;
-  font-size: 10px !important;
-  color: var(--primary-dark) !important;
+  padding: 4px 8px;
+  font-size: var(--text-sm) !important;
+  color: var(--text-primary) !important;
 }
 
 .version-badge {
@@ -2435,26 +2465,31 @@ textarea {
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-light);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Subtle depth like output */
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .version-text-container p {
   padding: var(--space-3);
-  padding-right: calc(var(--space-3) + 3rem); /* Space for vertical action buttons */
+  padding-right: calc(var(--space-3) + 4rem); /* Space for vertical action buttons */
   margin: 0;
   /* Font styles inherited from .user-content class group */
 }
 
 .version-actions {
-  position: absolute;
+  position: sticky;
   top: var(--space-2);
   right: var(--space-2);
+  float: right;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  margin-left: var(--space-2);
 }
 
 .copy-version-btn,
-.use-as-original-btn {
+.use-as-original-btn,
+.select-version-btn {
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -2470,8 +2505,15 @@ textarea {
   justify-content: center;
 }
 
+.select-version-btn.selected {
+  background: var(--primary-bg);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 .copy-version-btn:hover,
-.use-as-original-btn:hover {
+.use-as-original-btn:hover,
+.select-version-btn:hover {
   background: var(--surface);
   border-color: var(--primary);
   color: var(--primary);
@@ -2521,9 +2563,21 @@ textarea {
   }
   
   .thread-stats {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-1);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--space-2);
+  }
+  
+  .thread-stats .current-thread {
+    margin-left: auto;
+  }
+  
+  .thread-copy-btn {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .version-text-container p {
@@ -2542,6 +2596,8 @@ textarea {
   font-family: var(--font-body);
   transition: var(--transition);
   padding: 0;
+  text-align: left;
+  display: inline-block;
 }
 
 .privacy-link:hover {

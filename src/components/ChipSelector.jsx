@@ -510,7 +510,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
               
               <div className="modal-actions">
                 <button 
-                  className="btn-primary"
+                  className="btn-modal-done"
                   onClick={() => setShowSocialModal(false)}
                 >
                   Done

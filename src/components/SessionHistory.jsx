@@ -4,6 +4,8 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
   const [isExpanded, setIsExpanded] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [urlCopied, setUrlCopied] = useState(null); // Store threadId of copied URL
+  const [selectedOutputs, setSelectedOutputs] = useState(new Set());
+  const [clipboardCopied, setClipboardCopied] = useState(false);
 
   // Show placeholder if user has interacted but no history
   if (!history || history.length === 0) {
@@ -49,6 +51,42 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
       setTimeout(() => setCopiedIndex(null), 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
+    }
+  };
+
+  const toggleOutputSelection = (globalIndex, text) => {
+    const newSelected = new Set(selectedOutputs);
+    if (newSelected.has(globalIndex)) {
+      newSelected.delete(globalIndex);
+    } else {
+      // Store both index and text
+      newSelected.add(globalIndex);
+    }
+    setSelectedOutputs(newSelected);
+  };
+
+  const copySelectedToClipboard = async () => {
+    // Build array of selected texts in order
+    const selectedTexts = [];
+    threadStructure.forEach((thread, threadIndex) => {
+      thread.versions.forEach((version, versionIndex) => {
+        const globalIndex = `${threadIndex}-${versionIndex}`;
+        if (selectedOutputs.has(globalIndex)) {
+          selectedTexts.push(version.content);
+        }
+      });
+    });
+    
+    if (selectedTexts.length > 0) {
+      try {
+        // Join with double line break
+        const combinedText = selectedTexts.join('\n\n');
+        await navigator.clipboard.writeText(combinedText);
+        setClipboardCopied(true);
+        setTimeout(() => setClipboardCopied(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy selected texts: ', err);
+      }
     }
   };
 
@@ -184,17 +222,30 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                   {currentThreadId && <span className="current-thread">Current: {currentThreadId.slice(-8)}</span>}
                 </div>
               </div>
-              {onClearSession && (
-                <button 
-                  className="btn-outline btn-sm" 
-                  onClick={onClearSession}
-                  title="Clear all session history and threads"
-                  aria-label="Clear all session history and threads"
-                  style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
-                >
-                  🗑️ Clear Session
-                </button>
-              )}
+              <div className="thread-actions">
+                {selectedOutputs.size > 0 && (
+                  <button 
+                    className="btn-outline btn-sm" 
+                    onClick={copySelectedToClipboard}
+                    title={`Copy ${selectedOutputs.size} selected items to clipboard`}
+                    aria-label="Copy selected items to clipboard"
+                    style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
+                  >
+                    {clipboardCopied ? '✅ Copied!' : `📋 Copy ${selectedOutputs.size} Selected`}
+                  </button>
+                )}
+                {onClearSession && (
+                  <button 
+                    className="btn-outline btn-sm" 
+                    onClick={onClearSession}
+                    title="Clear all session history and threads"
+                    aria-label="Clear all session history and threads"
+                    style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
+                  >
+                    🗑️ Clear Session
+                  </button>
+                )}
+              </div>
             </div>
           )}
           
@@ -212,10 +263,10 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                     <button 
                       className="thread-copy-btn" 
                       onClick={() => handleCopyThreadUrl(thread.threadId)}
-                      title="Copy thread URL to share this specific conversation"
-                      aria-label="Copy thread URL"
+                      title="Copy Thread URL"
+                      aria-label="Copy Thread URL"
                     >
-                      {urlCopied === thread.threadId ? '✅' : '🔗'}
+                      {urlCopied === thread.threadId ? '✅ Copied!' : '🔗 Copy Thread URL'}
                     </button>
                   </div>
                   <div className="thread-metadata">
@@ -235,23 +286,24 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                               <span className={`version-badge ${version.type}`}>
                                 {version.type === 'original' ? 'Original' : `Version ${version.versionNumber}`}
                               </span>
-                              <span className="version-time">{formatTime(version.timestamp)}</span>
                             </div>
                             {version.metadata && (
                               <div className="version-meta-inline">
-                                <span>Type: {getContentTypeLabel(version.metadata.contentType)}</span>
-                                {version.metadata.socialPlatform && <span>Platform: {getSocialPlatformLabel(version.metadata.socialPlatform)}</span>}
-                                <span>Similarity: {version.metadata.similarity}%</span>
+                                <span>{getContentTypeLabel(version.metadata.contentType)}</span>
+                                {version.metadata.socialPlatform && (
+                                  <span className="meta-refined">
+                                    Social Media: {getSocialPlatformLabel(version.metadata.socialPlatform)}
+                                    {version.metadata.chipSelections?.single?.['post-count'] && ` x ${version.metadata.chipSelections.single['post-count']}`}
+                                  </span>
+                                )}
+                                <span className="meta-refined">Similarity to Original: {version.metadata.similarity}%</span>
                                 {version.metadata.wordCount && (
-                                  <span className="word-count-meta">
+                                  <span className="word-count-meta meta-refined">
                                     {version.metadata.wordCount.original} → {version.metadata.wordCount.revised} words
-                                    {version.metadata.wordCount.revised < version.metadata.wordCount.original && (
-                                      <span className="improvement-indicator"> ✓ Shorter</span>
-                                    )}
                                   </span>
                                 )}
                                 {version.metadata.chipSelections && formatChipSelections(version.metadata.chipSelections).map((chip, chipIndex) => (
-                                  <span key={chipIndex} className="chip-meta">{chip}</span>
+                                  <span key={chipIndex} className="chip-meta meta-refined">Refined: {chip}</span>
                                 ))}
                               </div>
                             )}
@@ -262,6 +314,14 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                           <div className="version-text-container">
                             <p>{version.content}</p>
                             <div className="version-actions">
+                              <button 
+                                className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
+                                onClick={() => toggleOutputSelection(globalIndex, version.content)}
+                                title="Select for multi-copy"
+                                aria-label="Select for multi-copy"
+                              >
+                                {selectedOutputs.has(globalIndex) ? '☑️' : '☐'}
+                              </button>
                               <button 
                                 className="copy-version-btn"
                                 onClick={() => handleCopy(version.content, globalIndex)}

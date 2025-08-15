@@ -403,8 +403,8 @@ button:focus {
 
 /* When output has content, change styling */
 .container--output.has-content {
-  background-color: rgba(131, 245, 229, 0.15);
-  backdrop-filter: blur(10px);
+  background-color: rgba(131, 245, 229, 0.08); /* More transparent background */
+  backdrop-filter: blur(5px); /* Less blur to see gradient better */
   border: 2px solid rgba(131, 245, 229, 0.4);
   box-shadow: var(--shadow-md);
 }
@@ -1632,14 +1632,15 @@ textarea {
 }
 
 .revised-text {
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: var(--space-5);
+  background-color: rgba(255, 255, 255, 0.85); /* More transparent to show gradient */
+  padding: var(--space-4); /* Smaller padding */
   border-radius: var(--radius);
   border-left: 4px solid var(--success);
   font-size: var(--text-base);
   line-height: 1.7;
   white-space: pre-wrap;
-  margin-bottom: var(--space-5);
+  margin: var(--space-6) auto; /* Center with more margin to show gradient */
+  max-width: 85%; /* Narrower to show more gradient on sides */
   color: var(--text-primary);
   font-family: var(--font-mono);
   position: relative;
@@ -1698,24 +1699,24 @@ textarea {
 }
 
 .mesh-loader-overlay.show {
-  opacity: 0.35; /* More visible animation */
+  opacity: 0.7; /* Much stronger visibility */
   animation: pulse 2s ease-in-out infinite;
 }
 
 /* More visible during initial load when no content is present */
 .container--output:not(.has-content) .mesh-loader-overlay.show {
-  opacity: 0.8; /* Much more visible for initial load */
+  opacity: 1; /* Full strength for initial load */
 }
 
 .mesh-gradient-blob {
   position: absolute;
-  width: 45%; /* Slightly smaller to avoid text areas */
-  height: 45%; /* Slightly smaller to avoid text areas */
+  width: 60%; /* Larger blobs for more coverage */
+  height: 60%; /* Larger blobs for more coverage */
   border-radius: 44% 56% 60% 40% / 53% 40% 60% 47%;
-  filter: blur(35px) brightness(1.2) saturate(1.3); /* Less blur, more vibrant */
-  opacity: 0.8;
+  filter: blur(25px) brightness(1.4) saturate(1.8); /* Less blur, much more vibrant */
+  opacity: 0.95;
   mix-blend-mode: normal; /* Clear visibility for gradient */
-  animation: meshMove1 6s ease-in-out infinite alternate; /* Faster animation */
+  animation: meshMove1 4s ease-in-out infinite alternate; /* Faster animation for more movement */
   transition: opacity 0.5s;
 }
 
@@ -1723,24 +1724,26 @@ textarea {
 .mesh-blob-1 {
   background: radial-gradient(
     circle at 30% 70%,
-    var(--secondary-light), /* D9B3DD - light purple */
-    var(--primary-light) 70%, /* B8E7E9 - light teal */
+    rgba(217, 179, 221, 0.9), /* D9B3DD - stronger purple */
+    rgba(184, 231, 233, 0.8) 60%, /* B8E7E9 - stronger teal */
+    rgba(131, 245, 229, 0.6) 90%,
     transparent 100%
   );
-  left: -5%; /* Move more to edge */
-  top: -5%;
+  left: -10%; /* Move more to edge */
+  top: -10%;
   animation-name: meshMove1;
 }
 
 .mesh-blob-2 {
   background: radial-gradient(
     circle at 60% 40%,
-    var(--primary-light), /* B8E7E9 - light teal */
-    var(--success) 60%, /* 83F5E5 - cyan */
+    rgba(184, 231, 233, 0.9), /* B8E7E9 - stronger teal */
+    rgba(131, 245, 229, 0.8) 50%, /* 83F5E5 - stronger cyan */
+    rgba(198, 146, 202, 0.6) 80%,
     transparent 100%
   );
-  right: -5%; /* Move more to edge */
-  bottom: -5%;
+  right: -10%; /* Move more to edge */
+  bottom: -10%;
   animation-name: meshMove2;
   animation-delay: 2s;
 }
@@ -1748,37 +1751,38 @@ textarea {
 .mesh-blob-3 {
   background: radial-gradient(
     circle at 70% 80%,
-    rgba(217, 179, 221, 0.5), /* D9B3DD - very light purple with transparency */
-    rgba(198, 146, 202, 0.4) 60%, /* C692CA - subtle purple */
+    rgba(217, 179, 221, 0.85), /* D9B3DD - much stronger purple */
+    rgba(198, 146, 202, 0.75) 50%, /* C692CA - stronger purple */
+    rgba(131, 245, 229, 0.5) 80%,
     transparent 100%
   );
-  left: 50%; /* Move to side */
-  top: -10%; /* Move to top edge */
+  left: 45%; /* Move to side */
+  top: -15%; /* Move to top edge */
   animation-name: meshMove3;
   animation-delay: 4s;
 }
 /* More noticeable movement animations */
 @keyframes meshMove1 {
   0% { transform: translate(0, 0) scale(1) rotate(0deg);}
-  50% { transform: translate(8%, 5%) scale(1.15) rotate(2deg);} /* More dramatic movement */
-  100% { transform: translate(-5%, 8%) scale(0.95) rotate(-1deg);}
+  50% { transform: translate(15%, 10%) scale(1.25) rotate(5deg);} /* Much more dramatic movement */
+  100% { transform: translate(-10%, 15%) scale(0.9) rotate(-3deg);}
 }
 
 @keyframes meshMove2 {
   0% { transform: translate(0, 0) scale(1) rotate(0deg);}
-  50% { transform: translate(-8%, -5%) scale(1.2) rotate(-2deg);} /* More dramatic movement */
-  100% { transform: translate(6%, -3%) scale(0.9) rotate(1deg);}
+  50% { transform: translate(-15%, -10%) scale(1.3) rotate(-5deg);} /* Much more dramatic movement */
+  100% { transform: translate(12%, -8%) scale(0.85) rotate(3deg);}
 }
 
 @keyframes meshMove3 {
   0% { transform: translate(0, 0) scale(1) rotate(0deg);}
-  50% { transform: translate(-6%, 10%) scale(1.1) rotate(3deg);} /* More dramatic movement */
-  100% { transform: translate(4%, -6%) scale(1.05) rotate(-2deg);}
+  50% { transform: translate(-12%, 18%) scale(1.2) rotate(6deg);} /* Much more dramatic movement */
+  100% { transform: translate(8%, -12%) scale(1.1) rotate(-4deg);}
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.3; }
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
 }
 
 /* ======= RESPONSIVE DESIGN ======= */

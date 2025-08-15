@@ -291,7 +291,7 @@ button {
 
 .btn-teal {
   background-color: rgba(20, 184, 166, 0.1);
-  color: var(--primary);
+  color: var(--text-primary); /* Darker text color */
   border: 1px solid rgba(20, 184, 166, 0.3);
   font-weight: 600;
 }
@@ -1783,6 +1783,40 @@ textarea {
 @keyframes pulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 0.8; }
+}
+
+/* Respect reduced motion preferences by default */
+@media (prefers-reduced-motion: reduce) {
+  .mesh-gradient-blob {
+    animation: none;
+  }
+  
+  .mesh-loader-overlay.show {
+    animation: none;
+  }
+}
+
+/* Override for motion=true URL parameter */
+body[data-force-motion="true"] .mesh-gradient-blob {
+  animation: meshMove1 4s ease-in-out infinite alternate !important;
+}
+
+body[data-force-motion="true"] .mesh-blob-1 {
+  animation-name: meshMove1 !important;
+}
+
+body[data-force-motion="true"] .mesh-blob-2 {
+  animation-name: meshMove2 !important;
+  animation-delay: 2s !important;
+}
+
+body[data-force-motion="true"] .mesh-blob-3 {
+  animation-name: meshMove3 !important;
+  animation-delay: 4s !important;
+}
+
+body[data-force-motion="true"] .mesh-loader-overlay.show {
+  animation: pulse 2s ease-in-out infinite !important;
 }
 
 /* ======= RESPONSIVE DESIGN ======= */

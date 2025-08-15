@@ -56,6 +56,16 @@ export default function App() {
   useEffect(() => {
     const handleScroll = () => setShowScrollButton(window.scrollY > 300);
     window.addEventListener('scroll', handleScroll);
+    
+    // Handle motion URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const motionEnabled = urlParams.get('motion') === 'true';
+    if (motionEnabled) {
+      document.body.setAttribute('data-force-motion', 'true');
+    } else {
+      document.body.removeAttribute('data-force-motion');
+    }
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

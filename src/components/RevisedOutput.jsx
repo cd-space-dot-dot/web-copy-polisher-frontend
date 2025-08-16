@@ -13,6 +13,7 @@ export default function RevisedOutput({
   loading = false 
 }) {
   const [copied, setCopied] = useState(false);
+  const [feedbackGiven, setFeedbackGiven] = useState(false);
 
   const handleCopy = async () => {
     try {
@@ -42,6 +43,30 @@ export default function RevisedOutput({
     }
   };
 
+  const handleFeedback = async (isPositive) => {
+    try {
+      const response = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          feedback: isPositive ? 'positive' : 'negative',
+          output,
+          originalInput,
+          metadata
+        }),
+      });
+      
+      if (response.ok) {
+        setFeedbackGiven(true);
+        setTimeout(() => setFeedbackGiven(false), 3000);
+      }
+    } catch (error) {
+      console.error('Failed to send feedback:', error);
+    }
+  };
+
   return (
     <>
       <h3>✨ Polished Writing</h3>
@@ -63,6 +88,29 @@ export default function RevisedOutput({
             )}
             
             <div className="output-actions-inline">
+              {!feedbackGiven ? (
+                <>
+                  <button 
+                    className="btn-ghost output-action-btn feedback-btn"
+                    onClick={() => handleFeedback(true)}
+                    title="This output is good"
+                    aria-label="Give positive feedback"
+                  >
+                    👍
+                  </button>
+                  <button 
+                    className="btn-ghost output-action-btn feedback-btn"
+                    onClick={() => handleFeedback(false)}
+                    title="This output needs improvement"
+                    aria-label="Give negative feedback"
+                  >
+                    👎
+                  </button>
+                </>
+              ) : (
+                <span className="feedback-thanks">Thanks for the feedback!</span>
+              )}
+              
               <button 
                 className="btn-ghost output-action-btn"
                 onClick={handleCopy}

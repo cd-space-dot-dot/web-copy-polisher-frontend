@@ -829,6 +829,7 @@ button:focus {
   max-width: none;
   width: 100%;
   box-sizing: border-box;
+  min-height: 60px; /* Reserve space for label + selection messages */
 }
 
 .tone-counter {
@@ -1032,9 +1033,12 @@ button:focus {
 /* ======= ENHANCED FADE SYSTEM FOR MULTIPLE SELECTIONS OF CHIPS ======= */
 .selection-counter {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
   margin-top: var(--space-1);
+  flex-wrap: wrap;
+  min-height: 24px;
 }
 
 .selection-count {
@@ -1056,18 +1060,11 @@ button:focus {
   font-family: var(--font-ui);
   font-size: var(--text-xs);
   font-weight: 500;
-  padding: var(--space-1) var(--space-2);
+  padding: 2px var(--space-1);
   border-radius: var(--radius-sm);
   line-height: 1.2;
-  width: 100%; /* Take full width of the label area */
-  max-width: 120px; /* Match the label wrapper width */
-  box-sizing: border-box; /* Include padding in width calculation */
-  word-wrap: break-word; /* Allow long words to break */
-  overflow-wrap: break-word; /* Better text wrapping */
-  hyphens: auto; /* Add hyphens for better breaking */
-  min-height: 24px; /* Reserve consistent space for messages */
-  display: flex;
-  align-items: center; /* Vertically center text within the reserved space */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .tone-message--good {
@@ -2287,6 +2284,13 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   .tone-message {
     max-width: none;
     width: auto;
+  }
+
+  /* Selection counter on mobile - allow wrapping if needed */
+  .selection-counter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
   }
 
   /* Pro Tips Mobile Fixes */

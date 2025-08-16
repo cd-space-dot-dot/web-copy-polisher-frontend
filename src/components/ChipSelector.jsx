@@ -225,14 +225,15 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         });
         setShowSocialModal(true);
       }
-      // If deselecting social media, also clear social platform
+      // If deselecting social media, also clear social platform and post count
       else if (categoryId === 'content-type' && currentSelection === 'social' && chipValue !== 'social') {
         onChipsChange({
           ...selectedChips,
           single: {
             ...selectedChips.single,
             [categoryId]: currentSelection === chipValue ? undefined : chipValue,
-            'social-platform': undefined
+            'social-platform': undefined,
+            'post-count': undefined
           }
         });
       } else {
@@ -290,35 +291,39 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
               <div key={category.id} className="chip-category">
                 <div className="chip-category-label-wrapper">
                   <label className="chip-category-label">{category.label}</label>
-                  {isMultipleCategory && selectedCount > 0 && (
+                  {isMultipleCategory && (
                     <div className="selection-counter">
-                      <span className="selection-count">
-                        {selectedCount} selected
-                      </span>
-                      {selectedCount === 2 && (
-                        <span className="tone-message tone-message--good">
-                          Nice mix of tones!
-                        </span>
-                      )}
-                      {selectedCount >= 3 && selectedCount <= 4 && (
-                        <span className="tone-message tone-message--ok">
-                          Good variety
-                        </span>
-                      )}
-                      {selectedCount === 5 && (
-                        <span className="tone-message tone-message--warning">
-                          That's a lot...
-                        </span>
-                      )}
-                      {selectedCount >= 6 && selectedCount <= 7 && (
-                        <span className="tone-message tone-message--warning">
-                          Fewer tones = better results
-                        </span>
-                      )}
-                      {selectedCount >= 8 && (
-                        <span className="tone-message tone-message--error">
-                          Way too many! Pick your favs
-                        </span>
+                      {selectedCount > 0 && (
+                        <>
+                          <span className="selection-count">
+                            {selectedCount} selected
+                          </span>
+                          {selectedCount === 2 && (
+                            <span className="tone-message tone-message--good">
+                              Nice mix of tones!
+                            </span>
+                          )}
+                          {selectedCount >= 3 && selectedCount <= 4 && (
+                            <span className="tone-message tone-message--ok">
+                              Good variety
+                            </span>
+                          )}
+                          {selectedCount === 5 && (
+                            <span className="tone-message tone-message--warning">
+                              That's a lot...
+                            </span>
+                          )}
+                          {selectedCount >= 6 && selectedCount <= 7 && (
+                            <span className="tone-message tone-message--warning">
+                              Fewer tones = better results
+                            </span>
+                          )}
+                          {selectedCount >= 8 && (
+                            <span className="tone-message tone-message--error">
+                              Way too many! Pick your favs
+                            </span>
+                          )}
+                        </>
                       )}
                     </div>
                   )}

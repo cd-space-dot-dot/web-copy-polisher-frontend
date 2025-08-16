@@ -365,10 +365,46 @@ button:focus {
   margin: 0 auto;
 }
 
-/* Only add min-width on larger screens where it makes sense */
-@media (min-width: 1200px) {
+/* ======= RESPONSIVE BREAKPOINTS ======= */
+/* Desktop: 1440px+ */
+@media (min-width: 1440px) {
   .container-base {
-    min-width: 1000px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-7);
+  }
+}
+
+/* Large Tablet/Small Desktop: 1024px - 1439px */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .container-base {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-6);
+  }
+}
+
+/* Tablet: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container-base {
+    max-width: 100%;
+    padding: var(--space-5) var(--space-5);
+  }
+}
+
+/* Large Mobile: 480px - 767px */
+@media (min-width: 480px) and (max-width: 767px) {
+  .container-base {
+    max-width: 100%;
+    padding: var(--space-4) var(--space-4);
+  }
+}
+
+/* Small Mobile: 320px - 479px */
+@media (max-width: 479px) {
+  .container-base {
+    max-width: 100%;
+    padding: var(--space-3) var(--space-3);
   }
 }
 
@@ -487,12 +523,69 @@ button:focus {
 
 /* ======= UTILITY CLASSES ======= */
 
-/* Utility: for button/action rows, horizontally aligned and right-justified */
+/* Utility: for button/action rows, responsive layout */
 .action-row {
   display: flex;
   gap: var(--space-3);
   justify-content: flex-end;
   margin-top: var(--space-4);
+  align-items: center;
+}
+
+/* Desktop: 1440px+ - Buttons inline right */
+@media (min-width: 1440px) {
+  .action-row {
+    justify-content: flex-end;
+    flex-direction: row;
+  }
+}
+
+/* Large Tablet: 1024px - 1439px - Buttons inline right */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .action-row {
+    justify-content: flex-end;
+    flex-direction: row;
+  }
+}
+
+/* Tablet: 768px - 1023px - Buttons in row below text */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .action-row {
+    justify-content: center;
+    flex-direction: row;
+    margin-top: var(--space-5);
+  }
+  .action-row button {
+    flex: 1;
+    max-width: 200px;
+  }
+}
+
+/* Large Mobile: 480px - 767px - Single row below content */
+@media (min-width: 480px) and (max-width: 767px) {
+  .action-row {
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: var(--space-4);
+  }
+  .action-row button {
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+}
+
+/* Small Mobile: 320px - 479px - Stack buttons */
+@media (max-width: 479px) {
+  .action-row {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: var(--space-4);
+  }
+  .action-row button {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* Utility container for textarea and counters */
@@ -1633,19 +1726,38 @@ textarea {
 
 .revised-text {
   background-color: rgba(255, 255, 255, 0.85); /* More transparent to show gradient */
-  padding: var(--space-4); /* Smaller padding */
+  padding: var(--space-5);
   border-radius: var(--radius);
   border-left: 4px solid var(--success);
   font-size: var(--text-base);
   line-height: 1.7;
   white-space: pre-wrap;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-3);
   color: var(--text-primary);
   font-family: var(--font-mono);
   position: relative;
   z-index: 2; /* Puts it above the mesh animation  for visibility */
   box-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.1); /* Just subtle drop shadow, removed white glow */
+}
+
+/* Responsive padding for revised text */
+@media (min-width: 1440px) {
+  .revised-text {
+    padding: var(--space-6);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .revised-text {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 767px) {
+  .revised-text {
+    padding: var(--space-3);
+  }
 }
 
 .revision-actions {
@@ -1854,14 +1966,7 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     margin: 0 auto;
   }
   
-  .action-row {
-    flex-direction: column;
-  }
-  
-  button {
-    width: 100%;
-    justify-content: center;
-  }
+  /* Old action-row styles removed - now handled by specific breakpoints above */
   
   .radio-group {
     flex-direction: row;     /* Not column! */
@@ -2476,9 +2581,47 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   margin-top: var(--space-2);
 }
 
+/* Revision metadata and word count */
+.revision-metadata {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.word-count {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
 .word-count-meta {
   color: var(--text-primary) !important;
   font-weight: 500;
+}
+
+/* Desktop: 1440px+ */
+@media (min-width: 1440px) {
+  .revision-metadata {
+    justify-content: flex-start;
+  }
+}
+
+/* Tablet: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .revision-metadata {
+    justify-content: center;
+  }
+}
+
+/* Mobile: below 768px */
+@media (max-width: 767px) {
+  .revision-metadata {
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 .improvement-indicator {

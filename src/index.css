@@ -2204,8 +2204,8 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     text-align: center;
   }
   
-  /* Hide only Type and Refined sections on mobile to save space */
-  .version-meta-pills .meta-section {
+  /* Hide only the "Type" and "Refined" labels on mobile, keep the actual values */
+  .version-meta-pills .meta-section-label {
     display: none;
   }
   

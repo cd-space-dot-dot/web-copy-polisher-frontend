@@ -1116,6 +1116,22 @@ button:focus {
   box-sizing: border-box;
 }
 
+/* Mobile-specific modal positioning */
+@media (max-width: 767px) {
+  .modal-overlay {
+    align-items: flex-start;
+    padding-top: 10vh; /* Start modal 10% down from top of visible screen */
+    padding-bottom: var(--space-4);
+  }
+  
+  .modal-content {
+    margin-top: auto;
+    margin-bottom: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
 .modal-content {
   background: white;
   border-radius: var(--radius-lg);
@@ -2173,6 +2189,22 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     text-align: left; /* Left align text */
   }
   
+  /* Fix output action buttons overflow on mobile */
+  .output-actions-inline {
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    justify-content: flex-start;
+  }
+  
+  .output-action-btn {
+    min-width: auto;
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+    flex: 1 1 calc(50% - var(--space-1));
+    max-width: calc(50% - var(--space-1));
+    text-align: center;
+  }
+  
   
   .revision-item {
     grid-template-columns: 1fr;
@@ -3130,11 +3162,18 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: var(--space-1);
   }
   
   .thread-actions .btn-outline {
-    flex: 1;
+    flex: 1 1 calc(33.333% - var(--space-1));
     min-width: 0;
+    line-height: 1.4;
+    text-align: center;
+    padding: var(--space-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .thread-header {
@@ -3208,11 +3247,18 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: var(--space-1);
   }
   
   .thread-actions .btn-outline {
-    flex: 1;
+    flex: 1 1 calc(33.333% - var(--space-1));
     min-width: 0;
+    line-height: 1.4;
+    text-align: center;
+    padding: var(--space-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .thread-info-main {

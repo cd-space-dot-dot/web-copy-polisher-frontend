@@ -50,47 +50,49 @@ export default function RevisedOutput({
         <div className="output-content">
           <div className="revised-text">{output}</div>
           
-          {metadata && (
-            <div className="revision-metadata">
-              <span className="word-count">
-                {metadata.wordCount?.original} → {metadata.wordCount?.revised} words
-                {metadata.wordCount?.revised < metadata.wordCount?.original && (
-                  <span className="improvement-indicator"> ✓ Shorter</span>
-                )}
-              </span>
+          <div className="output-bottom-row">
+            {metadata && (
+              <div className="revision-metadata">
+                <span className="word-count">
+                  {metadata.wordCount?.original} → {metadata.wordCount?.revised} words
+                  {metadata.wordCount?.revised < metadata.wordCount?.original && (
+                    <span className="improvement-indicator"> ✓ Shorter</span>
+                  )}
+                </span>
+              </div>
+            )}
+            
+            <div className="output-actions-inline">
+              <button 
+                className="btn-ghost output-action-btn"
+                onClick={handleCopy}
+                title="Copy polished text to clipboard"
+                aria-label="Copy polished text to clipboard"
+              >
+                {copied ? '✅ Copied!' : '📋 Copy Text'}
+              </button>
+              
+              {sessionHistoryCount > 0 && onViewHistory && (
+                <button 
+                  className="btn-ghost output-action-btn"
+                  onClick={onViewHistory}
+                  title={`View session history with ${sessionHistoryCount} versions`}
+                  aria-label={`View session history with ${sessionHistoryCount} versions`}
+                >
+                  📋 History ({sessionHistoryCount})
+                </button>
+              )}
+              
+              <button 
+                className="btn-teal output-action-btn" 
+                onClick={handleEditOriginal}
+                title="Edit the original text input"
+                aria-label="Edit the original text input"
+              >
+                📝 Edit Original
+              </button>
             </div>
-          )}
-        </div>
-        
-        <div className="output-actions-overlay">
-          <button 
-            className="btn-ghost output-action-btn"
-            onClick={handleCopy}
-            title="Copy polished text to clipboard"
-            aria-label="Copy polished text to clipboard"
-          >
-            {copied ? '✅ Copied!' : '📋 Copy Text'}
-          </button>
-          
-          {sessionHistoryCount > 0 && onViewHistory && (
-            <button 
-              className="btn-ghost output-action-btn"
-              onClick={onViewHistory}
-              title={`View session history with ${sessionHistoryCount} versions`}
-              aria-label={`View session history with ${sessionHistoryCount} versions`}
-            >
-              📋 History ({sessionHistoryCount})
-            </button>
-          )}
-          
-          <button 
-            className="btn-teal output-action-btn" 
-            onClick={handleEditOriginal}
-            title="Edit the original text input"
-            aria-label="Edit the original text input"
-          >
-            📝 Edit Original
-          </button>
+          </div>
         </div>
       </div>
     </>

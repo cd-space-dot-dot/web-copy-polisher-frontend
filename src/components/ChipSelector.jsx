@@ -248,10 +248,10 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
       id: "generation",
       label: "Vibe",
       chips: [
-        { value: "boomer", label: "Baby Boomer" },
-        { value: "genx", label: "Gen X" },
-        { value: "millennial", label: "Millennial" },
-        { value: "genz", label: "Gen Z" }
+        { value: "boomer", label: "🦆 Baby Boomer" },
+        { value: "genx", label: "🐦‍⬛ Gen X" },
+        { value: "millennial", label: "🦜 Millennial" },
+        { value: "genz", label: "🕊️ Gen Z" }
       ]
     }
   ];

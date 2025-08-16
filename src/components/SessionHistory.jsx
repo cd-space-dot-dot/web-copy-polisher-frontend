@@ -104,6 +104,18 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
     }
   };
 
+  const handleCopySessionUrl = async () => {
+    try {
+      // Just copy the current page URL with all existing parameters
+      const url = window.location.href;
+      await navigator.clipboard.writeText(url);
+      setUrlCopied('session');
+      setTimeout(() => setUrlCopied(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy session URL: ', err);
+    }
+  };
+
   // Map content type values to their display labels (DRY - matches ContentTypeSelector)
   const getContentTypeLabel = (value) => {
     const typeMap = {
@@ -260,6 +272,15 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                     {clipboardCopied ? '✅ Copied!' : `📋 Copy ${selectedOutputs.size} Selected`}
                   </button>
                 )}
+                <button 
+                  className="btn-outline btn-sm" 
+                  onClick={handleCopySessionUrl}
+                  title="Copy session URL with all threads"
+                  aria-label="Copy session URL with all threads"
+                  style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
+                >
+                  {urlCopied === 'session' ? '✅ Copied!' : '🔗 Copy Session URL'}
+                </button>
                 {onClearSession && (
                   <button 
                     className="btn-outline btn-sm" 
@@ -337,7 +358,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                                   title="Use this text as new original input"
                                   aria-label="Use this text as new original input"
                                 >
-                                  ↗️
+                                  ♻️
                                 </button>
                               </div>
                             </div>

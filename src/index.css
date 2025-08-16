@@ -2204,6 +2204,11 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     text-align: center;
   }
   
+  /* Hide history metadata sections on mobile to save space */
+  .version-meta-pills {
+    display: none;
+  }
+  
   
   .revision-item {
     grid-template-columns: 1fr;

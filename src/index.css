@@ -818,7 +818,7 @@ button:focus {
 .chip-category-label-wrapper {
   display: flex;
   flex-direction: column;
-  min-width: 120px;
+  width: 120px;
   flex-shrink: 0;
 }
 
@@ -1023,12 +1023,12 @@ button:focus {
 /* ======= ENHANCED FADE SYSTEM FOR MULTIPLE SELECTIONS OF CHIPS ======= */
 .tone-messages-below {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--space-2);
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
   margin-top: var(--space-1);
-  margin-left: 0;
+  width: 100%;
+  max-width: 120px;
 }
 
 .selection-count {
@@ -1311,7 +1311,7 @@ button:focus {
   }
   
   .chip-category-label-wrapper {
-    min-width: 120px;
+    width: 120px;
   }
   
   .tone-messages-below {
@@ -2285,15 +2285,16 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   }
 
   .chip-category-label-wrapper {
-    min-width: auto;
+    width: auto;
+    max-width: none;
   }
   
-  /* Tone messages on mobile - allow wrapping if needed */
+  /* Tone messages on mobile - keep column layout */
   .tone-messages-below {
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
     gap: var(--space-1);
-    flex-wrap: wrap;
+    max-width: none;
   }
 
   /* Pro Tips Mobile Fixes */

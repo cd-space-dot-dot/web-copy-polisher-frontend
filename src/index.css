@@ -2588,6 +2588,11 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   box-shadow: var(--shadow-sm);
 }
 
+.thread-actions .btn-outline {
+  flex: 1; /* Enterprise-level flex best practice: equal distribution */
+  min-width: 0; /* Critical for flex items with text content */
+}
+
 .thread-actions .btn-outline.active {
   background: var(--primary);
   color: var(--background);
@@ -3161,13 +3166,13 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     z-index: 10;
     width: 100%;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Keep items in one row */
     gap: var(--space-1);
   }
   
   .thread-actions .btn-outline {
-    flex: 1 1 calc(33.333% - var(--space-1));
-    min-width: 0;
+    flex: 1; /* Modern flex: equal width distribution without hardcoding */
+    min-width: 0; /* Prevent content from breaking flex */
     line-height: 1.4;
     text-align: center;
     padding: var(--space-2);
@@ -3245,14 +3250,15 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   
   .thread-actions {
     width: 100%;
+    display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Keep items in one row */
     gap: var(--space-1);
   }
   
   .thread-actions .btn-outline {
-    flex: 1 1 calc(33.333% - var(--space-1));
-    min-width: 0;
+    flex: 1; /* Modern flex: equal width distribution without hardcoding */
+    min-width: 0; /* Prevent content from breaking flex */
     line-height: 1.4;
     text-align: center;
     padding: var(--space-2);

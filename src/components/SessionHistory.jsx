@@ -133,7 +133,9 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
   // Map social platform values to their display labels (DRY - matches ChipSelector)
   const getSocialPlatformLabel = (value) => {
     const platformMap = {
-      "instagram": "Instagram",
+      "instagram-post": "Instagram Post",
+      "instagram-comment": "Instagram Comment",
+      "instagram-story": "Instagram Story",
       "linkedin": "LinkedIn",
       "twitter": "X (Twitter)",
       "facebook": "Facebook", 
@@ -247,7 +249,6 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
       <div className="session-header" onClick={() => setIsExpanded(!isExpanded)}>
         <div className="session-header-content">
           <h3>📋 Session History</h3>
-          <h4 className="session-summary">({totalVersions} {totalVersions === 1 ? 'version' : 'versions'} across {threadStructure.length} {threadStructure.length === 1 ? 'thread' : 'threads'})</h4>
         </div>
         <span className="toggle-icon">{isExpanded ? '▼' : '▶'}</span>
       </div>
@@ -258,7 +259,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
             <div className="thread-info">
               <div className="thread-info-main">
                 <div className="thread-stats">
-                  <span className="threads-count">Active Threads: {threadStructure.length}</span>
+                  <span className="session-summary">({totalVersions} {totalVersions === 1 ? 'version' : 'versions'} across {threadStructure.length} {threadStructure.length === 1 ? 'thread' : 'threads'})</span>
                   {/* {currentThreadId && <span className="current-thread">Current: {currentThreadId.slice(-8)}</span>} */}
                 </div>
               </div>

@@ -220,7 +220,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
               <div className="thread-info-main">
                 <div className="thread-stats">
                   <span className="threads-count">Active Threads: {threadStructure.length}</span>
-                  {currentThreadId && <span className="current-thread">Current: {currentThreadId.slice(-8)}</span>}
+                  {/* {currentThreadId && <span className="current-thread">Current: {currentThreadId.slice(-8)}</span>} */}
                 </div>
               </div>
               <div className="thread-actions">
@@ -236,7 +236,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                   aria-label={multiSelectMode ? "Exit multi-select mode" : "Enter multi-select mode"}
                   style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
                 >
-                  {multiSelectMode ? '✕ Exit Multi-Select' : '☐ Copy Multiple'}
+                  {multiSelectMode ? '✕ Exit Multi-Select' : '⊞ Copy Multiple'}
                 </button>
                 {selectedOutputs.size > 0 && (
                   <button 
@@ -286,7 +286,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                   </div>
                   <div className="thread-metadata">
                     <span className="thread-time">{formatTime(thread.startTime)}</span>
-                    <span className="thread-id">{thread.threadId.slice(-8)}</span>
+                    {/* <span className="thread-id">{thread.threadId.slice(-8)}</span> */}
                   </div>
                 </div>
                 
@@ -301,13 +301,41 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                               <span className={`version-badge ${version.type}`}>
                                 {version.type === 'original' ? 'Original' : `Version ${version.versionNumber}`}
                               </span>
+                              <div className="version-actions">
+                                {multiSelectMode && (
+                                  <button 
+                                    className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
+                                    onClick={() => toggleOutputSelection(globalIndex, version.content)}
+                                    title="Select for multi-copy"
+                                    aria-label="Select for multi-copy"
+                                  >
+                                    {selectedOutputs.has(globalIndex) ? '✓' : '+'}
+                                  </button>
+                                )}
+                                <button 
+                                  className="copy-version-btn"
+                                  onClick={() => handleCopy(version.content, globalIndex)}
+                                  title="Copy text to clipboard"
+                                  aria-label="Copy text to clipboard"
+                                >
+                                  {copiedIndex === globalIndex ? '✅' : '📋'}
+                                </button>
+                                <button 
+                                  className="use-as-original-btn"
+                                  onClick={() => onUseAsOriginal && onUseAsOriginal(version.content)}
+                                  title="Use this text as new original input"
+                                  aria-label="Use this text as new original input"
+                                >
+                                  ↗️
+                                </button>
+                              </div>
                             </div>
                             {version.metadata && (
                               <div className="version-meta-inline">
                                 <span>{getContentTypeLabel(version.metadata.contentType)}</span>
-                                {version.metadata.socialPlatform && (
+                                {version.metadata.contentType === 'social' && version.metadata.socialPlatform && (
                                   <span className="meta-refined">
-                                    Social Media: {getSocialPlatformLabel(version.metadata.socialPlatform)}
+                                    {getSocialPlatformLabel(version.metadata.socialPlatform)}
                                     {version.metadata.chipSelections?.single?.['post-count'] && ` x ${version.metadata.chipSelections.single['post-count']}`}
                                   </span>
                                 )}
@@ -317,9 +345,13 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                                     {version.metadata.wordCount.original} → {version.metadata.wordCount.revised} words
                                   </span>
                                 )}
-                                {version.metadata.chipSelections && formatChipSelections(version.metadata.chipSelections).map((chip, chipIndex) => (
-                                  <span key={chipIndex} className="chip-meta meta-refined">Refined: {chip}</span>
-                                ))}
+                                {version.metadata.chipSelections && formatChipSelections(version.metadata.chipSelections).length > 0 && (
+                                  <span className="refined-label">
+                                    Refined: {formatChipSelections(version.metadata.chipSelections).map((chip, chipIndex) => (
+                                      <span key={chipIndex} className="chip-meta">{chip}{chipIndex < formatChipSelections(version.metadata.chipSelections).length - 1 ? ', ' : ''}</span>
+                                    ))}
+                                  </span>
+                                )}
                               </div>
                             )}
                           </div>
@@ -328,34 +360,6 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                         <div className="version-content">
                           <div className="version-text-container">
                             <p>{version.content}</p>
-                            <div className="version-actions">
-                              {multiSelectMode && (
-                                <button 
-                                  className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
-                                  onClick={() => toggleOutputSelection(globalIndex, version.content)}
-                                  title="Select for multi-copy"
-                                  aria-label="Select for multi-copy"
-                                >
-                                  {selectedOutputs.has(globalIndex) ? '✓' : '+'}
-                                </button>
-                              )}
-                              <button 
-                                className="copy-version-btn"
-                                onClick={() => handleCopy(version.content, globalIndex)}
-                                title="Copy text to clipboard"
-                                aria-label="Copy text to clipboard"
-                              >
-                                {copiedIndex === globalIndex ? '✅' : '📋'}
-                              </button>
-                              <button 
-                                className="use-as-original-btn"
-                                onClick={() => onUseAsOriginal && onUseAsOriginal(version.content)}
-                                title="Use this text as new original input"
-                                aria-label="Use this text as new original input"
-                              >
-                                ↗️
-                              </button>
-                            </div>
                           </div>
                         </div>
                       </div>

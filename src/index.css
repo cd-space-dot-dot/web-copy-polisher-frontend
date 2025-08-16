@@ -608,6 +608,38 @@ button:focus {
   white-space: nowrap; /* Prevent text wrapping */
 }
 
+/* Responsive Polish button sizing */
+@media (max-width: 479px) {
+  .polish-btn {
+    width: 100%;
+    min-width: unset;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-base);
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .polish-btn {
+    min-width: 200px;
+    padding: var(--space-3) var(--space-6);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .polish-btn {
+    min-width: 220px;
+    padding: var(--space-4) var(--space-7);
+  }
+}
+
+@media (min-width: 1440px) {
+  .polish-btn {
+    min-width: 280px;
+    padding: var(--space-5) var(--space-10);
+    font-size: var(--text-xl);
+  }
+}
+
 /* Spinner animation for loading */
 .spinner {
   display: inline-block;
@@ -825,16 +857,16 @@ button:focus {
   max-width: calc(100vw - 200px); /* Keep for mobile */
 }
 
-/* Mobile: Keep overflow hidden for horizontal scroll */
-@media (max-width: 768px) {
+/* Mobile and Large Mobile: Keep overflow hidden for horizontal scroll */
+@media (max-width: 767px) {
   .chip-group-wrapper {
     overflow: hidden;
     max-width: calc(100vw - 200px);
   }
 }
 
-/* Medium Desktop: Enable horizontal scroll */
-@media (min-width: 769px) and (max-width: 1199px) {
+/* Tablet and Large Tablet: Enable horizontal scroll */
+@media (min-width: 768px) and (max-width: 1439px) {
   .chip-group-wrapper {
     overflow-x: auto;
     overflow-y: visible;
@@ -842,8 +874,8 @@ button:focus {
   }
 }
 
-/* Large Desktop: Allow full wrapping */
-@media (min-width: 1200px) {
+/* Desktop: Allow full wrapping */
+@media (min-width: 1440px) {
   .chip-group-wrapper {
     overflow: visible; /* Let chips wrap freely! */
     max-width: none; /* Remove width restrictions */
@@ -1227,8 +1259,8 @@ button:focus {
   }
 }
 
-/* Medium Desktop: Horizontal scrolling for limited space */
-@media (min-width: 769px) and (max-width: 1199px) {
+/* Tablet and Large Tablet: Horizontal scrolling for limited space */
+@media (min-width: 768px) and (max-width: 1439px) {
   .chip-group {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -1241,7 +1273,7 @@ button:focus {
 }
 
 /* Desktop: Allow wrapping when there's space */
-@media (min-width: 1200px) {
+@media (min-width: 1440px) {
   .chip-group {
     flex-wrap: wrap;
     overflow-x: visible;
@@ -1252,8 +1284,8 @@ button:focus {
   }
 }
 
-/* Mobile: Stack vertically, keep horizontal scrolling for chips */
-@media (max-width: 768px) {
+/* Mobile and Large Mobile: Stack vertically, keep horizontal scrolling for chips */
+@media (max-width: 767px) {
 
   .chip-selector-container {
     padding: var(--space-3); /* Reduced padding */
@@ -1940,8 +1972,10 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   animation: pulse 2s ease-in-out infinite !important;
 }
 
-/* ======= RESPONSIVE DESIGN ======= */
-@media (max-width: 768px) {
+/* ======= ADDITIONAL RESPONSIVE STYLES ======= */
+
+/* Mobile and Large Mobile: Core layout adjustments */
+@media (max-width: 767px) {
   .app-container,
   .container-base {
     min-width: unset !important;
@@ -1949,11 +1983,6 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     max-width: 100% !important;
     box-sizing: border-box;
     overflow-x: auto;
-  }
-
-  .container-base {
-    padding: var(--space-3); /* Reduced padding */
-    margin: 0 auto;
   }
 
   .app-header h1 {
@@ -1965,6 +1994,47 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     max-width: calc(100vw - var(--space-6));
     margin: 0 auto;
   }
+}
+
+/* Large Mobile specific adjustments */
+@media (min-width: 480px) and (max-width: 767px) {
+  .app-header h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  .radio-option {
+    flex: 1 1 calc(33.333% - var(--space-2)); /* Three per row on large mobile */
+    min-width: 140px;
+  }
+}
+
+/* Tablet specific adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app-header h1 {
+    font-size: var(--text-5xl);
+  }
+  
+  .radio-group {
+    justify-content: space-between;
+  }
+  
+  .radio-option {
+    flex: 1 1 calc(25% - var(--space-2)); /* Four per row on tablet */
+    min-width: 160px;
+  }
+}
+
+/* Large Tablet and Desktop adjustments */
+@media (min-width: 1024px) {
+  .radio-group {
+    justify-content: space-between;
+  }
+  
+  .radio-option {
+    flex: 1 1 auto; /* Equal distribution on desktop */
+    min-width: 180px;
+  }
+}
   
   /* Old action-row styles removed - now handled by specific breakpoints above */
   
@@ -1975,6 +2045,11 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     align-items: stretch;
     justify-content: flex-start;
     width: 100%;
+  }
+  
+  .radio-option {
+    min-width: 120px;
+    flex: 1 1 calc(50% - var(--space-1)); /* Two per row on small mobile */
   }
   
   
@@ -2750,7 +2825,7 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
 
 
 /* Tablet responsive */
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .thread-info {
     flex-direction: column;
     align-items: stretch;
@@ -2795,7 +2870,7 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
 }
 
 /* Mobile responsive */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .version-main {
     flex-direction: column;
     align-items: flex-start;
@@ -2934,7 +3009,7 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
 }
 
 /* Don't gray out footer on desktop */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .modal-overlay {
     background: rgba(0, 0, 0, 0.1);
   }

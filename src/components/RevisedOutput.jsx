@@ -13,7 +13,7 @@ export default function RevisedOutput({
   loading = false 
 }) {
   const [copied, setCopied] = useState(false);
-  const [feedbackGiven, setFeedbackGiven] = useState(false);
+  const [feedbackGiven, setFeedbackGiven] = useState(null); // null, 'positive', or 'negative'
 
   const handleCopy = async () => {
     try {
@@ -59,8 +59,8 @@ export default function RevisedOutput({
       });
       
       if (response.ok) {
-        setFeedbackGiven(true);
-        setTimeout(() => setFeedbackGiven(false), 3000);
+        setFeedbackGiven(isPositive ? 'positive' : 'negative');
+        // Don't auto-reset, keep the feedback state visible
       }
     } catch (error) {
       console.error('Failed to send feedback:', error);
@@ -88,28 +88,29 @@ export default function RevisedOutput({
             )}
             
             <div className="output-actions-inline">
-              {!feedbackGiven ? (
-                <>
-                  <button 
-                    className="btn-ghost output-action-btn feedback-btn"
-                    onClick={() => handleFeedback(true)}
-                    title="This output is good"
-                    aria-label="Give positive feedback"
-                  >
-                    👍
-                  </button>
-                  <button 
-                    className="btn-ghost output-action-btn feedback-btn"
-                    onClick={() => handleFeedback(false)}
-                    title="This output needs improvement"
-                    aria-label="Give negative feedback"
-                  >
-                    👎
-                  </button>
-                </>
-              ) : (
-                <span className="feedback-thanks">Thanks for the feedback!</span>
-              )}
+              <div className="feedback-buttons-group">
+                <button 
+                  className={`btn-ghost feedback-btn ${feedbackGiven === 'positive' ? 'feedback-btn--selected' : ''} ${feedbackGiven === 'negative' ? 'feedback-btn--disabled' : ''}`}
+                  onClick={() => !feedbackGiven && handleFeedback(true)}
+                  title="This output is good"
+                  aria-label="Give positive feedback"
+                  disabled={feedbackGiven !== null}
+                >
+                  👍
+                </button>
+                <button 
+                  className={`btn-ghost feedback-btn ${feedbackGiven === 'negative' ? 'feedback-btn--selected' : ''} ${feedbackGiven === 'positive' ? 'feedback-btn--disabled' : ''}`}
+                  onClick={() => !feedbackGiven && handleFeedback(false)}
+                  title="This output needs improvement"
+                  aria-label="Give negative feedback"
+                  disabled={feedbackGiven !== null}
+                >
+                  👎
+                </button>
+                {feedbackGiven && (
+                  <span className="feedback-thanks">Thanks!</span>
+                )}
+              </div>
               
               <button 
                 className="btn-ghost output-action-btn"

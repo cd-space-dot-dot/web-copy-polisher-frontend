@@ -2203,6 +2203,12 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     text-align: center;
   }
   
+  /* Keep feedback buttons grouped on mobile */
+  .feedback-buttons-group {
+    flex: 0 0 auto;
+    margin-bottom: var(--space-1);
+  }
+  
   /* Hide only the "Type" and "Refined" labels on mobile, keep the actual values */
   .version-meta-pills .meta-section-label {
     display: none;
@@ -2914,6 +2920,69 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   display: flex;
   gap: var(--space-3);
   align-items: center;
+}
+
+/* Feedback buttons group - closer together and visually distinct */
+.feedback-buttons-group {
+  display: inline-flex;
+  gap: var(--space-1);
+  padding: 2px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius);
+  margin-right: var(--space-2);
+}
+
+.feedback-btn {
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-base);
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: unset;
+  position: relative;
+}
+
+.feedback-btn:not(:disabled):hover {
+  background-color: var(--background-alt);
+  border-color: var(--border);
+}
+
+.feedback-btn:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+/* Selected state - highlighted with color */
+.feedback-btn--selected {
+  background-color: var(--primary-bg);
+  border-color: var(--primary);
+  font-weight: 600;
+  transform: scale(1.1);
+}
+
+.feedback-btn--selected:hover {
+  background-color: var(--primary-bg) !important;
+  cursor: default;
+}
+
+/* Disabled/unselected state - grayed out */
+.feedback-btn--disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.feedback-btn--disabled:hover {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.feedback-thanks {
+  padding: 0 var(--space-2);
+  color: var(--success-dark);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 /* Revision metadata and word count */

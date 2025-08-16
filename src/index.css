@@ -2770,10 +2770,20 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
 .version-meta-inline {
   display: flex;
   gap: var(--space-3);
-  font-size: var(--text-base);
-  color: var(--text-primary);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
   flex-wrap: wrap;
   margin-top: var(--space-2);
+}
+
+.meta-refined {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.chip-meta {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
 }
 
 /* Revision metadata and word count */

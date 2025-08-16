@@ -134,6 +134,9 @@ html {
   background-attachment: fixed !important;
   min-height: 100vh;
   overflow-x: hidden; /* Prevent horizontal scrolling */
+  /* Optimize gradient rendering during scroll */
+  will-change: auto;
+  transform: translateZ(0);
 }
 
 body {
@@ -2075,6 +2078,17 @@ textarea {
 @keyframes pulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 0.8; }
+}
+
+/* Performance optimizations for gradients and animations */
+.mesh-blob-1,
+.mesh-blob-2,
+.mesh-blob-3 {
+  /* Force hardware acceleration for smooth rendering */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Respect reduced motion preferences by default */

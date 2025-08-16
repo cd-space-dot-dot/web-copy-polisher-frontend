@@ -1,6 +1,7 @@
 // src/components/ChipSelector.jsx
 
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from 'react-dom';
 
 // Export chip categories data for use in other components
 export const chipCategories = [
@@ -419,8 +420,8 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
         </div>
       </div>
       
-      {/* Social Media Platform Modal */}
-      {showSocialModal && (
+      {/* Social Media Platform Modal - Using createPortal to render at document.body level */}
+      {showSocialModal && createPortal(
         <div className="modal-overlay" onClick={() => setShowSocialModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
@@ -525,7 +526,8 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

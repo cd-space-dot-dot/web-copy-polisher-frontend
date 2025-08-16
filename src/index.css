@@ -1109,6 +1109,8 @@ button:focus {
   /* Ensure it's not affected by any parent positioning */
   transform: none;
   overflow: auto;
+  padding: var(--space-4);
+  box-sizing: border-box;
 }
 
 .modal-content {
@@ -3208,25 +3210,11 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   color: var(--primary);
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: var(--space-4);
-  overflow-y: auto;
-}
 
-/* Don't gray out footer on desktop */
+/* Don't gray out footer on desktop - update the main modal overlay */
 @media (min-width: 768px) {
   .modal-overlay {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.3);
   }
 }
 

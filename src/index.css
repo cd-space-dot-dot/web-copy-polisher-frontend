@@ -1715,7 +1715,6 @@ textarea {
   filter: blur(25px) brightness(1.4) saturate(1.8); /* Less blur, much more vibrant */
   opacity: 0.95;
   mix-blend-mode: normal; /* Clear visibility for gradient */
-  animation: meshMove1 4s ease-in-out infinite alternate; /* Faster animation for more movement */
   transition: opacity 0.5s;
 }
 
@@ -1730,7 +1729,7 @@ textarea {
   );
   left: -10%; /* Move more to edge */
   top: -10%;
-  animation-name: meshMove1;
+  animation: meshFloat1 12s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
 }
 
 .mesh-blob-2 {
@@ -1743,8 +1742,8 @@ textarea {
   );
   right: -10%; /* Move more to edge */
   bottom: -10%;
-  animation-name: meshMove2;
-  animation-delay: 2s;
+  animation: meshFloat2 15s cubic-bezier(0.4, 0.0, 0.6, 1) infinite;
+  animation-delay: -5s; /* Negative delay for immediate desync */
 }
 
 .mesh-blob-3 {
@@ -1757,26 +1756,41 @@ textarea {
   );
   left: 45%; /* Move to side */
   top: -15%; /* Move to top edge */
-  animation-name: meshMove3;
-  animation-delay: 4s;
+  animation: meshFloat3 18s cubic-bezier(0.3, 0.0, 0.7, 1) infinite;
+  animation-delay: -8s; /* Different negative delay */
 }
 /* More noticeable movement animations */
-@keyframes meshMove1 {
+/* More organic, random-feeling animations with multiple keyframes */
+@keyframes meshFloat1 {
   0% { transform: translate(0, 0) scale(1) rotate(0deg);}
-  50% { transform: translate(15%, 10%) scale(1.25) rotate(5deg);} /* Much more dramatic movement */
-  100% { transform: translate(-10%, 15%) scale(0.9) rotate(-3deg);}
+  20% { transform: translate(8%, 12%) scale(1.15) rotate(15deg);}
+  35% { transform: translate(-5%, 8%) scale(1.08) rotate(-8deg);}
+  50% { transform: translate(12%, -6%) scale(0.95) rotate(12deg);}
+  65% { transform: translate(-8%, -10%) scale(1.12) rotate(-5deg);}
+  80% { transform: translate(6%, 15%) scale(1.05) rotate(8deg);}
+  100% { transform: translate(0, 0) scale(1) rotate(0deg);}
 }
 
-@keyframes meshMove2 {
+@keyframes meshFloat2 {
   0% { transform: translate(0, 0) scale(1) rotate(0deg);}
-  50% { transform: translate(-15%, -10%) scale(1.3) rotate(-5deg);} /* Much more dramatic movement */
-  100% { transform: translate(12%, -8%) scale(0.85) rotate(3deg);}
+  15% { transform: translate(-10%, -8%) scale(1.2) rotate(-10deg);}
+  30% { transform: translate(7%, -12%) scale(0.9) rotate(7deg);}
+  45% { transform: translate(-12%, 10%) scale(1.18) rotate(-15deg);}
+  60% { transform: translate(10%, 8%) scale(0.92) rotate(10deg);}
+  75% { transform: translate(-6%, -5%) scale(1.1) rotate(-6deg);}
+  90% { transform: translate(5%, 10%) scale(1.05) rotate(5deg);}
+  100% { transform: translate(0, 0) scale(1) rotate(0deg);}
 }
 
-@keyframes meshMove3 {
+@keyframes meshFloat3 {
   0% { transform: translate(0, 0) scale(1) rotate(0deg);}
-  50% { transform: translate(-12%, 18%) scale(1.2) rotate(6deg);} /* Much more dramatic movement */
-  100% { transform: translate(8%, -12%) scale(1.1) rotate(-4deg);}
+  18% { transform: translate(5%, -15%) scale(1.1) rotate(8deg);}
+  33% { transform: translate(-8%, 5%) scale(1.22) rotate(-12deg);}
+  48% { transform: translate(10%, 12%) scale(0.88) rotate(10deg);}
+  62% { transform: translate(-15%, -8%) scale(1.15) rotate(-8deg);}
+  77% { transform: translate(12%, -10%) scale(0.95) rotate(15deg);}
+  92% { transform: translate(-5%, 8%) scale(1.08) rotate(-5deg);}
+  100% { transform: translate(0, 0) scale(1) rotate(0deg);}
 }
 
 @keyframes pulse {
@@ -1796,22 +1810,18 @@ textarea {
 }
 
 /* Override for motion=true URL parameter */
-body[data-force-motion="true"] .mesh-gradient-blob {
-  animation: meshMove1 4s ease-in-out infinite alternate !important;
-}
-
 body[data-force-motion="true"] .mesh-blob-1 {
-  animation-name: meshMove1 !important;
+  animation: meshFloat1 12s cubic-bezier(0.4, 0.0, 0.2, 1) infinite !important;
 }
 
 body[data-force-motion="true"] .mesh-blob-2 {
-  animation-name: meshMove2 !important;
-  animation-delay: 2s !important;
+  animation: meshFloat2 15s cubic-bezier(0.4, 0.0, 0.6, 1) infinite !important;
+  animation-delay: -5s !important;
 }
 
 body[data-force-motion="true"] .mesh-blob-3 {
-  animation-name: meshMove3 !important;
-  animation-delay: 4s !important;
+  animation: meshFloat3 18s cubic-bezier(0.3, 0.0, 0.7, 1) infinite !important;
+  animation-delay: -8s !important;
 }
 
 body[data-force-motion="true"] .mesh-loader-overlay.show {
@@ -2686,6 +2696,15 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-3);
+  }
+  
+  .thread-actions {
+    width: 100%;
+  }
+  
+  .thread-actions .btn-outline {
+    flex: 1;
+    min-width: 0;
   }
   
   .thread-info-main {

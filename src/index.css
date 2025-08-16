@@ -817,18 +817,11 @@ button:focus {
 
 .chip-category-label-wrapper {
   display: flex;
-  flex-direction: column;
-  min-width: auto;
-  max-width: none;
+  flex-direction: row;
+  align-items: center;
+  min-width: 120px;
   flex-shrink: 0;
-  position: static;
-  background: transparent;
-  backdrop-filter: none;
-  padding: 0;
-  min-width: auto;
-  max-width: none;
-  width: 100%;
-  box-sizing: border-box;
+  gap: var(--space-3);
 }
 
 .tone-counter {
@@ -1036,7 +1029,6 @@ button:focus {
   align-items: center;
   gap: var(--space-2);
   flex-wrap: wrap;
-  margin-left: var(--space-2);
 }
 
 .selection-count {
@@ -1318,8 +1310,13 @@ button:focus {
     display: none; /* Remove scroll indicators */
   }
   
+  .chip-category-label-wrapper {
+    flex-direction: row;
+    min-width: 120px;
+  }
+  
   .tone-messages-inline {
-    margin-left: var(--space-2);
+    flex-wrap: wrap;
   }
 }
 
@@ -2288,12 +2285,19 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     width: auto;
   }
 
-  /* Tone messages on mobile - allow wrapping if needed */
-  .tone-messages-inline {
+  .chip-category-label-wrapper {
     flex-direction: column;
     align-items: flex-start;
+    min-width: auto;
     gap: var(--space-1);
-    margin-left: 0;
+  }
+  
+  /* Tone messages on mobile - allow wrapping if needed */
+  .tone-messages-inline {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-1);
+    flex-wrap: wrap;
   }
 
   /* Pro Tips Mobile Fixes */
@@ -2741,11 +2745,11 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
 }
 
 .thread-summary {
-  font-family: var(--font-ui);
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  font-style: italic;
-  font-weight: 500;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  font-style: inherit;
+  font-weight: inherit;
 }
 
 .thread-copy-btn {

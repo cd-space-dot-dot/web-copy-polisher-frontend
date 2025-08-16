@@ -319,10 +319,12 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                 <div className="thread-separator">
                   <div className="thread-header">
                     <div className="thread-title-section">
-                      <h4>Thread {threadIndex + 1}</h4>
-                      {thread.threadSummary && (
-                        <span className="thread-summary">{thread.threadSummary}</span>
-                      )}
+                      <h4>
+                        Thread {threadIndex + 1}: 
+                        {thread.threadSummary && (
+                          <span className="thread-summary">{thread.threadSummary}</span>
+                        )}
+                      </h4>
                     </div>
                     <button 
                       className="thread-copy-btn" 

@@ -2080,7 +2080,6 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     max-width: calc(100vw - var(--space-6));
     margin: 0 auto;
   }
-}
 
 /* Large Mobile specific adjustments */
 @media (min-width: 480px) and (max-width: 767px) {

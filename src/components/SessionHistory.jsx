@@ -135,16 +135,22 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
     return platformMap[value] || value;
   };
 
+  // Helper function to convert text to sentence case
+  const toSentenceCase = (text) => {
+    if (!text) return text;
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  };
+
   // Format chip selections for display
   const formatChipSelections = (chipSelections) => {
     if (!chipSelections) return [];
     const chips = [];
     
-    // Add single selections
+    // Add single selections (exclude content-type, social-platform, and post-count)
     if (chipSelections.single) {
       Object.entries(chipSelections.single).forEach(([category, value]) => {
-        if (value && category !== 'content-type' && category !== 'social-platform') {
-          chips.push(`${category}: ${value}`);
+        if (value && category !== 'content-type' && category !== 'social-platform' && category !== 'post-count') {
+          chips.push(toSentenceCase(value));
         }
       });
     }
@@ -153,7 +159,9 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
     if (chipSelections.multiple) {
       Object.entries(chipSelections.multiple).forEach(([category, values]) => {
         if (values && values.length > 0) {
-          chips.push(`${category}: ${values.join(', ')}`);
+          values.forEach(value => {
+            chips.push(toSentenceCase(value));
+          });
         }
       });
     }
@@ -239,7 +247,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                   aria-label={multiSelectMode ? "Exit multi-select mode" : "Enter multi-select mode"}
                   style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
                 >
-                  {multiSelectMode ? '✕ Exit Multi-Select' : '⊞ Copy Multiple'}
+                  {multiSelectMode ? '✕ Exit Multi-Select' : '☑️ Copy Multiple'}
                 </button>
                 {selectedOutputs.size > 0 && (
                   <button 

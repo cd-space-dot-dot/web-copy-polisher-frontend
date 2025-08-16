@@ -788,7 +788,7 @@ button:focus {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: var(--space-4);
+  gap: var(--space-3);
   margin-bottom: var(--space-4);
   position: relative;
   width: 100%;
@@ -829,7 +829,6 @@ button:focus {
   max-width: none;
   width: 100%;
   box-sizing: border-box;
-  min-height: 60px; /* Reserve space for label + selection messages */
 }
 
 .tone-counter {
@@ -1038,7 +1037,8 @@ button:focus {
   gap: var(--space-2);
   margin-top: var(--space-1);
   flex-wrap: wrap;
-  min-height: 24px;
+  min-height: 0;
+  margin-left: 120px;
 }
 
 .selection-count {
@@ -1318,6 +1318,10 @@ button:focus {
   
   .chip-group-wrapper::after {
     display: none; /* Remove scroll indicators */
+  }
+  
+  .selection-counter {
+    margin-left: 120px;
   }
 }
 
@@ -2291,6 +2295,7 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-1);
+    margin-left: 0;
   }
 
   /* Pro Tips Mobile Fixes */

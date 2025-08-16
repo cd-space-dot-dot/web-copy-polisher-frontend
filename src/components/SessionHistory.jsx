@@ -233,6 +233,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
         threadId: thread.threadId,
         originalText: thread.originalText,
         startTime: thread.startTime,
+        threadSummary: thread.threadSummary, // Pass through threadSummary from backend
         versions
       };
     });

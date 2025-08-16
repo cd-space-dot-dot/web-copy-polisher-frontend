@@ -268,6 +268,7 @@ const calculateChipWeights = (chipState) => {
             threadId: data.threadId,
             originalText: input,
             startTime: new Date().toISOString(),
+            threadSummary: data.threadSummary, // Include threadSummary from backend
             versions: []
           };
           setThreads(prev => [...prev, newThread]);

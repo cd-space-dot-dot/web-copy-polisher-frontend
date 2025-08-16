@@ -342,35 +342,6 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                     const globalIndex = `${threadIndex}-${versionIndex}`;
                     return (
                       <div key={globalIndex} className={`version-entry ${version.type}`}>
-                        <div className="version-actions-overlay">
-                          {multiSelectMode && (
-                            <button 
-                              className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
-                              onClick={() => toggleOutputSelection(globalIndex, version.content)}
-                              title="Select for multi-copy"
-                              aria-label="Select for multi-copy"
-                            >
-                              {selectedOutputs.has(globalIndex) ? '✓' : '+'}
-                            </button>
-                          )}
-                          <button 
-                            className="copy-version-btn"
-                            onClick={() => handleCopy(version.content, globalIndex)}
-                            title="Copy text to clipboard"
-                            aria-label="Copy text to clipboard"
-                          >
-                            {copiedIndex === globalIndex ? '✅' : '📋'}
-                          </button>
-                          <button 
-                            className="use-as-original-btn"
-                            onClick={() => onUseAsOriginal && onUseAsOriginal(version.content)}
-                            title="Use this text as new original input"
-                            aria-label="Use this text as new original input"
-                          >
-                            ♻️
-                          </button>
-                        </div>
-                        
                         <div className="version-header">
                           <div className="version-label">
                             <div className="version-main">
@@ -410,7 +381,37 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                         
                         <div className="version-content">
                           <div className="version-text-container">
-                            <p>{version.content}</p>
+                            <div className="version-actions-inline">
+                              {multiSelectMode && (
+                                <button 
+                                  className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
+                                  onClick={() => toggleOutputSelection(globalIndex, version.content)}
+                                  title="Select for multi-copy"
+                                  aria-label="Select for multi-copy"
+                                >
+                                  {selectedOutputs.has(globalIndex) ? '✓' : '+'}
+                                </button>
+                              )}
+                              <button 
+                                className="copy-version-btn"
+                                onClick={() => handleCopy(version.content, globalIndex)}
+                                title="Copy text to clipboard"
+                                aria-label="Copy text to clipboard"
+                              >
+                                {copiedIndex === globalIndex ? '✅' : '📋'}
+                              </button>
+                              <button 
+                                className="use-as-original-btn"
+                                onClick={() => onUseAsOriginal && onUseAsOriginal(version.content)}
+                                title="Use this text as new original input"
+                                aria-label="Use this text as new original input"
+                              >
+                                ♻️
+                              </button>
+                            </div>
+                            <div className="version-text-content">
+                              <p>{version.content}</p>
+                            </div>
                           </div>
                         </div>
                       </div>

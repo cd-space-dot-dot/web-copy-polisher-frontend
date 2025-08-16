@@ -2149,7 +2149,14 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   /* Old action-row styles removed - now handled by specific breakpoints above */
   
   .radio-group {
+    flex-direction: column; /* Stack radio buttons vertically on mobile */
     gap: var(--space-2); /* Slightly tighter gap for mobile */
+  }
+  
+  .radio-option {
+    width: 100%; /* Full width radio buttons on mobile */
+    justify-content: flex-start; /* Left align content */
+    text-align: left; /* Left align text */
   }
   
   
@@ -2938,9 +2945,27 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   overflow-y: auto;
 }
 
-.version-text-container p {
+.version-actions-inline {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.version-text-content {
   padding: var(--space-3);
-  /* No extra padding needed since buttons moved to header */
+  padding-right: calc(var(--space-3) + 3.5rem); /* Make room for action buttons */
+  margin: 0;
+}
+
+.version-text-content p {
   margin: 0;
   /* Font styles inherited from .user-content class group */
 }
@@ -2970,6 +2995,40 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   padding: var(--space-1);
   min-width: 28px;
   height: 28px;
+}
+
+/* Style buttons in the inline action container */
+.version-actions-inline .copy-version-btn,
+.version-actions-inline .use-as-original-btn,
+.version-actions-inline .select-version-btn {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.85rem;
+  padding: 0;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.version-actions-inline .copy-version-btn:hover,
+.version-actions-inline .use-as-original-btn:hover,
+.version-actions-inline .select-version-btn:hover {
+  background: var(--primary-bg);
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.version-actions-inline .select-version-btn.selected {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
 
 /* Legacy version-actions for any remaining usage */
@@ -3176,6 +3235,19 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     padding: var(--space-1);
   }
   
+  .version-actions-inline .copy-version-btn,
+  .version-actions-inline .use-as-original-btn,
+  .version-actions-inline .select-version-btn {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.7rem;
+  }
+  
+  .version-actions-inline {
+    padding: calc(var(--space-1) / 2);
+    gap: calc(var(--space-1) / 2);
+  }
+  
   .version-text-container {
     margin-bottom: var(--space-3);
   }
@@ -3186,7 +3258,7 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     text-overflow: ellipsis;
   }
   
-  .version-text-container p {
+  .version-text-content {
     padding-right: calc(var(--space-3) + 2.5rem); /* Smaller space on mobile */
   }
 }

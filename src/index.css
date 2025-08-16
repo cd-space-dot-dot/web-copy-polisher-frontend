@@ -2207,6 +2207,7 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   .feedback-buttons-group {
     flex: 0 0 auto;
     margin-bottom: var(--space-1);
+    margin-right: var(--space-2);
   }
   
   /* Hide only the "Type" and "Refined" labels on mobile, keep the actual values */
@@ -2925,17 +2926,15 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
 /* Feedback buttons group - closer together and visually distinct */
 .feedback-buttons-group {
   display: inline-flex;
-  gap: var(--space-1);
-  padding: 2px;
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: var(--radius);
-  margin-right: var(--space-2);
+  gap: 4px;
+  margin-right: var(--space-4);
+  align-items: center;
 }
 
 .feedback-btn {
   padding: var(--space-1) var(--space-2);
-  font-size: var(--text-base);
-  border-radius: calc(var(--radius) - 2px);
+  font-size: 18px;
+  border-radius: var(--radius-sm);
   background: transparent;
   border: 1px solid transparent;
   cursor: pointer;
@@ -2944,37 +2943,38 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   position: relative;
 }
 
-.feedback-btn:not(:disabled):hover {
+.feedback-btn:not(.feedback-btn--selected):not(.feedback-btn--disabled):hover {
   background-color: var(--background-alt);
-  border-color: var(--border);
+  transform: scale(1.1);
 }
 
-.feedback-btn:not(:disabled):active {
+.feedback-btn:not(.feedback-btn--selected):not(.feedback-btn--disabled):active {
   transform: scale(0.95);
 }
 
 /* Selected state - highlighted with color */
 .feedback-btn--selected {
-  background-color: var(--primary-bg);
-  border-color: var(--primary);
-  font-weight: 600;
-  transform: scale(1.1);
+  background-color: var(--success-bg);
+  border: 2px solid var(--success);
+  transform: scale(1.15);
+  pointer-events: none;
 }
 
 .feedback-btn--selected:hover {
-  background-color: var(--primary-bg) !important;
+  background-color: var(--success-bg) !important;
   cursor: default;
 }
 
 /* Disabled/unselected state - grayed out */
 .feedback-btn--disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+  opacity: 0.25;
+  pointer-events: none;
 }
 
 .feedback-btn--disabled:hover {
   background-color: transparent !important;
   border-color: transparent !important;
+  transform: none !important;
 }
 
 .feedback-thanks {

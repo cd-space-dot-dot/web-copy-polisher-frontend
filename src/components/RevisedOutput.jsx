@@ -91,19 +91,25 @@ export default function RevisedOutput({
               <div className="feedback-buttons-group">
                 <button 
                   className={`btn-ghost feedback-btn ${feedbackGiven === 'positive' ? 'feedback-btn--selected' : ''} ${feedbackGiven === 'negative' ? 'feedback-btn--disabled' : ''}`}
-                  onClick={() => !feedbackGiven && handleFeedback(true)}
+                  onClick={() => {
+                    if (!feedbackGiven) {
+                      handleFeedback(true);
+                    }
+                  }}
                   title="This output is good"
                   aria-label="Give positive feedback"
-                  disabled={feedbackGiven !== null}
                 >
                   👍
                 </button>
                 <button 
                   className={`btn-ghost feedback-btn ${feedbackGiven === 'negative' ? 'feedback-btn--selected' : ''} ${feedbackGiven === 'positive' ? 'feedback-btn--disabled' : ''}`}
-                  onClick={() => !feedbackGiven && handleFeedback(false)}
+                  onClick={() => {
+                    if (!feedbackGiven) {
+                      handleFeedback(false);
+                    }
+                  }}
                   title="This output needs improvement"
                   aria-label="Give negative feedback"
-                  disabled={feedbackGiven !== null}
                 >
                   👎
                 </button>

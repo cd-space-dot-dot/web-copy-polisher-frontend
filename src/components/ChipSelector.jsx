@@ -76,7 +76,7 @@ export const chipCategories = [
       { value: "enthused", label: "🎉 Enthusiastic" },
       { value: "inspiring", label: "✨ Inspiring" },
       { value: "authoritative", label: "👑 Authoritative" },
-      { value: "Irritable", label: "😾 Irritable"},
+      { value: "irritable", label: "😾 Irritable"},
       { value: "gentle", label: "🕊️ Gentle" },
       { value: "discouraged", label: "☠️ Discouraged"},
       { value: "serious", label: "🎯 Serious" },

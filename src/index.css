@@ -1030,15 +1030,13 @@ button:focus {
 }
 
 /* ======= ENHANCED FADE SYSTEM FOR MULTIPLE SELECTIONS OF CHIPS ======= */
-.selection-counter {
+.tone-messages-inline {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--space-2);
-  margin-top: var(--space-1);
   flex-wrap: wrap;
-  min-height: 0;
-  margin-left: 120px;
+  margin-left: var(--space-2);
 }
 
 .selection-count {
@@ -1320,8 +1318,8 @@ button:focus {
     display: none; /* Remove scroll indicators */
   }
   
-  .selection-counter {
-    margin-left: 120px;
+  .tone-messages-inline {
+    margin-left: var(--space-2);
   }
 }
 
@@ -2290,8 +2288,8 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
     width: auto;
   }
 
-  /* Selection counter on mobile - allow wrapping if needed */
-  .selection-counter {
+  /* Tone messages on mobile - allow wrapping if needed */
+  .tone-messages-inline {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-1);

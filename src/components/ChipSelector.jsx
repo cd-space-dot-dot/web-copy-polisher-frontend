@@ -295,7 +295,7 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                 <div className="chip-category-label-wrapper">
                   <label className="chip-category-label">{category.label}</label>
                   {isMultipleCategory && selectedCount > 0 && (
-                    <div className="tone-messages-inline">
+                    <div className="tone-messages-below">
                       <span className="selection-count">
                         {selectedCount} selected
                       </span>

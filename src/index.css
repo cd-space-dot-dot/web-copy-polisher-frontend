@@ -787,14 +787,13 @@ button:focus {
 .chip-category {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-3);
   margin-bottom: var(--space-4);
   position: relative;
   width: 100%;
   max-width: 100%;
-  flex-wrap: wrap; /* ✅ critical fix */
-  overflow: visible; /* ✅ allow chips to wrap, not vanish */
+  overflow: visible;
 }
 
 
@@ -853,7 +852,8 @@ button:focus {
 .chip-group-wrapper {
   flex: 1;
   position: relative;
-  max-width: calc(100vw - 200px); /* Keep for mobile */
+  min-width: 0; /* Allow flex item to shrink */
+  overflow: visible;
 }
 
 /* Mobile and Large Mobile: Keep overflow hidden for horizontal scroll */

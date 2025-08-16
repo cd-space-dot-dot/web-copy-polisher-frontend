@@ -576,8 +576,8 @@ button:focus {
     margin-top: var(--space-4);
   }
   .action-row button {
-    flex: 1 1 auto;
-    min-width: 120px;
+    flex: 1; /* Modern flex: equal distribution */
+    min-width: 120px; /* Wrap when too small */
   }
 }
 
@@ -687,8 +687,8 @@ button:focus {
   font-size: var(--text-base);
   font-family: var(--font-body);
   transition: var(--transition);
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 1; /* Modern flex best practice: shorthand for 1 1 0 */
+  min-width: 0; /* Prevent content overflow */
   min-height: 60px;
   position: relative;
   box-sizing: border-box;
@@ -1393,7 +1393,7 @@ button:focus {
   .chip {
     min-width: 100%;      /* Full width on mobile */
     max-width: 100%;      /* Full width on mobile */
-    flex: 1 1 100%;       /* Grow to fill container */
+    flex: 1;              /* Modern flex: simpler and cleaner */
     margin-bottom: var(--space-2); /* Space between rows */
     /* Keep font-size and padding same as desktop, per your preference */
   }
@@ -2197,11 +2197,10 @@ body[data-force-motion="true"] .mesh-loader-overlay.show {
   }
   
   .output-action-btn {
-    min-width: auto;
+    flex: 1; /* Modern flex: equal distribution without calc() */
+    min-width: 120px; /* Minimum size before wrapping */
     padding: var(--space-1) var(--space-2);
     font-size: var(--text-xs);
-    flex: 1 1 calc(50% - var(--space-1));
-    max-width: calc(50% - var(--space-1));
     text-align: center;
   }
   

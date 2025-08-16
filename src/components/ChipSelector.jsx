@@ -76,7 +76,9 @@ export const chipCategories = [
       { value: "enthused", label: "🎉 Enthusiastic" },
       { value: "inspiring", label: "✨ Inspiring" },
       { value: "authoritative", label: "👑 Authoritative" },
+      { value: "Irritable", label: "😾 Irritable"},
       { value: "gentle", label: "🕊️ Gentle" },
+      { value: "discouraged", label: "☠️ Discouraged"},
       { value: "serious", label: "🎯 Serious" },
       { value: "playful", label: "😄 Playful" },
       { value: "unbothered", label: "🤷🏽 Unbothered" },
@@ -85,6 +87,7 @@ export const chipCategories = [
       { value: "exclusive", label: "💎 Exclusive" },
       { value: "open", label: "🌟 Open" },
       { value: "caring", label: "👨‍👩‍👧‍👦 Caring" },
+      { value: "unhappy", label: "😕 Unhappy" },
       { value: "academic", label: "🎓 Academic" },
       { value: "matter-of-fact", label: "📄 Matter-of-fact" },
       { value: "emphatic", label: "‼️ Very Emphatic" }

@@ -288,7 +288,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                     </button>
                   </div>
                   <div className="thread-metadata">
-                    <span className="thread-time">{formatTime(thread.startTime)}</span>
+                    {/* <span className="thread-time">{formatTime(thread.startTime)}</span> */}
                     {/* <span className="thread-id">{thread.threadId.slice(-8)}</span> */}
                   </div>
                 </div>
@@ -334,26 +334,29 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                               </div>
                             </div>
                             {version.metadata && (
-                              <div className="version-meta-inline">
-                                <span>{getContentTypeLabel(version.metadata.contentType)}</span>
-                                {version.metadata.contentType === 'social' && version.metadata.socialPlatform && (
-                                  <span className="meta-refined">
-                                    {getSocialPlatformLabel(version.metadata.socialPlatform)}
-                                    {version.metadata.chipSelections?.single?.['post-count'] && ` x ${version.metadata.chipSelections.single['post-count']}`}
-                                  </span>
-                                )}
-                                <span className="meta-refined">Similarity to Original: {version.metadata.similarity}%</span>
-                                {version.metadata.wordCount && (
-                                  <span className="word-count-meta meta-refined">
-                                    {version.metadata.wordCount.original} → {version.metadata.wordCount.revised} words
-                                  </span>
-                                )}
+                              <div className="version-meta-pills">
+                                <div className="meta-section">
+                                  <span className="meta-section-label">Type</span>
+                                  <div className="meta-pills-group">
+                                    <span className="meta-pill">{getContentTypeLabel(version.metadata.contentType)}</span>
+                                    {version.metadata.contentType === 'social' && version.metadata.socialPlatform && (
+                                      <span className="meta-pill">
+                                        {getSocialPlatformLabel(version.metadata.socialPlatform)}
+                                        {version.metadata.chipSelections?.single?.['post-count'] && ` x ${version.metadata.chipSelections.single['post-count']}`}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                                
                                 {version.metadata.chipSelections && formatChipSelections(version.metadata.chipSelections).length > 0 && (
-                                  <span className="refined-label">
-                                    Refined: {formatChipSelections(version.metadata.chipSelections).map((chip, chipIndex) => (
-                                      <span key={chipIndex} className="chip-meta">{chip}{chipIndex < formatChipSelections(version.metadata.chipSelections).length - 1 ? ', ' : ''}</span>
-                                    ))}
-                                  </span>
+                                  <div className="meta-section">
+                                    <span className="meta-section-label">Refined</span>
+                                    <div className="meta-pills-group">
+                                      {formatChipSelections(version.metadata.chipSelections).map((chip, chipIndex) => (
+                                        <span key={chipIndex} className="meta-pill">{chip}</span>
+                                      ))}
+                                    </div>
+                                  </div>
                                 )}
                               </div>
                             )}

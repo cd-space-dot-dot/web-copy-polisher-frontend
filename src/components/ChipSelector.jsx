@@ -2,6 +2,105 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
+// Export chip categories data for use in other components
+export const chipCategories = [
+  {
+    id: "length",
+    label: "Length",
+    chips: [
+      { value: "longer", label: "↗️ Longer" },
+      { value: "shorter", label: "↙️ Shorter" }
+    ]
+  },
+  {
+    id: "content-type",
+    label: "Content Type", 
+    chips: [
+      { value: "webpage", label: "🌐 Web Page" },
+      { value: "social", label: "📱 Social Media (Choose Options)" },
+      { value: "blog", label: "📝 Blog" },
+      { value: "slack", label: "#️⃣ Slack" },
+      { value: "email", label: "📧 Email" },
+    ]
+  },
+  {
+    id: "industry",
+    label: "Industry",
+    chips: [
+      { value: "business", label: "💼 Business" },
+      { value: "tech", label: "💻 Tech" },
+      { value: "marketing", label: "📢 Marketing" },
+      { value: "ecommerce", label: "🛒 E-commerce" },
+      { value: "education", label: "🎓 Education" },
+      { value: "health", label: "🩻 Health" },
+      { value: "finance", label: "💰 Finance" },
+      { value: "saas", label: "🤖 SaaS" },
+      { value: "consulting", label: "💡 Consulting" },
+      { value: "real-estate", label: "🏠 Real Estate" },
+      { value: "food", label: "🍕 Food & Dining" },
+      { value: "travel", label: "✈️ Travel" },
+      { value: "legal", label: "⚖️ Legal" },
+      { value: "academia", label: "🎓 Academia" },
+      { value: "nonprofit", label: "🤝 Nonprofit" },
+      { value: "journalism", label: "📰 Journalism" },
+      { value: "data-analytics", label: "📊 Data Analytics" },
+      { value: "therapy", label: "🧠 Mental Health" },
+      { value: "ux-design", label: "🎨 Design" },
+      { value: "creator-economy", label: "🎥 Creator Economy" },
+      { value: "social-impact", label: "🌍 Social Impact" },
+      { value: "sports", label: "⚽ Sports" },
+      { value: "podcasting", label: "🎙️ Podcasting" },
+      { value: "gaming", label: "🎮 Gaming" },
+      { value: "crypto-web3", label: "⛓️ Web3" },
+      { value: "entertainment", label: "🎬 Entertainment" }
+    ]
+  },
+  {
+    id: "tone", 
+    label: "Tone",
+    chips: [
+      { value: "professional", label: "👔 Professional" },
+      { value: "friendly", label: "😊 Friendly" },
+      { value: "clear", label: "💡 Clear" },
+      { value: "persuasive", label: "🎯 Persuasive" },
+      { value: "neutral", label: "⚪ Neutral" },
+      { value: "direct", label: "➡️ Direct" },
+      { value: "welcoming", label: "🤗 Welcoming" },
+      { value: "trustworthy", label: "🛡️ Trustworthy" },
+      { value: "confident", label: "💪 Confident" },
+      { value: "casual", label: "💬 Casual" },
+      { value: "informative", label: "📚 Informative" },
+      { value: "empathetic", label: "❤️ Empathetic" },
+      { value: "urgent", label: "⚡️ Urgent" },
+      { value: "enthused", label: "🎉 Enthusiastic" },
+      { value: "inspiring", label: "✨ Inspiring" },
+      { value: "authoritative", label: "👑 Authoritative" },
+      { value: "gentle", label: "🕊️ Gentle" },
+      { value: "serious", label: "🎯 Serious" },
+      { value: "playful", label: "😄 Playful" },
+      { value: "unbothered", label: "🤷🏽 Unbothered" },
+      { value: "humble", label: "🙏 Humble" },
+      { value: "diplomatic", label: "🤝 Diplomatic" },
+      { value: "exclusive", label: "💎 Exclusive" },
+      { value: "open", label: "🌟 Open" },
+      { value: "caring", label: "👨‍👩‍👧‍👦 Caring" },
+      { value: "academic", label: "🎓 Academic" },
+      { value: "matter-of-fact", label: "📄 Matter-of-fact" },
+      { value: "emphatic", label: "‼️ Very Emphatic" }
+    ]
+  },
+  {
+    id: "generation",
+    label: "Vibe",
+    chips: [
+      { value: "boomer", label: "🦆 Baby Boomer" },
+      { value: "genx", label: "🐦‍⬛ Gen X" },
+      { value: "millennial", label: "🦜 Millennial" },
+      { value: "genz", label: "🕊️ Gen Z" }
+    ]
+  }
+];
+
 export default function ChipSelector({ selectedChips, onChipsChange }) {
   const [expandedCategories, setExpandedCategories] = useState({});
   const [showSocialModal, setShowSocialModal] = useState(false);
@@ -159,102 +258,6 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
     });
   };
 
-  const chipCategories = [
-    {
-      id: "length",
-      label: "Length",
-      chips: [
-        { value: "longer", label: "↗️ Longer" },
-        { value: "shorter", label: "↙️ Shorter" }
-      ]
-    },
-    {
-      id: "content-type",
-      label: "Content Type", 
-      chips: [
-        { value: "webpage", label: "🌐 Web Page" },
-        { value: "social", label: "📱 Social Media ↗" },
-        { value: "blog", label: "📝 Blog" },
-        { value: "slack", label: "#️⃣ Slack" },
-        { value: "email", label: "📧 Email" },
-      ]
-    },
-    {
-      id: "industry",
-      label: "Industry",
-      chips: [
-        { value: "business", label: "💼 Business" },
-        { value: "tech", label: "💻 Tech" },
-        { value: "marketing", label: "📢 Marketing" },
-        { value: "ecommerce", label: "🛒 E-commerce" },
-        { value: "education", label: "🎓 Education" },
-        { value: "health", label: "🩻 Health" },
-        { value: "finance", label: "💰 Finance" },
-        { value: "saas", label: "💾 SaaS" },
-        { value: "consulting", label: "💡 Consulting" },
-        { value: "real-estate", label: "🏠 Real Estate" },
-        { value: "food", label: "🍕 Food & Dining" },
-        { value: "travel", label: "✈️ Travel" },
-        { value: "legal", label: "⚖️ Legal" },
-        { value: "nonprofit", label: "🤝 Nonprofit" },
-        { value: "journalism", label: "📰 Journalism" },
-        { value: "data-analytics", label: "📊 Data Analytics" },
-        { value: "therapy", label: "🧠 Mental Health" },
-        { value: "ux-design", label: "🎨 Design" },
-        { value: "creator-economy", label: "🎥 Creator Economy" },
-        { value: "social-impact", label: "🌍 Social Impact" },
-        { value: "sports", label: "⚽ Sports" },
-        { value: "podcasting", label: "🎙️ Podcasting" },
-        { value: "gaming", label: "🎮 Gaming" },
-        { value: "crypto-web3", label: "⛓️ Web3" },
-        { value: "entertainment", label: "🎬 Entertainment" }
-      ]
-    },
-    {
-      id: "tone", 
-      label: "Tone",
-      chips: [
-        { value: "professional", label: "👔 Professional" },
-        { value: "friendly", label: "😊 Friendly" },
-        { value: "clear", label: "💡 Clear" },
-        { value: "persuasive", label: "🎯 Persuasive" },
-        { value: "neutral", label: "⚪ Neutral" },
-        { value: "direct", label: "➡️ Direct" },
-        { value: "welcoming", label: "🤗 Welcoming" },
-        { value: "trustworthy", label: "🛡️ Trustworthy" },
-        { value: "confident", label: "💪 Confident" },
-        { value: "casual", label: "💬 Casual" },
-        { value: "informative", label: "📚 Informative" },
-        { value: "empathetic", label: "❤️ Empathetic" },
-        { value: "urgent", label: "⚡️ Urgent" },
-        { value: "enthused", label: "🎉 Enthusiastic" },
-        { value: "inspiring", label: "✨ Inspiring" },
-        { value: "authoritative", label: "👑 Authoritative" },
-        { value: "gentle", label: "🕊️ Gentle" },
-        { value: "serious", label: "🎯 Serious" },
-        { value: "playful", label: "😄 Playful" },
-        { value: "unbothered", label: "🤷🏽 Unbothered" },
-        { value: "humble", label: "🙏 Humble" },
-        { value: "diplomatic", label: "🤝 Diplomatic" },
-        { value: "exclusive", label: "💎 Exclusive" },
-        { value: "open", label: "🌟 Open" },
-        { value: "caring", label: "👨‍👩‍👧‍👦 Caring" },
-        { value: "academic", label: "🎓 Academic" },
-        { value: "matter-of-fact", label: "📄 Matter-of-fact" },
-        { value: "emphatic", label: "‼️ Very Emphatic" }
-      ]
-    },
-    {
-      id: "generation",
-      label: "Vibe",
-      chips: [
-        { value: "boomer", label: "🦆 Baby Boomer" },
-        { value: "genx", label: "🐦‍⬛ Gen X" },
-        { value: "millennial", label: "🦜 Millennial" },
-        { value: "genz", label: "🕊️ Gen Z" }
-      ]
-    }
-  ];
   
   const toggleExpandCategory = (categoryId) => {
     setExpandedCategories(prev => ({
@@ -364,7 +367,9 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                               const postCount = selectedChips.single?.['post-count'] || '1';
                               if (selectedPlatform) {
                                 const platformLabels = {
-                                  "instagram": "Instagram",
+                                  "instagram-post": "Instagram Post",
+                                  "instagram-comment": "Instagram Comment",
+                                  "instagram-story": "Instagram Story",
                                   "linkedin": "LinkedIn", 
                                   "twitter": "X (Twitter)",
                                   "facebook": "Facebook",
@@ -479,7 +484,9 @@ export default function ChipSelector({ selectedChips, onChipsChange }) {
                 <h4>Platform</h4>
                 <div className="social-platforms-chips">
                   {[
-                    { value: "instagram", label: "💕 Instagram" },
+                    { value: "instagram-post", label: "🗣️ Instagram Post" },
+                    { value: "instagram-comment", label: "💕 Instagram Comment" },
+                    { value: "instagram-story", label: "🔖 Instagram Story" },
                     { value: "linkedin", label: "👔 LinkedIn" },
                     { value: "twitter", label: "🐦 X (Twitter)" },
                     { value: "facebook", label: "👍 Facebook" },

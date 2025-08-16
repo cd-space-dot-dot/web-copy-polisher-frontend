@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ChipSelector, { chipCategories } from './ChipSelector';
 
 export default function SessionHistory({ history, threads, currentThreadId, onClearSession, onUseAsOriginal, hasEverInteracted }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -153,6 +154,20 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
   };
 
+  // Get chip label from ChipSelector data (DRY approach)
+  const getChipLabel = (value) => {
+    // Search through all categories and chips to find the matching value
+    for (const category of chipCategories) {
+      const chip = category.chips.find(chip => chip.value === value);
+      if (chip) {
+        return chip.label;
+      }
+    }
+    
+    // Fallback to sentence case if not found
+    return toSentenceCase(value);
+  };
+
   // Format chip selections for display
   const formatChipSelections = (chipSelections) => {
     if (!chipSelections) return [];
@@ -162,7 +177,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
     if (chipSelections.single) {
       Object.entries(chipSelections.single).forEach(([category, value]) => {
         if (value && category !== 'content-type' && category !== 'social-platform' && category !== 'post-count') {
-          chips.push(toSentenceCase(value));
+          chips.push(getChipLabel(value));
         }
       });
     }
@@ -172,7 +187,7 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
       Object.entries(chipSelections.multiple).forEach(([category, values]) => {
         if (values && values.length > 0) {
           values.forEach(value => {
-            chips.push(toSentenceCase(value));
+            chips.push(getChipLabel(value));
           });
         }
       });
@@ -327,40 +342,41 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
                     const globalIndex = `${threadIndex}-${versionIndex}`;
                     return (
                       <div key={globalIndex} className={`version-entry ${version.type}`}>
+                        <div className="version-actions-overlay">
+                          {multiSelectMode && (
+                            <button 
+                              className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
+                              onClick={() => toggleOutputSelection(globalIndex, version.content)}
+                              title="Select for multi-copy"
+                              aria-label="Select for multi-copy"
+                            >
+                              {selectedOutputs.has(globalIndex) ? '✓' : '+'}
+                            </button>
+                          )}
+                          <button 
+                            className="copy-version-btn"
+                            onClick={() => handleCopy(version.content, globalIndex)}
+                            title="Copy text to clipboard"
+                            aria-label="Copy text to clipboard"
+                          >
+                            {copiedIndex === globalIndex ? '✅' : '📋'}
+                          </button>
+                          <button 
+                            className="use-as-original-btn"
+                            onClick={() => onUseAsOriginal && onUseAsOriginal(version.content)}
+                            title="Use this text as new original input"
+                            aria-label="Use this text as new original input"
+                          >
+                            ♻️
+                          </button>
+                        </div>
+                        
                         <div className="version-header">
                           <div className="version-label">
                             <div className="version-main">
                               <span className={`version-badge ${version.type}`}>
                                 {version.type === 'original' ? 'Original' : `Version ${version.versionNumber}`}
                               </span>
-                              <div className="version-actions">
-                                {multiSelectMode && (
-                                  <button 
-                                    className={`select-version-btn ${selectedOutputs.has(globalIndex) ? 'selected' : ''}`}
-                                    onClick={() => toggleOutputSelection(globalIndex, version.content)}
-                                    title="Select for multi-copy"
-                                    aria-label="Select for multi-copy"
-                                  >
-                                    {selectedOutputs.has(globalIndex) ? '✓' : '+'}
-                                  </button>
-                                )}
-                                <button 
-                                  className="copy-version-btn"
-                                  onClick={() => handleCopy(version.content, globalIndex)}
-                                  title="Copy text to clipboard"
-                                  aria-label="Copy text to clipboard"
-                                >
-                                  {copiedIndex === globalIndex ? '✅' : '📋'}
-                                </button>
-                                <button 
-                                  className="use-as-original-btn"
-                                  onClick={() => onUseAsOriginal && onUseAsOriginal(version.content)}
-                                  title="Use this text as new original input"
-                                  aria-label="Use this text as new original input"
-                                >
-                                  ♻️
-                                </button>
-                              </div>
                             </div>
                             {version.metadata && (
                               <div className="version-meta-pills">

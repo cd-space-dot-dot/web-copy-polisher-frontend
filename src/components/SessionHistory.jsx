@@ -209,7 +209,10 @@ export default function SessionHistory({ history, threads, currentThreadId, onCl
   return (
     <>
       <div className="session-header" onClick={() => setIsExpanded(!isExpanded)}>
-        <h3>📋 Session History ({totalVersions} {totalVersions === 1 ? 'version' : 'versions'} across {threadStructure.length} {threadStructure.length === 1 ? 'thread' : 'threads'})</h3>
+        <div className="session-header-content">
+          <h3>📋 Session History</h3>
+          <h4 className="session-summary">({totalVersions} {totalVersions === 1 ? 'version' : 'versions'} across {threadStructure.length} {threadStructure.length === 1 ? 'thread' : 'threads'})</h4>
+        </div>
         <span className="toggle-icon">{isExpanded ? '▼' : '▶'}</span>
       </div>
       
